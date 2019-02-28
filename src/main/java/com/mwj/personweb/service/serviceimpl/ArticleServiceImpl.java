@@ -47,7 +47,7 @@ public class ArticleServiceImpl implements IArticleService {
 
     for (Article article : articles) {
       map = new HashMap<>();
-      map.put("articleUrl", "/showArticle?articleId=" + article.getArticleId());
+        map.put("articleUrl", "/article/find/" + article.getArticleId());
       map.put("articleTitle", article.getArticleTitle());
       map.put("articleType", article.getArticleType());
       map.put("publishDate", article.getPublishDate());

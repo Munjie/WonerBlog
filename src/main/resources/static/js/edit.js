@@ -50,7 +50,7 @@ function publish() {
     } else {
         $.ajax({
             type: "POST",
-            url: "/publishArticle",
+            url: "/article/publish",
             traditional: true,// 传数组
             data: {
                 articleTitle: articleTitle,

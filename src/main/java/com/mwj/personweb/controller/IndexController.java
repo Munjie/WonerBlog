@@ -25,6 +25,7 @@ import java.util.Map;
 
 /** @Author: 母哥 @Date: 2019-02-11 10:21 @Version 1.0 */
 @RestController
+@RequestMapping("/home")
 public class IndexController {
 
   @Autowired private ISysLogService sysLogService;
@@ -63,7 +64,7 @@ public class IndexController {
    * @param rows 一页的大小
    * @param pageNum 当前页
    */
-  @RequestMapping("/myArticles")
+  @PostMapping(value = "/allArticle")
   public JSONArray myArticles(String rows, String pageNum) {
 
     return articleService.findAllArticles(rows, pageNum);

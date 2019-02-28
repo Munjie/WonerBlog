@@ -124,7 +124,7 @@ function ajaxFirst(currentPage) {
     //加载时请求
     $.ajax({
         type: 'POST',
-        url: '/myArticles',
+        url: '/home/allArticle',
         dataType: 'json',
         data: {
             rows: "5",

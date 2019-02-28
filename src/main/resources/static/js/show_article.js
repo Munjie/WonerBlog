@@ -14,13 +14,13 @@ $.ajax({
 
 $.ajax({
 //通过文章id和原作者请求文章信息
-    type: 'post',
-    url: '/getArticleByArticleId',
+    type: 'GET',
+    url: '/article/show/' + articleId,
     dataType: 'json',
     async: false,
-    data: {
-        articleId: articleId
-    },
+    // data: {
+    //     articleId: articleId
+    // },
     success: function (data) {
         if (data.status == "200") {
             $(function () {

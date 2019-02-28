@@ -8,22 +8,22 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
-/** @Author: 母哥 @Date: 2019-02-22 17:21 @Version 1.0 */
+/**
+ * @Author: 母哥 @Date: 2019-02-22 17:21 @Version 1.0 Restful请求
+ */
 @Controller
+@RequestMapping("/article")
 public class ArticleController {
 
   @Autowired private IArticleService articleService;
 
-  @PostMapping("/publishArticle")
+    @PostMapping(value = "/publish")
   @ResponseBody
   public JSONObject publishArticle(Article article, HttpServletRequest request) {
 
@@ -42,11 +42,11 @@ public class ArticleController {
     article.setPublishDate(nowDate);
     returnJson = articleService.insertArticle(article);
     return returnJson;
-  }
+    }
 
-  @GetMapping("/showArticle")
-  public String show(
-      @RequestParam("articleId") String articleId,
+    @GetMapping(value = "/find/{articleId}")
+    public String find(
+            @PathVariable("articleId") String articleId,
       HttpServletResponse response,
       Model model,
       HttpServletRequest request) {
@@ -66,7 +66,7 @@ public class ArticleController {
 
     // 将文章id存入响应头
     response.setHeader("articleId", articleId);
-    return "show_article";
+        return "front/show_article";
   }
 
   /**
@@ -75,8 +75,9 @@ public class ArticleController {
    * @param articleId 文章id
    * @return
    */
-  @PostMapping("/getArticleByArticleId")
-  public @ResponseBody JSONObject getArticleDetailById(String articleId) {
+  @GetMapping(value = "/show/{articleId}")
+  public @ResponseBody
+  JSONObject show(@PathVariable("articleId") String articleId) {
 
     JSONObject jsonObject = articleService.getArticleByArticleId(Long.parseLong(articleId));
     return jsonObject;
