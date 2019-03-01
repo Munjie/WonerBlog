@@ -20,6 +20,11 @@
         function refresh() {
             document.getElementById('captcha_img').src = "/kaptcha?" + Math.random();
         }
+
+        function mouseover(obj) {
+            obj.style.cursor = "pointer";
+        }
+
     </script>
 </head>
 
@@ -41,20 +46,22 @@
             <form class="am-form" action="/admin/login" method="post">
                 <fieldset>
                     <div class="am-form-group">
-                        <input type="email" class="" id="doc-ipt-email-1" placeholder="输入电子邮件">
+                        <input type="text" class="" id="doc-ipt-email-1" name="username" placeholder="用户名">
                     </div>
                     <div class="am-form-group">
-                        <input type="password" class="" id="doc-ipt-pwd-1" placeholder="设置个密码吧">
+                        <input type="password" class="" id="doc-ipt-pwd-1" name="password" placeholder="密码">
                     </div>
                     <div class="am-form-group">
-                        <input type="text" placeholder="请输入验证码" name="verifyCodeActual">
+                        <input type="text" placeholder="验证码" name="verifyCode">
                     </div>
 
                     <div class="am-form-group">
                         <!-- 后面添加参数起到清除缓存作用 -->
-                        <img alt="验证码" onclick="this.src='/kaptcha?d='+new Date()*1" src="/kaptcha"/>
+                        <img alt="验证码" onclick="this.src='/kaptcha?d='+new Date()*1" onmouseover="mouseover(this)"
+                             src="/kaptcha"/>
                     </div>
                     <p>
+                        <label><input type="checkbox" name="remember-me"/>自动登录</label>
                         <button type="submit" class="am-btn am-btn-default">登录</button>
                     </p>
                 </fieldset>

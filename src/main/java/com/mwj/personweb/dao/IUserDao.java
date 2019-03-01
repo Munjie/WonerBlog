@@ -7,5 +7,7 @@ import com.mwj.personweb.model.SysUser;
  */
 public interface IUserDao {
 
-    public SysUser findByUserName(String username);
+    SysUser findById(Integer id);
+
+    SysUser findByName(String name);
 }

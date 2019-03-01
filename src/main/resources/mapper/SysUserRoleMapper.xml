@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mwj.personweb.dao.ISysUserRoleDao">
+    <resultMap id="sysUserRoleMap" type="com.mwj.personweb.model.SysUserRole">
+        <id property="userId" column="user_id"/>
+        <result property="roleId" column="role_id"/>
+    </resultMap>
+    <select id="findByUserId" parameterType="java.lang.Integer" resultMap="sysUserRoleMap">
+     SELECT * FROM sys_user_role WHERE user_id = #{userId}
+    </select>
+
+</mapper>

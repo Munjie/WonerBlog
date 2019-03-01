@@ -1,32 +1,38 @@
 package com.mwj.personweb.model;
 
-import java.util.List;
+import java.io.Serializable;
 
 /**
  * @Author: 母哥 @Date: 2019-02-28 14:51 @Version 1.0
  */
-public class SysUser {
+public class SysUser implements Serializable {
 
-    private Integer id;
-    private String username;
+    static final long serialVersionUID = 1L;
+
+    private int id;
+
+    private String name;
+
     private String password;
 
-    private List<SysRole> roles;
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getName() {
+        return name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getPassword() {
@@ -35,13 +41,5 @@ public class SysUser {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public List<SysRole> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<SysRole> roles) {
-        this.roles = roles;
     }
 }
