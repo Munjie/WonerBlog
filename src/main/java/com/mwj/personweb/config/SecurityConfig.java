@@ -1,7 +1,7 @@
 package com.mwj.personweb.config;
 
 import com.mwj.personweb.filter.VerifyCodeFilter;
-import com.mwj.personweb.handler.CustomPermissionEvaluatorHandler;
+import com.mwj.personweb.handler.*;
 import com.mwj.personweb.service.serviceimpl.CustomUserDetailsService;
 import com.mwj.personweb.service.serviceimpl.Md5PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
@@ -35,6 +37,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private DataSource dataSource;
+
+    @Autowired
+    private CustomAuthenticationSuccessHandler customAuthenticationSuccessHandler;
+
+    @Autowired
+    private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
+
+    @Autowired
+    private CustomLogoutSuccessHandler logoutSuccessHandler;
+
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
 
     @Bean
     public PersistentTokenRepository persistentTokenRepository() {
@@ -82,19 +98,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests()
-                .antMatchers("/home/**", "/article/**", "/kaptcha")
+                .antMatchers("/home/**", "/article/**", "/kaptcha", "/admin/invalid")
                 .permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login")
+                .successHandler(customAuthenticationSuccessHandler)
+                .failureHandler(customAuthenticationFailureHandler)
                 .loginProcessingUrl("/admin/login")
-                .failureUrl("/admin/login/error")
-                .defaultSuccessUrl("/admin/login/success")
+                // .failureUrl("/admin/login/error")
+                // .defaultSuccessUrl("/admin/login/success")
                 .permitAll()
                 .and()
                 .logout()
                 .logoutUrl("/logout")
-                .logoutSuccessUrl("/")
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessHandler(logoutSuccessHandler)
+                // .logoutSuccessUrl("/")
                 .permitAll()
                 .and()
                 // 自动登录
@@ -106,6 +126,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 // 验证码过滤器
                 .addFilterBefore(new VerifyCodeFilter(), UsernamePasswordAuthenticationFilter.class);
+        // session管理
+        http.sessionManagement()
+                .invalidSessionUrl("/admin/invalid")
+                .maximumSessions(1)
+                // 当达到最大值时，是否保留已经登录的用户
+                .maxSessionsPreventsLogin(false)
+                // 当达到最大值时，旧用户被踢出后的操作
+                .expiredSessionStrategy(new CustomExpiredSessionStrategy())
+                .sessionRegistry(sessionRegistry());
+
         // 关闭CSRF跨域
         http.csrf().disable();
     }
