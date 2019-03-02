@@ -1,5 +1,5 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <meta charset="utf-8">
@@ -43,7 +43,7 @@
             <i>Log In </i> or <span> Sign Up</span>
         </div>
         <div class="am-u-sm-10 login-am-center">
-            <form class="am-form" action="/admin/login" method="post">
+            <form class="am-form" th:action="@{/admin/login}" method="post">
                 <fieldset>
                     <div class="am-form-group">
                         <input type="text" class="" id="doc-ipt-email-1" name="username" placeholder="用户名">
@@ -51,10 +51,13 @@
                     <div class="am-form-group">
                         <input type="password" class="" id="doc-ipt-pwd-1" name="password" placeholder="密码">
                     </div>
+
                     <div class="am-form-group">
                         <input type="text" placeholder="验证码" name="verifyCode">
                     </div>
-
+                    <div class="alert alert-info" th:if="${loginError}">
+                        <p class="" style="color: red" th:text="${errorMsg}"></p>
+                    </div>
                     <div class="am-form-group">
                         <!-- 后面添加参数起到清除缓存作用 -->
                         <img alt="验证码" onclick="this.src='/kaptcha?d='+new Date()*1" onmouseover="mouseover(this)"

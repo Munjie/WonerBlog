@@ -1,23 +1,25 @@
 <!doctype html>
-<html>
-
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security4">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Amaze UI Admin index Examples</title>
-    <meta name="description" content="这是一个 index 页面">
-    <meta name="keywords" content="index">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="renderer" content="webkit">
-    <meta http-equiv="Cache-Control" content="no-siteapp"/>
-    <link rel="icon" type="image/png" href="../../static/assets/i/favicon.png">
-    <link rel="apple-touch-icon-precomposed" href="../../static/assets/i/app-icon72x72@2x.png">
-    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
-    <link rel="stylesheet" href="../../static/assets/css/amazeui.min.css"/>
-    <link rel="stylesheet" href="../../static/assets/css/admin.css">
-    <link rel="stylesheet" href="../../static/assets/css/app.css">
-    <script src="../../static/assets/js/echarts.min.js"></script>
-</head>
+    <head>
+
+        <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <title>Amaze UI Admin index Examples</title>
+            <meta name="description" content="这是一个 index 页面">
+            <meta name="keywords" content="index">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta name="renderer" content="webkit">
+            <meta http-equiv="Cache-Control" content="no-siteapp"/>
+            <link rel="icon" type="image/png" href="../../static/assets/i/favicon.png">
+            <link rel="apple-touch-icon-precomposed" href="../../static/assets/i/app-icon72x72@2x.png">
+            <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+            <link rel="stylesheet" href="../../static/assets/css/amazeui.min.css"/>
+            <link rel="stylesheet" href="../../static/assets/css/admin.css">
+            <link rel="stylesheet" href="../../static/assets/css/app.css">
+            <script src="../../static/assets/js/echarts.min.js"></script>
+        </head>
 
 <body data-type="index">
 
@@ -147,7 +149,9 @@
 
             <li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
                 <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
-                    <span class="tpl-header-list-user-nick">禁言小张</span><span class="tpl-header-list-user-ico"> <img
+                    <span class="tpl-header-list-user-nick"><th:block
+                            sec:authentication="name"></th:block>禁言小张</span><span
+                        class="tpl-header-list-user-ico"> <img
                         src="../../static/assets/img/user01.png"></span>
                 </a>
                 <ul class="am-dropdown-content">
