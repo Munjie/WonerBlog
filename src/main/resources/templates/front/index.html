@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,58 +9,34 @@
     <title>BiuBiuCat</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
-    <link rel="icon" type="image/png" href="i/favicon.png">
+    <link rel="icon" type="image/png" href="../../static/i/favicon.png">
     <meta name="mobile-web-app-capable" content="yes">
-    <link rel="icon" sizes="192x192" href="i/app-icon72x72@2x.png">
+    <link rel="icon" sizes="192x192" href="../../static/i/app-icon72x72@2x.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
-    <link rel="apple-touch-icon-precomposed" href="i/app-icon72x72@2x.png">
+    <link rel="apple-touch-icon-precomposed" href="../../static/i/app-icon72x72@2x.png">
     <meta name="msapplication-TileImage" content="i/app-icon72x72@2x.png">
     <meta name="msapplication-TileColor" content="#0e90d2">
-    <link rel="stylesheet" href="css/amazeui.min.css">
-    <link rel="stylesheet" href="css/app.css">
-    <link rel="stylesheet" href="css/plugs_paging.css">
+    <link rel="stylesheet" href="../../static/css/amazeui.min.css">
+    <link rel="stylesheet" href="../../static/css/app.css">
+    <link rel="stylesheet" href="../../static/css/plugs_paging.css">
+    <link rel="stylesheet" href="../../static/css/global.css">
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/underscore.js/1.9.1/underscore-min.js"></script>
     <script src="https://cdn.bootcss.com/amazeui/2.7.2/js/amazeui.min.js"></script>
-    <script src="js/index.js"></script>
+    <script src="../../static/js/index.js"></script>
 
 </head>
 
 <body id="blog">
-
-<header class="am-g am-g-fixed blog-fixed blog-text-center blog-header">
-</header>
-<hr>
-<nav class="am-g am-g-fixed blog-fixed blog-nav">
-    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button"
-            data-am-collapse="{target: '#blog-collapse'}"><span class="am-sr-only">导航切换</span> <span
-            class="am-icon-bars"></span></button>
-
-    <div class="am-collapse am-topbar-collapse" id="blog-collapse">
-        <ul class="am-nav am-nav-pills am-topbar-nav">
-            <li class="am-active"><a href="index.html">首页</a></li>
-            <li><a href="article_edit.html">文章</a></li>
-            <li><a href="lw-img.html">图酷</a></li>
-            <li><a href="lw-article-fullwidth.html">全宽页面</a></li>
-            <li><a href="lw-timeline.html">存档</a></li>
-        </ul>
-        <form class="am-topbar-form am-topbar-right am-form-inline" role="search">
-            <div class="am-form-group">
-                <input type="text" class="am-form-field am-input-sm" placeholder="搜索">
-            </div>
-        </form>
-    </div>
-</nav>
-<hr>
-
+<div th:replace="../templates/fragments/header :: header"></div>
 <!-- banner start -->
 <div class="am-g am-g-fixed blog-fixed am-u-sm-centered blog-article-margin">
     <div data-am-widget="slider" class="am-slider am-slider-b1" data-am-slider='{&quot;controlNav&quot;:false}'>
         <ul class="am-slides">
             <li>
-                <img src="i/b1.jpg">
+                <img src="../../static/i/b1.jpg">
                 <!-- <div class="blog-slider-desc am-slider-desc ">
                      <div class="blog-text-center blog-slider-con">
                          <span><a href="" class="blog-color">Article &nbsp;</a></span>
@@ -73,7 +49,7 @@
                  </div>-->
             </li>
             <li>
-                <img src="i/b2.jpg">
+                <img src="../../static/i/b2.jpg">
                 <!-- <div class="am-slider-desc blog-slider-desc">
                      <div class="blog-text-center blog-slider-con">
                          <span><a href="" class="blog-color">Article &nbsp;</a></span>
@@ -85,7 +61,7 @@
                  </div>-->
             </li>
             <li>
-                <img src="i/b3.jpg">
+                <img src="../../static/i/b3.jpg">
                 <!-- <div class="am-slider-desc blog-slider-desc">
                      <div class="blog-text-center blog-slider-con">
                          <span><a href="" class="blog-color">Article &nbsp;</a></span>
@@ -97,7 +73,7 @@
                  </div>-->
             </li>
             <li>
-                <img src="i/b2.jpg">
+                <img src="../../static/i/b2.jpg">
                 <!-- <div class="am-slider-desc blog-slider-desc">
                      <div class="blog-text-center blog-slider-con">
                          <span><a href="" class="blog-color">Article &nbsp;</a></span>
@@ -148,36 +124,6 @@
     </div>
 </div>
 <!-- content end -->
-
-
-<footer class="blog-footer">
-    <div class="am-g am-g-fixed blog-fixed am-u-sm-centered blog-footer-padding">
-        <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
-            <h3>Contact Me</h3>
-            <p>
-                <a href=""><span class="am-icon-qq am-icon-fw am-primary blog-icon blog-icon"></span></a>
-                <a href=""><span class="am-icon-github am-icon-fw blog-icon blog-icon"></span></a>
-                <a href=""><span class="am-icon-weibo am-icon-fw blog-icon blog-icon"></span></a>
-                <a href=""><span class="am-icon-reddit am-icon-fw blog-icon blog-icon"></span></a>
-                <a href=""><span class="am-icon-weixin am-icon-fw blog-icon blog-icon"></span></a>
-            </p>
-        </div>
-
-        <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
-            <h1>曾经我也爱过</h1>
-            <p>
-            <ul>
-                <li>轻轻的我走了，</li>
-                <li>正如我轻轻的来；</li>
-                <li>我轻轻的招手，</li>
-                <li> 作别西天的云彩。</li>
-                <li>...</li>
-            </ul>
-            </p>
-        </div>
-    </div>
-    <div class="blog-text-center">© 2018 StudentMu <a href="http://www.miitbeian.gov.cn" target="_blank">沪ICP备19003704号-1
-    </a></div>
-</footer>
+<div th:replace="../templates/fragments/footer :: footer"></div>
 </body>
 </html>

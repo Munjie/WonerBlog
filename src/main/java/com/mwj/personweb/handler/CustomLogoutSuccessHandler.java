@@ -25,9 +25,9 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
             HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
         String username = ((User) authentication.getPrincipal()).getUsername();
-        log.info("退出成功，用户名：{}", username);
+        log.info("退出成功，当前用户名：{}", username);
 
         // 重定向到登录页
-        response.sendRedirect("/admin/toLogin");
-    }
+        response.sendRedirect("/");
+  }
 }

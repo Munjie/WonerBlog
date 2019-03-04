@@ -1,0 +1,197 @@
+<!--<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>403</title>
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css"/>
+    <script src="../../static/assets/js/jquery.min.js"></script>
+    <script src="../../static/assets/js/amazeui.min.js"></script>
+    <script src="../../static/assets/js/iscroll.js"></script>
+    <script src="../../static/assets/js/app.js"></script>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container">
+    <div class="starter-template">
+        <h1>403 - 糟糕,没有访问权限</h1>
+        <div th:inline="text">Hello '[[${#httpServletRequest.remoteUser}]]',
+            你没有权限访问此页面.
+        </div>
+    </div>
+</div>
+&lt;!&ndash; /.container &ndash;&gt;
+<div th:replace="fragments/footer :: footer"></div>
+
+</body>
+</html>-->
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>500</title>
+    <link rel="stylesheet" href="../../static/css/bootstrap.min.css"/>
+    <script src="../../static/assets/js/jquery.min.js"></script>
+    <script src="../../static/assets/js/amazeui.min.js"></script>
+    <script src="../../static/assets/js/iscroll.js"></script>
+    <script src="../../static/assets/js/app.js"></script>
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Share+Tech+Mono|Montserrat:700");
+
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+            box-sizing: border-box;
+            color: inherit;
+        }
+
+        body {
+            background-image: linear-gradient(120deg, #285a87 0%, #000000 100%);
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 45vw;
+            text-align: center;
+            position: fixed;
+            width: 100vw;
+            z-index: 1;
+            color: #ffffff26;
+            text-shadow: 0 0 50px rgba(0, 0, 0, 0.07);
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+            font-family: "Montserrat", monospace;
+        }
+
+        div {
+            background: rgba(0, 0, 0, 0);
+            width: 70vw;
+            position: relative;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+            margin: 0 auto;
+            padding: 30px 30px 10px;
+            box-shadow: 0 0 150px -20px rgba(0, 0, 0, 0.5);
+            z-index: 3;
+        }
+
+        P {
+            font-family: "Share Tech Mono", monospace;
+            color: #f5f5f5;
+            margin: 0 0 20px;
+            font-size: 17px;
+            line-height: 1.2;
+        }
+
+        span {
+            color: #f0c674;
+        }
+
+        i {
+            color: #8abeb7;
+        }
+
+        div a {
+            text-decoration: none;
+        }
+
+        b {
+            color: #81a2be;
+        }
+
+        a.avatar {
+            position: fixed;
+            bottom: 15px;
+            right: -100px;
+            -webkit-animation: slide 0.5s 4.5s forwards;
+            animation: slide 0.5s 4.5s forwards;
+            display: block;
+            z-index: 4
+        }
+
+        a.avatar img {
+            border-radius: 100%;
+            width: 44px;
+            border: 2px solid white;
+        }
+
+        @-webkit-keyframes slide {
+            from {
+                right: -100px;
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+                opacity: 0;
+            }
+            to {
+                right: 15px;
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slide {
+            from {
+                right: -100px;
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+                opacity: 0;
+            }
+            to {
+                right: 15px;
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+
+    </style>
+    <script>
+        window.onload = function () {
+            var str = document.getElementsByTagName('div')[0].innerHTML.toString();
+            var i = 0;
+            document.getElementsByTagName('div')[0].innerHTML = "";
+
+            setTimeout(function () {
+                var se = setInterval(function () {
+                    i++;
+                    document.getElementsByTagName('div')[0].innerHTML = str.slice(0, i) + "|";
+                    if (i == str.length) {
+                        clearInterval(se);
+                        document.getElementsByTagName('div')[0].innerHTML = str;
+                    }
+                }, 10);
+            }, 0);
+        }
+
+    </script>
+</head>
+<h1>500</h1>
+<div>
+    <p>> <span>ERROR CODE</span>: "<i>HTTP 500 Error</i>"</p>
+    <p>> <span>ERROR DESCRIPTION</span>: "<i>The 500 Internal Server Error is a very general HTTP status code that means
+        something has gone wrong on the web site's server but the server could not be more specific on what the exact
+        problem is.</i>"</p>
+    <p>> <span>ERROR POSSIBLY CAUSED BY</span>: [<b>1.Retry the web page by clicking the refresh/reload button or trying
+        the URL from the address bar again. Even though the 500 Internal Server Error is reporting a general error on
+        the web site's servers and not your computer, the server error may only be temporary. Trying the page again will
+        often be successful.
+        2. Come back later. The 500 Internal Server Error message is one of the most common error message seen when
+        checking out during an online purchase so sales are often disrupted. This is usually a great incentive to
+        resolve the issue very quickly.
+
+        3. Try Clearing your cache and browser history. It could be possible that the page you are seeing is a cached
+        version, so after the cache is cleared it will go away.
+
+        4. You can check the error log button in cPanel under the logs section to see what errors are being given if you
+        have cPanel hosting with us. Sometimes 500 errors can be due to syntax errors in a .htaccess file or other
+        things you may be able to quickly fix yourself.</b>...]</p>
+    <p>> <span>Thank you for your support, have you I will do better!  :-)</span></p>
+</div>
+</html>

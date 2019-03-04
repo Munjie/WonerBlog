@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="../../static/css/editormd.css"/>
     <link rel="stylesheet" href="../../static/css/editormd.min.css"/>
     <link rel="stylesheet" href="../../static/css/editor.css"/>
+    <link rel="stylesheet" href="../../static/css/global.css">
     <script type="text/javascript" src="../../static/js/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="../../static/js/jquery-3.3.1.min.js"></script>
     <script src="../../static/lib/marked.min.js"></script>
@@ -36,53 +37,14 @@
     <script type="text/javascript" src="../../static/js/editormd.js"></script>
     <script type="text/javascript" src="../../static/js/editormd.min.js"></script>
     <script src="../../static/js/show_article.js"></script>
-    <!--<script type="text/javascript">-->
-    <!--$(document).ready(function () {-->
-    <!--var wordsView;-->
-    <!--wordsView = editormd.markdownToHTML("wordsView", {-->
-    <!--htmlDecode: "style,script,iframe",  // you can filter tags decode-->
-    <!--emoji: true,-->
-    <!--taskList: true,-->
-    <!--tex: true,  // 默认不解析-->
-    <!--flowChart: true,  // 默认不解析-->
-    <!--sequenceDiagram: true,  // 默认不解析-->
-    <!--});-->
 
-    <!--})-->
-    <!--</script>-->
+
 </head>
 
 <body id="blog-article-sidebar">
 <!-- header start -->
-<header class="am-g am-g-fixed blog-fixed blog-text-center blog-header">
-
-</header>
+<div th:replace="../templates/fragments/header :: header"></div>
 <!-- header end -->
-<hr>
-
-<!-- nav start -->
-<nav class="am-g am-g-fixed blog-fixed blog-nav">
-    <button class="am-topbar-btn am-topbar-toggle am-btn am-btn-sm am-btn-success am-show-sm-only blog-button"
-            data-am-collapse="{target: '#blog-collapse'}"><span class="am-sr-only">导航切换</span> <span
-            class="am-icon-bars"></span></button>
-
-    <div class="am-collapse am-topbar-collapse" id="blog-collapse">
-        <ul class="am-nav am-nav-pills am-topbar-nav">
-            <li><a href="../../static/index.html">首页</a></li>
-            <li><a href="show_article.html">文章</a></li>
-            <li><a href="lw-img.html">图酷</a></li>
-            <li><a href="../../static/lw-article-fullwidth.html">全宽页面</a></li>
-            <li><a href="lw-timeline.html">存档</a></li>
-        </ul>
-        <form class="am-topbar-form am-topbar-right am-form-inline" role="search">
-            <div class="am-form-group">
-                <input type="text" class="am-form-field am-input-sm" placeholder="搜索">
-            </div>
-        </form>
-    </div>
-</nav>
-<!-- nav end -->
-<hr>
 <!-- content srart -->
 <div class="" id="ko123"></div>
 <div class="am-g am-g-fixed blog-fixed blog-content">
@@ -160,34 +122,7 @@
 <!-- content end -->
 
 
-<footer class="blog-footer">
-    <div class="am-g am-g-fixed blog-fixed am-u-sm-centered blog-footer-padding">
-        <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
-            <h3>Contact Me</h3>
-            <p>
-                <a href=""><span class="am-icon-qq am-icon-fw am-primary blog-icon blog-icon"></span></a>
-                <a href=""><span class="am-icon-github am-icon-fw blog-icon blog-icon"></span></a>
-                <a href=""><span class="am-icon-weibo am-icon-fw blog-icon blog-icon"></span></a>
-                <a href=""><span class="am-icon-reddit am-icon-fw blog-icon blog-icon"></span></a>
-                <a href=""><span class="am-icon-weixin am-icon-fw blog-icon blog-icon"></span></a>
-            </p>
-        </div>
-
-        <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
-            <h1>曾经我也爱过</h1>
-            <p>
-            <ul>
-                <li>轻轻的我走了，</li>
-                <li>正如我轻轻的来；</li>
-                <li>我轻轻的招手，</li>
-                <li> 作别西天的云彩。</li>
-                <li>...</li>
-            </ul>
-            </p>
-        </div>
-    </div>
-    <div class="blog-text-center">© 2018 StudentMu 沪ICP备19003704号-1</div>
-</footer>
+<div th:replace="../templates/fragments/footer :: footer"></div>
 
 <![endif]-->
 

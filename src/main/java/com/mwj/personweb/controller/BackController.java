@@ -1,6 +1,8 @@
 package com.mwj.personweb.controller;
 
 import com.mwj.personweb.exception.MyRuntimeException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,12 +15,15 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.security.Principal;
 import java.util.List;
 
 /** @Author: 母哥 @Date: 2019-02-28 11:08 @Version 1.0 */
 @RequestMapping("/admin")
 @Controller
 public class BackController {
+
+  private static Logger logger = LoggerFactory.getLogger(BackController.class);
 
   @Autowired private SessionRegistry sessionRegistry;
 
@@ -31,14 +36,17 @@ public class BackController {
   @ResponseBody
   @PreAuthorize("hasRole('ROLE_USER')")
   public String printUser() {
-    return "如果你看见这句话，说明你有ROLE_USER角色";
+    return "你有ROLE_USER角色";
   }
 
   @RequestMapping(value = "/login/success")
   @PreAuthorize("hasRole('ROLE_ADMIN')")
-  public String loginSuccess(HttpServletRequest request) {
+  public void loginSuccess(HttpServletRequest request, HttpServletResponse response)
+          throws Exception {
+    Principal principal = request.getUserPrincipal();
+    logger.info("当前登陆用户为：：" + principal.getName());
 
-    return "back/index";
+    response.sendRedirect("/");
   }
 
   @RequestMapping("/login")
@@ -50,8 +58,8 @@ public class BackController {
   @RequestMapping("/invalid")
   @ResponseStatus(HttpStatus.UNAUTHORIZED)
   @ResponseBody
-  public String invalid() {
-    return "Session 已过期，请重新登录";
+  public void invalid(HttpServletResponse response) throws Exception {
+    response.sendRedirect("/");
   }
 
   @RequestMapping("/login/error")
@@ -66,7 +74,7 @@ public class BackController {
     //    }
     model.addAttribute("loginError", true);
     model.addAttribute("errorMsg", exception.getMessage());
-    return "back/login";
+    return "front/login";
   }
 
   @GetMapping("/kick")

@@ -1,20 +1,49 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+>
 <head>
 </head>
 <body>
 <div th:fragment="footer">
-    <div class="container">
-        <footer>
-            <!-- this is footer -->
-            © 2018 BiuBiuCat
-            <span sec:authorize="isAuthenticated()">
-                | Logged user: [[${#httpServletRequest.remoteUser}]]
-              |<a th:href="@{/logout}">Logout</a>
-            </span>
-        </footer>
-    </div>
+    <!-- <div class="container">
+         <footer>
+             &lt;!&ndash; this is footer &ndash;&gt;
+             © 2018 BiuBiuCat
+             <span sec:authorize="isAuthenticated()">
+                 | Logged user: [[${#httpServletRequest.remoteUser}]]
+               |<a th:href="@{/logout}">Logout</a>
+             </span>
+         </footer>
+     </div>-->
+    <footer class="blog-footer">
+        <div class="am-g am-g-fixed blog-fixed am-u-sm-centered blog-footer-padding">
+            <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
+                <h3>Contact Me</h3>
+                <p>
+                    <a href=""><span class="am-icon-qq am-icon-fw am-primary blog-icon blog-icon"></span></a>
+                    <a href=""><span class="am-icon-github am-icon-fw blog-icon blog-icon"></span></a>
+                    <a href=""><span class="am-icon-weibo am-icon-fw blog-icon blog-icon"></span></a>
+                    <a href=""><span class="am-icon-reddit am-icon-fw blog-icon blog-icon"></span></a>
+                    <a href=""><span class="am-icon-weixin am-icon-fw blog-icon blog-icon"></span></a>
+                </p>
+            </div>
+
+            <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
+                <h1>曾经我也爱过</h1>
+                <p>
+                <ul>
+                    <li>轻轻的我走了，</li>
+                    <li>正如我轻轻的来；</li>
+                    <li>我轻轻的招手，</li>
+                    <li> 作别西天的云彩。</li>
+                    <li>...</li>
+                </ul>
+                </p>
+            </div>
+        </div>
+        <div class="blog-text-center">© 2018 StudentMu <a href="http://www.miitbeian.gov.cn" target="_blank">沪ICP备19003704号-1
+        </a></div>
+    </footer>
 </div>
 </body>
 </html>
