@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Register</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no">
@@ -20,12 +20,7 @@
     <script src="https://cdn.bootcss.com/underscore.js/1.9.1/underscore-min.js"></script>
     <script src="https://cdn.bootcss.com/amazeui/2.7.2/js/amazeui.min.js"></script>
     <script src="../../static/js/index.js"></script>
-    <script type="text/javascript">
-        function mouseover(obj) {
-            obj.style.cursor = "pointer";
-        }
-
-    </script>
+    <script src="../../static/js/register.js"></script>
 </head>
 <body>
 <div th:replace="../templates/fragments/header :: header"></div>
@@ -34,7 +29,7 @@
     <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
         <div class="myapp-login-logo-text">
             <div class="myapp-login-logo-text">
-                <span> Login</span> <i class="am-icon-backward"></i>
+                <span> Register</span> <i class="am-icon-backward"></i>
 
             </div>
         </div>
@@ -45,29 +40,29 @@
             <a href="#" class="am-btn am-btn-primary am-btn-sm"><i class="am-icon-stack-overflow am-icon-sm"></i>
                 stackOverflow</a>
         </div>
+        <legend></legend>
+        <form method="post" class="am-form" id="doc-vld-msg">
+            <fieldset>
 
-
-        <form method="post" class="am-form" th:action="@{/admin/login}">
-            <label for="username">用户名:</label>
-            <input type="text" class="" id="username" name="username" placeholder="请输入用户名">
-            <br>
-            <label for="password">密码:</label>
-            <input type="password" class="" id="password" name="password" placeholder="请输入密码">
-            <br>
-            <label for="password">验证码:<img alt="验证码" onclick="this.src='/kaptcha?d='+new Date()*1"
-                                           onmouseover="mouseover(this)"
-                                           src="/kaptcha"/></label>
-            <input type="text" placeholder="请输入验证码,忽略大小写" name="verifyCode">
-            <br>
-            <div class="alert alert-info" th:if="${loginError}">
-                <p class="" style="color: red" th:text="${errorMsg}"></p>
-            </div>
-            <label><input type="checkbox" name="remember-me"/>记住我</label>
-            <br/>
-            <div class="am-cf">
-                <input type="submit" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl">
-                <input type="submit" name="" value="忘记密码 ^_^? " class="am-btn am-btn-default am-btn-sm am-fr">
-            </div>
+                <div class="am-form-group">
+                    <label for="doc-vld-name-2-1">用户名：</label>
+                    <input type="text" id="doc-vld-name-2-1" data-validation-message="用户名不能为空"
+                           placeholder="输入用户名"
+                           required/>
+                </div>
+                <div class="am-form-group">
+                    <label for="doc-vld-name-2-1">密码：</label>
+                    <input type="password" id="doc-vld-password-2-1" data-validation-message="密码不能为空"
+                           placeholder="输入密码"
+                           required/>
+                </div>
+                <div class="am-form-group">
+                    <label for="doc-vld-email-2-1">邮箱：</label>
+                    <input type="email" id="doc-vld-email-2-1" data-validation-message="输入地球上的电子邮箱"
+                           placeholder="输入邮箱" required/>
+                </div>
+                <button class="am-btn am-btn-secondary" type="button" onclick="register()">注 册</button>
+            </fieldset>
         </form>
         <hr>
     </div>

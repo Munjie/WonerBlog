@@ -1,6 +1,9 @@
+<!doctype html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security4">
 <head>
-    <link th:href="@{/css/global.css}" rel="stylesheet" type="text/css"/>
+    <!-- <link th:href="@{/css/global.css}" rel="stylesheet" type="text/css"/>-->
+    <!--<script src="../../static/js/show_article.js"></script>-->
+    <link rel="stylesheet" href="../static/css/global.css" type="text/css">
 </head>
 <body>
 <div th:fragment="header">
@@ -12,12 +15,15 @@
             <a href="javascript:;" class="blogTitleName" sec:authorize="isAuthenticated()"><img
                     src="http://cdn.biubiucat.com/FhbC81TqilHhPkbGJ7AoO7FP5R-X" class="imgStyle">
             </a>
-            <li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle>
+            <a class="am-dropdown-toggle tpl-header-list-link" href="/login.html" sec:authorize="isAnonymous()">
+                登录
+            </a>
+            <li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle sec:authorize="isAuthenticated()">
                 <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
                     <span class="tpl-header-list-user-nick"> <th:block
                             sec:authentication="name"></th:block></span><span class="tpl-header-list-user-ico"></span>
                 </a>
-                <ul class="am-dropdown-content" sec:authorize="isAuthenticated()">
+                <ul class="am-dropdown-content">
                     <li><a href="#"><span class="am-icon-bell-o"></span> 资料</a></li>
                     <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
                     <li><a href="/logout"><span class="am-icon-power-off"></span> 退出</a></li>
@@ -38,22 +44,25 @@
                     <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
                         菜单 <span class="am-icon-caret-down"></span>
                     </a>
-                    <ul class="am-dropdown-content">
-                        <li><a href="#">关于我</a></li>
-                        <li><a href="/admin/toLogin">后台管理</a></li>
+                    <ul class="am-dropdown-content" sec:authorize="isAuthenticated()">
+                        <li><a href="#">文章管理</a></li>
+                        <li><a href="/admin/toLogin" sec:authorize="hasRole('ROLE_ADMIN')">后台管理</a></li>
                     </ul>
                 </li>
             </ul>
+
             <div class="am-topbar-right">
-                <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm"><span class="am-icon-pencil"></span> 写博客
+                <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm"
+                        onclick="editArticle()"><span class="am-icon-pencil"></span> 写博客
                 </button>
             </div>
             <div class="am-topbar-right" sec:authorize="isAnonymous()">
                 <button class="am-btn am-btn-primary am-topbar-btn am-btn-sm"
-                        onclick="window.location.href='/login.html'"><span
-                        class="am-icon-user"></span> 登录
+                        onclick="window.location.href='/register.html'"><span
+                        class="am-icon-user"></span> 注册
                 </button>
             </div>
+
         </div>
 
     </header>

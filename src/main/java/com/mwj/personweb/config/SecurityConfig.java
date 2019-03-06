@@ -3,7 +3,6 @@ package com.mwj.personweb.config;
 import com.mwj.personweb.filter.VerifyCodeFilter;
 import com.mwj.personweb.handler.*;
 import com.mwj.personweb.service.serviceimpl.CustomUserDetailsService;
-import com.mwj.personweb.service.serviceimpl.Md5PasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
@@ -48,6 +48,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   @Bean
+  public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
+
+  @Bean
   public PersistentTokenRepository persistentTokenRepository() {
     // 记住我登陆
     JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
@@ -65,60 +70,42 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     return handler;
   }
 
-  @Autowired
-  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-    auth.userDetailsService(customUserDetailsService()).passwordEncoder(passwordEncoder());
+  @Override
+  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
   }
-
-  //    @Override
-  //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-  //        auth.userDetailsService(userDetailsService)
-  //                .passwordEncoder(
-  //                        new PasswordEncoder() {
-  //                            @Override
-  //                            public String encode(CharSequence charSequence) {
-  //                                return charSequence.toString();
-  //                            }
-  //
-  //                            @Override
-  //                            public boolean matches(CharSequence charSequence, String s) {
-  //                                return s.equals(charSequence.toString());
-  //                            }
-  //                        });
-  //    }
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-
+    // 默认访问
     http.authorizeRequests()
         .antMatchers("/home/**", "/article/**", "/kaptcha", "/admin/invalid")
-        .permitAll()
-        .and()
-        .formLogin()
+            .permitAll();
+    // 登录
+    http.formLogin()
         .loginPage("/login")
         .successHandler(customAuthenticationSuccessHandler)
         .failureHandler(customAuthenticationFailureHandler)
         .loginProcessingUrl("/admin/login")
-        //  .failureUrl("/login?error=true")
-        // .defaultSuccessUrl("/admin/login/success")
-        .permitAll()
-        .and()
-        .logout()
+            .permitAll();
+    // 登出
+    http.logout()
+            .invalidateHttpSession(true) // 使session失效
+            .clearAuthentication(true) // 清除证信息
         .logoutUrl("/logout")
         .deleteCookies("JSESSIONID")
         .logoutSuccessHandler(logoutSuccessHandler)
-        // .logoutSuccessUrl("/")
-        .permitAll()
-        .and()
-        // 自动登录
-        .rememberMe()
+            .permitAll();
+
+    // 自动登录
+    http.rememberMe()
         .tokenRepository(persistentTokenRepository())
         // 有效时间：单位s
-        .tokenValiditySeconds(60)
-        .userDetailsService(userDetailsService)
-        .and()
-        // 验证码过滤器
-        .addFilterBefore(new VerifyCodeFilter(), UsernamePasswordAuthenticationFilter.class);
+            .tokenValiditySeconds(10000)
+            .userDetailsService(userDetailsService);
+
+    // 验证码过滤器
+    http.addFilterBefore(new VerifyCodeFilter(), UsernamePasswordAuthenticationFilter.class);
     // session管理
     http.sessionManagement()
         .invalidSessionUrl("/admin/invalid")
@@ -129,6 +116,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .expiredSessionStrategy(new CustomExpiredSessionStrategy())
         .sessionRegistry(sessionRegistry());
     http.exceptionHandling().accessDeniedHandler(customAccessDeniedHandler);
+    // 解决浏览器IFrame出Refused to display 'URL' in a frame because it set 'X-Frame-Options' to 'DENY' 的错
+    http.headers().frameOptions().sameOrigin();
 
     // 关闭CSRF跨域
     http.csrf().disable();
@@ -139,16 +128,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   public void configure(WebSecurity web) throws Exception {
 
     web.ignoring().antMatchers("/css/**", "/js/**");
-  }
-
-  /**
-   * 设置用户密码的加密方式
-   *
-   * @return
-   */
-  @Bean
-  public Md5PasswordEncoder passwordEncoder() {
-    return new Md5PasswordEncoder();
   }
 
   /**

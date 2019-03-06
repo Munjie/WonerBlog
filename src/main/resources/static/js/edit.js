@@ -19,7 +19,7 @@ $(function () {
         htmlDecode: true, //不过滤标签
         imageUpload: true, //上传图片
         imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp", "JPG", "JPEG", "GIF", "PNG", "BMP", "WEBP"],
-        imageUploadURL: "/uploadImage",
+        imageUploadURL: "/home/uploadImage",
         onload: function () {
 
         },
@@ -38,6 +38,7 @@ function publish() {
     var articleAuthor = $('#article-editor-author').val();
     var articleType = $('#select-type option:selected').val();//选中的值
     var articleContent = $('#my-editormd-html-code').val();
+    var artileInfo = $('#writeArticle');
     if (articleTitle.length == 0) {
         console.log("标题不能为空");
         return null;
@@ -63,7 +64,8 @@ function publish() {
             dataType: "json",
             success: function (data) {
                 if (data['status'] == 200) {
-                    console.log("发布成功")
+                    alert(buildInfo("发表博客成功"));
+
                 } else {
                     alert("发表博客失败");
                 }
@@ -73,6 +75,24 @@ function publish() {
             }
         })
     }
+
+}
+
+
+function buildInfo(data) {
+    var text = '';
+    text += '<div class=\'am-modal am-modal-alert\' tabindex=\'-1\' id=\'my-alert\'>';
+    text += '  <div class=\'am-modal-dialog\'>';
+    text += '    <div class=\'am-modal-hd\'>提示</div>';
+    text += '    <div class=\'am-modal-bd\'>' + data + '</div>';
+    text += '    <div class=\'am-modal-footer\'>';
+    text += '      <span class=\'am-modal-btn\'>确定</span>';
+    text += '    </div>';
+    text += '  </div>';
+    text += '</div>';
+
+    return text;
+
 
 }
 

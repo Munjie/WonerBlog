@@ -1,11 +1,15 @@
 package com.mwj.personweb.controller;
 
 import com.mwj.personweb.exception.MyRuntimeException;
+import com.mwj.personweb.model.SysUser;
+import com.mwj.personweb.service.ISysUserService;
+import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.User;
@@ -27,6 +31,12 @@ public class BackController {
 
   @Autowired private SessionRegistry sessionRegistry;
 
+  @Autowired
+  private ISysUserService userService;
+
+  @Autowired
+  protected AuthenticationManager authenticationManager;
+
   @GetMapping(value = "/toLogin")
   public String backLogin() {
     return "back/login";
@@ -40,7 +50,6 @@ public class BackController {
   }
 
   @RequestMapping(value = "/login/success")
-  @PreAuthorize("hasRole('ROLE_ADMIN')")
   public void loginSuccess(HttpServletRequest request, HttpServletResponse response)
           throws Exception {
     Principal principal = request.getUserPrincipal();
@@ -105,5 +114,27 @@ public class BackController {
   @RequestMapping("/403")
   public String error403() {
     return "error/403";
+  }
+
+  @PostMapping(value = "/checkName")
+  @ResponseBody
+  public JSONObject checkName(String name, HttpServletRequest request) {
+
+    JSONObject object = new JSONObject();
+
+    if (userService.isExitUser(name)) {
+      object.put("status", "400");
+
+    } else {
+      object.put("status", "200");
+    }
+    return object;
+  }
+
+  @PostMapping(value = "/register")
+  @ResponseBody
+  public JSONObject register(SysUser sysUser, HttpServletRequest request) {
+
+    return userService.insertUser(sysUser);
   }
 }

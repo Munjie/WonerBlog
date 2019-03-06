@@ -10,4 +10,6 @@ public interface IUserDao {
     SysUser findById(Integer id);
 
     SysUser findByName(String name);
+
+    int insertSysUser(SysUser sysUser);
 }

@@ -5,6 +5,9 @@
         <id property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="password" column="password"/>
+        <result property="email" column="email"/>
+        <result property="imgUrl" column="imgurl"/>
+        <result property="username" column="username"/>
     </resultMap>
     <select id="findById" parameterType="java.lang.Integer" resultMap="userMap">
        SELECT * FROM sys_user WHERE id = #{id}
@@ -13,4 +16,11 @@
     <select id="findByName" parameterType="java.lang.String" resultMap="userMap">
       SELECT * FROM sys_user WHERE name = #{name}
     </select>
+
+    <insert id="insertSysUser" parameterType="com.mwj.personweb.model.SysUser">
+      insert into sys_user(name,password,email,imgurl)
+     values
+     (#{name},#{password},#{email},#{imgUrl})
+
+    </insert>
 </mapper>
