@@ -92,15 +92,27 @@
 
         <form method="post" class="am-form" th:action="@{/admin/login}">
             <label for="username">用户名:</label>
-            <input type="text" class="" id="username" name="username" placeholder="请输入用户名">
+            <div class="am-input-group">
+                <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>
+                <input type="text" class="am-form-field" placeholder="Username" id="username" name="username">
+            </div>
             <br>
             <label for="password">密码:</label>
-            <input type="password" class="" id="password" name="password" placeholder="请输入密码">
+            <div class="am-input-group">
+                <span class="am-input-group-label"><i class="am-icon-lock am-icon-fw"></i></span>
+                <input type="text" class="am-form-field" placeholder="Password" id="password" name="password">
+            </div>
             <br>
-            <label for="password">验证码:<img alt="验证码" onclick="this.src='/kaptcha?d='+new Date()*1"
-                                           onmouseover="mouseover(this)"
-                                           src="/kaptcha"/></label>
-            <input type="text" placeholder="请输入验证码,忽略大小写" name="verifyCode">
+            <label for="password">验证码:</label>
+            <div class="am-input-group">
+                <input type="text" class="am-form-field" name="verifyCode">
+                <span class="am-input-group-label"><img alt="验证码"
+                                                        style="height: 33px;width: 100px;margin-top: -9px;margin-bottom: -4px;margin-left: -13px;
+                                                        margin-right: -15px"
+                                                        onclick="this.src='/kaptcha?d='+new Date()*1"
+                                                        onmouseover="mouseover(this)"
+                                                        src="/kaptcha"/></span>
+            </div>
             <br>
             <div class="alert alert-info" th:if="${loginError}">
                 <p class="" style="color: red" th:text="${errorMsg}"></p>
