@@ -3,6 +3,7 @@ package com.mwj.personweb.controller;
 import com.mwj.personweb.exception.MyRuntimeException;
 import com.mwj.personweb.model.SysUser;
 import com.mwj.personweb.service.ISysUserService;
+import com.mwj.personweb.utils.EmailUtils;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +37,9 @@ public class BackController {
 
   @Autowired
   protected AuthenticationManager authenticationManager;
+
+  @Autowired
+  private EmailUtils emailUtils;
 
   @GetMapping(value = "/toLogin")
   public String backLogin() {
@@ -134,7 +138,8 @@ public class BackController {
   @PostMapping(value = "/register")
   @ResponseBody
   public JSONObject register(SysUser sysUser, HttpServletRequest request) {
-
+    emailUtils.registerSucSender(
+            sysUser.getEmail(), sysUser.getName(), sysUser.getPassword(), "www.biubiucat.com");
     return userService.insertUser(sysUser);
   }
 }
