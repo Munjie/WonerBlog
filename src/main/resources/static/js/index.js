@@ -26,6 +26,14 @@ window.onload = function () {
     ajaxFirst(1);
 };
 
+$(function () {
+    $('.am-slider').flexslider({
+        smoothHeight: true,
+        animationSpeed: 300,
+        animation: "slide",
+    });
+});
+
 function editArticle() {
 
     $.ajax({
