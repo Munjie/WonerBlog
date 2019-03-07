@@ -4,9 +4,13 @@ import com.mwj.personweb.dao.IUserDao;
 import com.mwj.personweb.model.SysUser;
 import com.mwj.personweb.service.ISysUserService;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
 
 /**
  * @Author: 母哥 @Date: 2019-03-01 10:54 @Version 1.0
@@ -56,5 +60,46 @@ public class SysUserServiceImpl implements ISysUserService {
         }
 
         return jsonObject;
-  }
+    }
+
+    @Override
+    public JSONObject findUserByEmail(String email) {
+
+        JSONObject jsonObject = new JSONObject();
+        if (StringUtils.isNotBlank(email)) {
+
+            List<SysUser> userList = userDao.findUserByEmail(email);
+            if (CollectionUtils.isEmpty(userList)) {
+                jsonObject.put("status", "400");
+            } else {
+
+                jsonObject.put("status", "200");
+            }
+        }
+        return jsonObject;
+    }
+
+    @Override
+    public JSONObject resetPassword(SysUser sysUser) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            if (sysUser != null) {
+
+                sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
+                int i = userDao.resetPassword(sysUser);
+                if (i > 0) {
+
+                    jsonObject.put("status", "200");
+                } else {
+
+                    jsonObject.put("status", "400");
+                }
+            }
+
+        } catch (Exception e) {
+            jsonObject.put("status", "400");
+        }
+
+        return jsonObject;
+    }
 }

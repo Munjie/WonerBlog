@@ -20,7 +20,9 @@
     <script src="https://cdn.bootcss.com/underscore.js/1.9.1/underscore-min.js"></script>
     <script src="https://cdn.bootcss.com/amazeui/2.7.2/js/amazeui.min.js"></script>
     <script src="../../static/js/index.js"></script>
+    <script src="../../static/js/resetpwd.js"></script>
     <script type="text/javascript">
+
         function mouseover(obj) {
             obj.style.cursor = "pointer";
         }
@@ -31,6 +33,47 @@
 <div th:replace="../templates/fragments/header :: header"></div>
 <div class="login-div-one"></div>
 <div class="am-g">
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="my-prompt">
+        <div class="am-modal-dialog">
+            <div class="am-modal-hd">请输入注册的邮箱</div>
+            <div class="am-modal-bd">
+                <input type="email" id="register_email" name="email" class="am-modal-prompt-input" onblur="checkEmail()"
+                       placeholder="输入正确的邮箱噢"
+                       required/>
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                <span class="am-modal-btn" data-am-modal-confirm>下一步</span>
+            </div>
+        </div>
+    </div>
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="my-emiial-code">
+        <div class="am-modal-dialog">
+            <div class="am-modal-bd">
+                <input type="email" id="email_code" name="emailCode" class="am-modal-prompt-input"
+                       onblur="checkEmailCode()"
+                       placeholder="输入邮箱收到的验证码"
+                       required/>
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                <span class="am-modal-btn" data-am-modal-confirm>下一步</span>
+            </div>
+        </div>
+    </div>
+    <div class="am-modal am-modal-prompt" tabindex="-1" id="my-new-pwd">
+        <div class="am-modal-dialog">
+            <div class="am-modal-bd">
+                <input type="password" id="new_password" name="newPassword" class="am-modal-prompt-input"
+                       placeholder="输入新的密码"
+                       required/>
+            </div>
+            <div class="am-modal-footer">
+                <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+            </div>
+        </div>
+    </div>
     <div class="am-u-lg-6 am-u-md-8 am-u-sm-centered">
         <div class="myapp-login-logo-text">
             <div class="myapp-login-logo-text">
@@ -66,12 +109,14 @@
             <br/>
             <div class="am-cf">
                 <input type="submit" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl">
-                <input type="submit" name="" value="忘记密码 ^_^? " class="am-btn am-btn-default am-btn-sm am-fr">
+                <input type="button" name="" value="忘记密码" class="am-btn am-btn-default am-btn-sm am-fr"
+                       id="doc-prompt-toggle">
             </div>
         </form>
         <hr>
     </div>
 </div>
 <div th:replace="../templates/fragments/footer :: footer"></div>
+
 </body>
 </html>

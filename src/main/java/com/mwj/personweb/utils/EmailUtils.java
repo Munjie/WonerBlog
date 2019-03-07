@@ -56,15 +56,14 @@ public class EmailUtils {
     }
 
     /**
-     * 发送 注册时的验证码
+     * 发送重置密码的验证码
      *
      * @param email 接收者的邮箱【注册人】
      * @param code  验证码
      */
-    public void sendRegisterCode(final String email, String code) {
+    public void sendRestPwdCode(final String email, String code) {
         final StringBuffer sb = new StringBuffer(); // 实例化一个StringBuffer
-        sb.append("<h2>" + email + ",您好！<h2>")
-                .append("<p style='color:red'>此次注册的验证码是：" + code + "</p>");
+        sb.append("<h2>" + email + ",您好！<h2>").append("<p>此次重置密码的验证码是：" + code + "</p>");
         new Thread(
                 new Runnable() {
                     @Override
@@ -103,26 +102,26 @@ public class EmailUtils {
     }
 
     /**
-     * 找回密码成功
+     * 重置密码成功
      *
      * @param email 接收的邮箱地址 【注册人】
      * @param pwd   初始密码
      * @param url   登陆地址
      */
-    public void passwordFindSucSender(final String email, String pwd, String url) {
+    public void pwdResetSucSender(final String email, String pwd, String url) {
         final StringBuffer sb = new StringBuffer();
-        sb.append("<h3>恭喜您，密码找回成功！</h3>")
-                .append("<h2>系统随机密码是：<b style='color:#F00'>")
+        sb.append("<h3>恭喜您，重置密码成功！</h3>")
+                .append("<h2>您此次重置的密码是：<b>")
                 .append(pwd)
-                .append("请及时<a href='")
+                .append("<a href='")
                 .append(url)
-                .append("'>登陆网站</a>修改密码。");
+                .append("'>登陆网站</a>");
 
         new Thread(
                 new Runnable() {
                     @Override
                     public void run() {
-                        sendNormalEmail("成功找回密码", true, sb.toString(), true, email);
+                        sendNormalEmail("重置密码成功", true, sb.toString(), true, email);
                     }
                 })
                 .start();
@@ -156,5 +155,5 @@ public class EmailUtils {
             return true;
         }
         return false;
-    }
+  }
 }

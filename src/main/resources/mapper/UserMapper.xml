@@ -23,4 +23,13 @@
      (#{name},#{password},#{email},#{imgUrl})
 
     </insert>
+
+    <select id="findUserByEmail" parameterType="java.lang.String" resultMap="userMap">
+      SELECT * FROM sys_user WHERE email = #{email}
+    </select>
+
+    <update id="resetPassword" parameterType="com.mwj.personweb.model.SysUser">
+
+     update sys_user SET password = #{password} where email = #{email}
+ </update>
 </mapper>

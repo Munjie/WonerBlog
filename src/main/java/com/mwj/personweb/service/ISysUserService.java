@@ -15,4 +15,8 @@ public interface ISysUserService {
     Boolean isExitUser(String name);
 
     JSONObject insertUser(SysUser sysUser);
+
+    JSONObject findUserByEmail(String email);
+
+    JSONObject resetPassword(SysUser sysUser);
 }
