@@ -36,4 +36,12 @@ public interface RedisServer {
    * @return
    */
   boolean remove(String key);
+
+  /**
+   * 判断key是否存在
+   *
+   * @param key 键
+   * @return true 存在 false不存在
+   */
+  boolean hasKey(String key);
 }

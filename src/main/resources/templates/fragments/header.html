@@ -9,12 +9,12 @@
 <div th:fragment="header">
     <header class="am-topbar">
         <h1 class="am-topbar-brand">
-            <a href="javascript:;" class="blogTitleName" sec:authorize="isAnonymous()"><img
+            <span class="blogTitleName" sec:authorize="isAnonymous()"><img
                     src="http://cdn.biubiucat.com/u=62256820,3946498744&fm=26&gp=0.jpg" class="imgStyle">
-            </a>
-            <a href="javascript:;" class="blogTitleName" sec:authorize="isAuthenticated()"><img
-                    src="http://cdn.biubiucat.com/FhbC81TqilHhPkbGJ7AoO7FP5R-X" class="imgStyle">
-            </a>
+            </span>
+            <span class="blogTitleName" sec:authorize="isAuthenticated()"><img th:src="${userImg}"
+                                                                               class="imgStyle">
+            </span>
             <a class="am-dropdown-toggle tpl-header-list-link" href="/login.html" sec:authorize="isAnonymous()">
                 登录
             </a>
@@ -24,8 +24,8 @@
                             sec:authentication="name"></th:block></span><span class="tpl-header-list-user-ico"></span>
                 </a>
                 <ul class="am-dropdown-content">
-                    <li><a href="#"><span class="am-icon-bell-o"></span> 资料</a></li>
-                    <li><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
+                    <li><a href="/userInfo"><span class="am-icon-bell-o"></span> 资料</a></li>
+                    <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
                     <li><a href="/logout"><span class="am-icon-power-off"></span> 退出</a></li>
                 </ul>
             </li>

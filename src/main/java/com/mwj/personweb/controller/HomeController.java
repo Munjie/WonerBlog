@@ -1,9 +1,13 @@
 package com.mwj.personweb.controller;
 
+import com.mwj.personweb.utils.PageUtil;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -16,13 +20,14 @@ import java.security.Principal;
  */
 @Controller
 public class HomeController {
+    private static Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-    private static Logger logger = LoggerFactory.getLogger(BackController.class);
+    @Autowired
+    private PageUtil pageUtil;
 
     @RequestMapping("/")
-    public String index() {
-
-        return "front/index";
+    public String index(Authentication authentication, Model model) throws Exception {
+        return pageUtil.forward(authentication, model, "front/index");
     }
 
     @RequestMapping("/login.html")
@@ -48,7 +53,7 @@ public class HomeController {
     }
 
     @RequestMapping("/article_edit.html")
-    public String articleEdit() {
-        return "front/article_edit";
+    public String articleEdit(Authentication authentication, Model model) throws Exception {
+        return pageUtil.forward(authentication, model, "front/article_edit");
   }
 }

@@ -3,7 +3,9 @@ package com.mwj.personweb.controller;
 import com.mwj.personweb.exception.MyRuntimeException;
 import com.mwj.personweb.model.SysUser;
 import com.mwj.personweb.service.ISysUserService;
+import com.mwj.personweb.service.redis.RedisServer;
 import com.mwj.personweb.utils.EmailUtils;
+import com.mwj.personweb.utils.JsonUtil;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.User;
@@ -20,7 +23,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.security.Principal;
 import java.util.List;
 
 /** @Author: 母哥 @Date: 2019-02-28 11:08 @Version 1.0 */
@@ -41,6 +43,9 @@ public class BackController {
   @Autowired
   private EmailUtils emailUtils;
 
+  @Autowired
+  private RedisServer redisServer;
+
   @GetMapping(value = "/toLogin")
   public String backLogin() {
     return "back/login";
@@ -54,10 +59,14 @@ public class BackController {
   }
 
   @RequestMapping(value = "/login/success")
-  public void loginSuccess(HttpServletRequest request, HttpServletResponse response)
+  public void loginSuccess(Authentication authentication, HttpServletResponse response)
           throws Exception {
-    Principal principal = request.getUserPrincipal();
-    logger.info("当前登陆用户为：：" + principal.getName());
+    SysUser user = null;
+    if (authentication != null && authentication.getName() != null) {
+      user = userService.findByName(authentication.getName());
+      redisServer.set(user.getName(), JsonUtil.getObjectToJson(user));
+      logger.info("当前登陆用户为：：" + authentication.getName());
+    }
 
     response.sendRedirect("/");
   }

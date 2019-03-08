@@ -1,6 +1,9 @@
 package com.mwj.personweb.service.redis.impl;
 
+import com.mwj.personweb.controller.HomeController;
 import com.mwj.personweb.service.redis.RedisServer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.core.RedisCallback;
@@ -14,7 +17,10 @@ import java.util.concurrent.TimeUnit;
 /** @Author: 母哥 @Date: 2019-02-14 18:02 @Version 1.0 */
 @Service("redisService")
 public class RedisUtilServerImpl implements RedisServer {
-  @Resource private RedisTemplate<String, ?> redisTemplate;
+
+    private static Logger logger = LoggerFactory.getLogger(HomeController.class);
+
+    @Resource private RedisTemplate<String, ?> redisTemplate;
 
   @Override
   public boolean set(final String key, final String value) {
@@ -65,4 +71,20 @@ public class RedisUtilServerImpl implements RedisServer {
             });
     return result;
   }
+
+    @Override
+    /**
+     * 判断key是否存在
+     *
+     * @param key 键
+     * @return true 存在 false不存在
+     */
+    public boolean hasKey(String key) {
+        try {
+            return redisTemplate.hasKey(key);
+        } catch (Exception e) {
+            logger.error(key + "在当前redis不存在", e);
+            return false;
+        }
+    }
 }
