@@ -32,4 +32,8 @@
 
      update sys_user SET password = #{password} where email = #{email}
  </update>
+
+    <update id="updateImgUrlByName" parameterType="com.mwj.personweb.model.SysUser">
+     update sys_user SET imgurl = #{imgUrl} where name = #{name}
+    </update>
 </mapper>

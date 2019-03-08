@@ -19,4 +19,6 @@ public interface ISysUserService {
     JSONObject findUserByEmail(String email);
 
     JSONObject resetPassword(SysUser sysUser);
+
+    boolean updateImgUrlByName(SysUser sysUser);
 }

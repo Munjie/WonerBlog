@@ -26,6 +26,7 @@
     <script src="https://cdn.bootcss.com/underscore.js/1.9.1/underscore-min.js"></script>
     <script src="https://cdn.bootcss.com/amazeui/2.7.2/js/amazeui.min.js"></script>
     <script src="../../static/js/index.js"></script>
+    <script src="../../static/js/user_info.js"></script>
 
 
 </head>
@@ -48,17 +49,20 @@
                 <div class="am-panel am-panel-default">
                     <div class="am-panel-bd">
                         <div class="am-g">
-                            <div class="am-u-md-4">
+                            <div class="am-u-md-4" id="show_user_img">
                                 <img class="am-img-circle am-img-thumbnail" th:src="${userImg}"
                                      alt=""/>
                             </div>
                             <div class="am-u-md-8">
-                                <p>你可以使用<a href="#">gravatar.com</a>提供的头像或者使用本地上传头像。 </p>
-                                <form class="am-form">
+                                <p>你可以使用<a href="https://en.gravatar.com/">Gravatar.com</a>提供的头像或者使用本地上传头像。 </p>
+                                <form class="am-form"
+                                      enctype="multipart/form-data">
                                     <div class="am-form-group">
-                                        <input type="file" id="user-pic">
-                                        <p class="am-form-help">请选择要上传的文件...</p>
-                                        <button type="button" class="am-btn am-btn-primary am-btn-xs">保存</button>
+                                        <input type="file" name="user-pic" id="user-pic">
+                                        <p class="am-form-help">请选择要上传的图片...</p>
+                                        <button type="button" class="am-btn am-btn-primary am-btn-xs"
+                                                onclick="saveUserImg()">保存
+                                        </button>
                                     </div>
                                 </form>
                             </div>

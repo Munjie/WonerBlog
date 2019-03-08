@@ -34,10 +34,11 @@ public class PageUtil {
                 user = sysUserService.findByName(authentication.getName());
                 redisServer.set(user.getName(), JsonUtil.getObjectToJson(user));
             }
+            String s = CommonUtil.gravatarImg(user.getEmail());
             model.addAttribute("userImg", user.getImgUrl());
             model.addAttribute("email", user.getEmail());
         }
 
         return page;
-    }
+  }
 }

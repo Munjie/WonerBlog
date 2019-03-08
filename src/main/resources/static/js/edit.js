@@ -19,7 +19,7 @@ $(function () {
         htmlDecode: true, //不过滤标签
         imageUpload: true, //上传图片
         imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp", "JPG", "JPEG", "GIF", "PNG", "BMP", "WEBP"],
-        imageUploadURL: "/home/uploadImage",
+        imageUploadURL: "/article/uploadArticleImage",
         onload: function () {
 
         },

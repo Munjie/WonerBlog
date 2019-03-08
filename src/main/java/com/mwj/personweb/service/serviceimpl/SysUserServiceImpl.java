@@ -3,6 +3,8 @@ package com.mwj.personweb.service.serviceimpl;
 import com.mwj.personweb.dao.IUserDao;
 import com.mwj.personweb.model.SysUser;
 import com.mwj.personweb.service.ISysUserService;
+import com.mwj.personweb.service.redis.RedisServer;
+import com.mwj.personweb.utils.CommonUtil;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class SysUserServiceImpl implements ISysUserService {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Autowired
+    private RedisServer redisServer;
+
     public SysUser findById(Integer id) {
         return userDao.findById(id);
     }
@@ -44,7 +49,8 @@ public class SysUserServiceImpl implements ISysUserService {
         JSONObject jsonObject = new JSONObject();
         if (sysUser != null) {
             sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
-            sysUser.setImgUrl("http://cdn.biubiucat.com/u=62256820,3946498744&fm=26&gp=0.jpg");
+
+            sysUser.setImgUrl(CommonUtil.gravatarImg(sysUser.getEmail()));
             int i = userDao.insertSysUser(sysUser);
 
             if (i > 0) {
@@ -102,4 +108,27 @@ public class SysUserServiceImpl implements ISysUserService {
 
         return jsonObject;
     }
+
+    @Override
+    public boolean updateImgUrlByName(SysUser sysUser) {
+        boolean falg = true;
+        try {
+            if (sysUser != null) {
+                int i = userDao.updateImgUrlByName(sysUser);
+                if (i > 0) {
+                    if (redisServer.hasKey(sysUser.getName())) {
+                        if (redisServer.delKey(sysUser.getName())) {
+                            falg = true;
+                        }
+                    }
+                } else {
+                    falg = false;
+                }
+            }
+
+        } catch (Exception e) {
+            falg = false;
+        }
+        return falg;
+  }
 }

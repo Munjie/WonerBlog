@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
@@ -20,7 +21,8 @@ public class RedisUtilServerImpl implements RedisServer {
 
     private static Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-    @Resource private RedisTemplate<String, ?> redisTemplate;
+    @Resource
+    private RedisTemplate<String, ?> redisTemplate;
 
   @Override
   public boolean set(final String key, final String value) {
@@ -84,6 +86,22 @@ public class RedisUtilServerImpl implements RedisServer {
             return redisTemplate.hasKey(key);
         } catch (Exception e) {
             logger.error(key + "在当前redis不存在", e);
+            return false;
+        }
+    }
+
+    @Override
+    public boolean delKey(String... key) {
+        try {
+            if (key != null && key.length > 0) {
+                if (key.length == 1) {
+                    redisTemplate.delete(key[0]);
+                } else {
+                    redisTemplate.delete(CollectionUtils.arrayToList(key));
+                }
+            }
+            return true;
+        } catch (Exception e) {
             return false;
         }
     }

@@ -3,15 +3,19 @@ package com.mwj.personweb.controller;
 import com.mwj.personweb.model.Article;
 import com.mwj.personweb.service.IArticleService;
 import com.mwj.personweb.utils.BuildArticleTabloidUtil;
+import com.mwj.personweb.utils.FileUtil;
 import com.mwj.personweb.utils.TimeUtil;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -23,7 +27,7 @@ public class ArticleController {
 
   @Autowired private IArticleService articleService;
 
-    @PostMapping(value = "/publish")
+  @PostMapping(value = "/publish")
   @ResponseBody
   public JSONObject publishArticle(Article article, HttpServletRequest request) {
 
@@ -42,11 +46,11 @@ public class ArticleController {
     article.setPublishDate(nowDate);
     returnJson = articleService.insertArticle(article);
     return returnJson;
-    }
+  }
 
-    @GetMapping(value = "/find/{articleId}")
-    public String find(
-            @PathVariable("articleId") String articleId,
+  @GetMapping(value = "/find/{articleId}")
+  public String find(
+          @PathVariable("articleId") String articleId,
       HttpServletResponse response,
       Model model,
       HttpServletRequest request) {
@@ -66,7 +70,7 @@ public class ArticleController {
 
     // 将文章id存入响应头
     response.setHeader("articleId", articleId);
-        return "front/show_article";
+    return "front/show_article";
   }
 
   /**
@@ -81,5 +85,33 @@ public class ArticleController {
 
     JSONObject jsonObject = articleService.getArticleByArticleId(Long.parseLong(articleId));
     return jsonObject;
+  }
+
+  /**
+   * 文章编辑本地上传图片
+   */
+  @RequestMapping("/uploadArticleImage")
+  public @ResponseBody
+  Map<String, Object> uploadImage(
+          HttpServletRequest request,
+          HttpServletResponse response,
+          @RequestParam(value = "editormd-image-file", required = true) MultipartFile file) {
+    Map<String, Object> resultMap = new HashMap<String, Object>();
+    try {
+      request.setCharacterEncoding("utf-8");
+      // 设置返回头后页面才能获取返回url
+      response.setHeader("X-Frame-Options", "SAMEORIGIN");
+      String fileUrl = FileUtil.upload(file);
+      resultMap.put("success", 1);
+      resultMap.put("message", "上传成功");
+      resultMap.put("url", fileUrl);
+    } catch (Exception e) {
+      try {
+        response.getWriter().write("{\"success\":0}");
+      } catch (IOException e1) {
+        e1.printStackTrace();
+      }
+    }
+    return resultMap;
   }
 }

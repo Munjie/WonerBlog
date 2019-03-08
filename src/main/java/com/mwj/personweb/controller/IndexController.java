@@ -2,17 +2,12 @@ package com.mwj.personweb.controller;
 
 import com.mwj.personweb.service.IArticleService;
 import com.mwj.personweb.service.ISysLogService;
-import com.mwj.personweb.utils.FileUtil;
 import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /** @Author: 母哥 @Date: 2019-02-11 10:21 @Version 1.0 */
 @RestController
@@ -49,30 +44,5 @@ public class IndexController {
   public JSONArray myArticles(String rows, String pageNum) {
 
     return articleService.findAllArticles(rows, pageNum);
-  }
-
-  /** 文章编辑本地上传图片 */
-  @RequestMapping("/uploadImage")
-  public @ResponseBody Map<String, Object> uploadImage(
-      HttpServletRequest request,
-      HttpServletResponse response,
-      @RequestParam(value = "editormd-image-file", required = true) MultipartFile file) {
-    Map<String, Object> resultMap = new HashMap<String, Object>();
-    try {
-      request.setCharacterEncoding("utf-8");
-      // 设置返回头后页面才能获取返回url
-      response.setHeader("X-Frame-Options", "SAMEORIGIN");
-      String fileUrl = FileUtil.upload(file);
-      resultMap.put("success", 1);
-      resultMap.put("message", "上传成功");
-      resultMap.put("url", fileUrl);
-    } catch (Exception e) {
-      try {
-        response.getWriter().write("{\"success\":0}");
-      } catch (IOException e1) {
-        e1.printStackTrace();
-      }
-    }
-    return resultMap;
   }
 }

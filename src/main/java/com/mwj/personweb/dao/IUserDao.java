@@ -18,4 +18,6 @@ public interface IUserDao {
     List<SysUser> findUserByEmail(String email);
 
     int resetPassword(SysUser sysUser);
+
+    int updateImgUrlByName(SysUser sysUser);
 }

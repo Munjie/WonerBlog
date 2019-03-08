@@ -44,4 +44,11 @@ public interface RedisServer {
    * @return true 存在 false不存在
    */
   boolean hasKey(String key);
+
+  /**
+   * 删除缓存
+   *
+   * @param key 可以传一个值 或多个
+   */
+  boolean delKey(String... key);
 }
