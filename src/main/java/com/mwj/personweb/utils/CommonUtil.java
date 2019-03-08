@@ -45,4 +45,78 @@ public class CommonUtil {
         String hash = MD5encode(email.trim().toLowerCase());
         return avatarUrl + "/" + hash;
     }
+
+    /**
+     * 字符串转换成字符串数组
+     *
+     * @param str 字符串
+     * @return 转换后的字符串数组
+     */
+    public static String[] stringToArray(String str) {
+        String[] array = str.split(",");
+        return array;
+    }
+
+    /**
+     * 字符串数组拼接成字符串
+     *
+     * @param articleTags 字符串数组
+     * @return 拼接后的字符串
+     */
+    public static String arrayToString(String[] articleTags) {
+        String buffered = "";
+        for (String s : articleTags) {
+            if ("".equals(buffered)) {
+                buffered += s;
+            } else {
+                buffered += "," + s;
+            }
+        }
+        return buffered;
+    }
+
+    /**
+     * unicode编码转中文
+     *
+     * @param dataStr unicode编码
+     * @return 中文
+     */
+    public static String unicodeToString(final String dataStr) {
+        int start = 0;
+        int end = 0;
+        final StringBuffer buffer = new StringBuffer();
+        while (start > -1) {
+            end = dataStr.indexOf("\\u", start + 2);
+            String charStr = "";
+            if (end == -1) {
+                charStr = dataStr.substring(start + 2, dataStr.length());
+            } else {
+                charStr = dataStr.substring(start + 2, end);
+            }
+            // 16进制parse整形字符串。
+            char letter = (char) Integer.parseInt(charStr, 16);
+            buffer.append(new Character(letter).toString());
+            start = end;
+        }
+        return buffer.toString();
+    }
+
+    /**
+     * 中文转unicode编码
+     *
+     * @param gbString 汉字
+     * @return unicode编码
+     */
+    public static String stringToUnicode(final String gbString) {
+        char[] utfBytes = gbString.toCharArray();
+        String unicodeBytes = "";
+        for (int i = 0; i < utfBytes.length; i++) {
+            String hexB = Integer.toHexString(utfBytes[i]);
+            if (hexB.length() <= 2) {
+                hexB = "00" + hexB;
+            }
+            unicodeBytes = unicodeBytes + "\\u" + hexB;
+        }
+        return unicodeBytes;
+  }
 }

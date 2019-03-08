@@ -6,7 +6,9 @@ import com.mwj.personweb.dao.IArtcileDao;
 import com.mwj.personweb.model.Article;
 import com.mwj.personweb.service.IArticleService;
 import com.mwj.personweb.service.redis.RedisServer;
+import com.mwj.personweb.utils.CommonUtil;
 import com.mwj.personweb.utils.JsonUtil;
+import com.mwj.personweb.utils.TimeUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
@@ -47,7 +49,7 @@ public class ArticleServiceImpl implements IArticleService {
 
     for (Article article : articles) {
       map = new HashMap<>();
-        map.put("articleUrl", "/article/find/" + article.getArticleId());
+      map.put("articleUrl", "/article/find/" + article.getArticleId());
       map.put("articleTitle", article.getArticleTitle());
       map.put("articleType", article.getArticleType());
       map.put("publishDate", article.getPublishDate());
@@ -154,9 +156,70 @@ public class ArticleServiceImpl implements IArticleService {
     }
   }
 
+  @Override
+  public JSONObject findArticleByArchive(String archive, int rows, int pageNum) {
+    List<Article> articles;
+    PageInfo<Article> pageInfo;
+    JSONArray articleJsonArray = new JSONArray();
+    String showMonth = "hide";
+    if (!"".equals(archive)) {
+      archive = TimeUtil.timeYearToWhippletree(archive);
+    }
+    PageHelper.startPage(pageNum, rows);
+    if ("".equals(archive)) {
+      articles = artcileDao.findAllArticlesPartInfo();
+    } else {
+      articles = artcileDao.findArticleByArchive(archive);
+      showMonth = "show";
+    }
+    pageInfo = new PageInfo<>(articles);
+
+    articleJsonArray = timeLineReturn(articleJsonArray, articles);
+
+    JSONObject pageJson = new JSONObject();
+    pageJson.put("pageNum", pageInfo.getPageNum());
+    pageJson.put("pageSize", pageInfo.getPageSize());
+    pageJson.put("total", pageInfo.getTotal());
+    pageJson.put("pages", pageInfo.getPages());
+    pageJson.put("isFirstPage", pageInfo.isIsFirstPage());
+    pageJson.put("isLastPage", pageInfo.isIsLastPage());
+
+    JSONObject jsonObject = new JSONObject();
+    jsonObject.put("status", 200);
+    jsonObject.put("result", articleJsonArray);
+    jsonObject.put("pageInfo", pageJson);
+    jsonObject.put("articleNum", artcileDao.countArticles());
+    jsonObject.put("showMonth", showMonth);
+
+    return jsonObject;
+  }
+
+  @Override
+  public int countArticleArchiveByArchive(String archive) {
+
+    int i = artcileDao.countArticleArchiveByArchive(archive);
+    return i;
+  }
+
   public static String randomPath() {
     int random = (int) (Math.random() * 10 + 1);
     String path = "i/f" + random + ".jpg";
     return path;
+  }
+
+  public JSONArray timeLineReturn(JSONArray articleJsonArray, List<Article> articles) {
+    JSONObject articleJson;
+    for (Article article : articles) {
+      String[] tagsArray = CommonUtil.stringToArray(article.getArticleTags());
+      articleJson = new JSONObject();
+      articleJson.put("articleId", article.getArticleId());
+      articleJson.put("originalAuthor", article.getOriginalAuthor());
+      articleJson.put("articleTitle", article.getArticleTitle());
+      articleJson.put("articleCategories", article.getArticleCategories());
+      articleJson.put("publishDate", article.getPublishDate());
+      articleJson.put("articleTags", tagsArray);
+      articleJsonArray.add(articleJson);
+    }
+    return articleJsonArray;
   }
 }

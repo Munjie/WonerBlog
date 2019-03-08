@@ -8,11 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 
 /**
@@ -25,17 +26,17 @@ public class HomeController {
     @Autowired
     private PageUtil pageUtil;
 
-    @RequestMapping("/")
+    @GetMapping("/")
     public String index(Authentication authentication, Model model) throws Exception {
         return pageUtil.forward(authentication, model, "front/index");
     }
 
-    @RequestMapping("/login.html")
+    @GetMapping("/login.html")
     public String login() {
         return "front/login";
     }
 
-    @RequestMapping("/register.html")
+    @GetMapping("/register.html")
     public String register() {
         return "front/register";
     }
@@ -52,8 +53,22 @@ public class HomeController {
         return object;
     }
 
-    @RequestMapping("/article_edit.html")
+    @GetMapping("/article_edit.html")
     public String articleEdit(Authentication authentication, Model model) throws Exception {
         return pageUtil.forward(authentication, model, "front/article_edit");
-  }
+    }
+
+    @GetMapping("/archives")
+    public String archives(HttpServletResponse response, HttpServletRequest request) {
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("text/html;charset=utf-8");
+        request.getSession().removeAttribute("lastUrl");
+        String archive = request.getParameter("archive");
+
+        try {
+            response.setHeader("archive", archive);
+        } catch (Exception e) {
+        }
+        return "front/archives_article";
+    }
 }

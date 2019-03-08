@@ -47,6 +47,37 @@
          articleId=#{articleId}
     </select>
 
+    <select id="findAllArticlesPartInfo" resultType="com.mwj.personweb.model.Article">
+    select
+    articleId,originalAuthor,articleTitle,articleTags,
+    articleType, articleCategories,publishDate
+    from
+    article
+    order by
+    id
+    desc
+
+    </select>
+
+    <select id="findArticleByArchive" resultType="com.mwj.personweb.model.Article" parameterType="java.lang.String">
+     select articleId,originalAuthor,articleTitle,articleTags,
+     articleType,articleCategories,publishDate
+     from
+      article
+       where
+        publishDate
+        like '%${archive}%' order by id desc
+
+    </select>
+
+    <select id="countArticles" resultType="java.lang.Integer">
+         select count(*) from article
+    </select>
+
+    <select id="countArticleArchiveByArchive" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select count(*) from article where publishDate like '%${archive}%'
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from article
     where id = #{id,jdbcType=INTEGER}

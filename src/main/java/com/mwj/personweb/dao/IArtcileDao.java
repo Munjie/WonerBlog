@@ -1,6 +1,7 @@
 package com.mwj.personweb.dao;
 
 import com.mwj.personweb.model.Article;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -12,4 +13,12 @@ public interface IArtcileDao {
   int insertArticle(Article article);
 
   Article showArticleTitleDetailByArticleId(long articleId);
+
+  List<Article> findAllArticlesPartInfo();
+
+  List<Article> findArticleByArchive(@Param("archive") String archive);
+
+  int countArticles();
+
+  int countArticleArchiveByArchive(@Param("archive") String archive);
 }
