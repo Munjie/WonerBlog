@@ -59,7 +59,12 @@ public class HomeController {
     }
 
     @GetMapping("/archives")
-    public String archives(HttpServletResponse response, HttpServletRequest request) {
+    public String archives(
+            HttpServletResponse response,
+            HttpServletRequest request,
+            Authentication authentication,
+            Model model)
+            throws Exception {
         response.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
         request.getSession().removeAttribute("lastUrl");
@@ -69,6 +74,6 @@ public class HomeController {
             response.setHeader("archive", archive);
         } catch (Exception e) {
         }
-        return "front/archives_article";
-    }
+        return pageUtil.forward(authentication, model, "front/archives_article");
+  }
 }

@@ -1,5 +1,7 @@
 package com.mwj.personweb.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -70,26 +72,28 @@ public class TimeUtil {
     return now.getTime() / 1000 + (long) ((Math.random() * 9 + 1) * 1000);
   }
 
-  /**
-   * 时间中横杆转换为年
-   */
+  /** 时间中横杆转换为年 */
   public static String timeWhippletreeToYear(String str) {
     StringBuilder s = new StringBuilder();
-    s.append(str.substring(0, 4));
-    s.append("年");
-    s.append(str.substring(5, 7));
-    s.append("月");
+    if (StringUtils.isNotBlank(str)) {
+
+      s.append(str.substring(0, 4));
+      s.append("年");
+      s.append(str.substring(5, 7));
+      s.append("月");
+    }
     return String.valueOf(s);
   }
 
-  /**
-   * 时间中的年转换为横杠
-   */
+  /** 时间中的年转换为横杠 */
   public static String timeYearToWhippletree(String str) {
     StringBuilder s = new StringBuilder();
-    s.append(str.substring(0, 4));
-    s.append("-");
-    s.append(str.substring(5, 7));
+    if (StringUtils.isNotBlank(str)) {
+
+      s.append(str.substring(0, 4));
+      s.append("-");
+      s.append(str.substring(5, 7));
+    }
     return String.valueOf(s);
   }
 }
