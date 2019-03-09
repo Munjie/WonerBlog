@@ -42,21 +42,29 @@ public interface IArticleService {
    */
   JSONObject getArticleByArticleId(long articleId);
 
-    /**
-     * 分页获得该归档日期下的所有文章
-     *
-     * @param archive 归档日期
-     * @param rows    一页大小
-     * @param pageNum 页数
-     * @return
-     */
-    JSONObject findArticleByArchive(String archive, int rows, int pageNum);
+  /**
+   * 分页获得该归档日期下的所有文章
+   *
+   * @param archive 归档日期
+   * @param rows 一页大小
+   * @param pageNum 页数
+   * @return
+   */
+  JSONObject findArticleByArchive(String archive, int rows, int pageNum);
 
-    /**
-     * 计算该归档日期文章的数目
-     *
-     * @param archive 归档日期
-     * @return 该归档日期下文章的数目
-     */
-    int countArticleArchiveByArchive(String archive);
+  /**
+   * 计算该归档日期文章的数目
+   *
+   * @param archive 归档日期
+   * @return 该归档日期下文章的数目
+   */
+  int countArticleArchiveByArchive(String archive);
+
+  /**
+   * 计算该分类文章的数目
+   *
+   * @param category 分类名
+   * @return 该分类下文章的数目
+   */
+  int countArticleCategoryByCategory(String category);
 }

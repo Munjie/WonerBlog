@@ -27,8 +27,8 @@
 
     <select id="findAllArticles" resultType="com.mwj.personweb.model.Article">
        select
-       articleId,originalAuthor,articleTags,articleTitle,articleType,
-       publishDate,originalAuthor,articleCategories,articleTabloid,likes
+       articleId,author,articleTitle,articleType,
+       publishDate,articleTabloid
        from
        article
        order by
@@ -77,6 +77,12 @@
     <select id="countArticleArchiveByArchive" resultType="java.lang.Integer" parameterType="java.lang.String">
         select count(*) from article where publishDate like '%${archive}%'
     </select>
+
+
+    <select id="countArticleCategoryByCategory" resultType="java.lang.Integer" parameterType="java.lang.String">
+       select count(*) from article where articleCategories=#{category}
+    </select>
+
 
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from article

@@ -12,9 +12,9 @@
             <span class="blogTitleName" sec:authorize="isAnonymous()"><img
                     src="http://cdn.biubiucat.com/u=62256820,3946498744&fm=26&gp=0.jpg" class="imgStyle">
             </span>
-            <span class="blogTitleName" sec:authorize="isAuthenticated()"><img th:src="${userImg}"
-                                                                               class="imgStyle">
-            </span>
+            <a href="/userInfo" sec:authorize="isAuthenticated()"><span class="blogTitleName"><img th:src="${userImg}"
+                                                                                                   class="imgStyle">
+            </span></a>
             <a class="am-dropdown-toggle tpl-header-list-link" href="/login.html" sec:authorize="isAnonymous()">
                 登录
             </a>

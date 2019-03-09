@@ -2,11 +2,14 @@ package com.mwj.personweb.controller;
 
 import com.mwj.personweb.model.Article;
 import com.mwj.personweb.service.IArticleService;
+import com.mwj.personweb.service.ITagsService;
 import com.mwj.personweb.utils.BuildArticleTabloidUtil;
+import com.mwj.personweb.utils.CommonUtil;
 import com.mwj.personweb.utils.FileUtil;
 import com.mwj.personweb.utils.TimeUtil;
 import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,18 +21,19 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @Author: 母哥 @Date: 2019-02-22 17:21 @Version 1.0 Restful请求
- */
+/** @Author: 母哥 @Date: 2019-02-22 17:21 @Version 1.0 Restful请求 */
 @Controller
 @RequestMapping("/article")
 public class ArticleController {
 
   @Autowired private IArticleService articleService;
 
+  @Autowired private ITagsService tagService;
+
   @PostMapping(value = "/publish")
   @ResponseBody
-  public JSONObject publishArticle(Article article, HttpServletRequest request) {
+  public JSONObject publishArticle(
+      Article article, HttpServletRequest request, Authentication authentication) {
 
     JSONObject returnJson = new JSONObject();
 
@@ -38,19 +42,30 @@ public class ArticleController {
     String articleHtmlContent =
         buildArticleTabloidUtil.buildArticleTabloid(request.getParameter("articleHtmlContent"));
     article.setArticleTabloid(articleHtmlContent);
+    String[] articleTags = request.getParameterValues("articleTagsValue");
+    String[] tags = new String[articleTags.length + 1];
+    for (int i = 0; i < articleTags.length; i++) {
+      // 去掉可能出现的换行符
+      articleTags[i] = articleTags[i].replaceAll("<br>", "");
+      tags[i] = articleTags[i];
+    }
+    tags[articleTags.length] = article.getArticleType();
+    // 添加标签
+    tagService.addTags(tags, 5);
     TimeUtil timeUtil = new TimeUtil();
     String nowDate = timeUtil.getFormatDateForThree();
     long articleId = timeUtil.getLongTime();
-    article.setAuthor(article.getOriginalAuthor());
     article.setArticleId(articleId);
     article.setPublishDate(nowDate);
+    article.setArticleTags(CommonUtil.arrayToString(tags));
+    article.setAuthor(authentication.getName());
     returnJson = articleService.insertArticle(article);
     return returnJson;
   }
 
   @GetMapping(value = "/find/{articleId}")
   public String find(
-          @PathVariable("articleId") String articleId,
+      @PathVariable("articleId") String articleId,
       HttpServletResponse response,
       Model model,
       HttpServletRequest request) {
@@ -80,22 +95,18 @@ public class ArticleController {
    * @return
    */
   @GetMapping(value = "/show/{articleId}")
-  public @ResponseBody
-  JSONObject show(@PathVariable("articleId") String articleId) {
+  public @ResponseBody JSONObject show(@PathVariable("articleId") String articleId) {
 
     JSONObject jsonObject = articleService.getArticleByArticleId(Long.parseLong(articleId));
     return jsonObject;
   }
 
-  /**
-   * 文章编辑本地上传图片
-   */
+  /** 文章编辑本地上传图片 */
   @RequestMapping("/uploadArticleImage")
-  public @ResponseBody
-  Map<String, Object> uploadImage(
-          HttpServletRequest request,
-          HttpServletResponse response,
-          @RequestParam(value = "editormd-image-file", required = true) MultipartFile file) {
+  public @ResponseBody Map<String, Object> uploadImage(
+      HttpServletRequest request,
+      HttpServletResponse response,
+      @RequestParam(value = "editormd-image-file", required = true) MultipartFile file) {
     Map<String, Object> resultMap = new HashMap<String, Object>();
     try {
       request.setCharacterEncoding("utf-8");

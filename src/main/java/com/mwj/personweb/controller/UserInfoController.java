@@ -18,53 +18,49 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-/**
- * @Author: 母哥 @Date: 2019-03-08 10:02 @Version 1.0
- */
+/** @Author: 母哥 @Date: 2019-03-08 10:02 @Version 1.0 */
 @Controller
 public class UserInfoController {
 
-    private static Logger logger = LoggerFactory.getLogger(BackController.class);
+  private static Logger logger = LoggerFactory.getLogger(BackController.class);
 
-    @Autowired
-    private PageUtil pageUtil;
+  @Autowired private PageUtil pageUtil;
 
-    @Autowired
-    private ISysUserService sysUserService;
+  @Autowired private ISysUserService sysUserService;
 
-    @GetMapping(value = "/userInfo")
-    public String getUserInfo(Authentication authentication, Model model) throws Exception {
+  @GetMapping(value = "/userInfo")
+  public String getUserInfo(Authentication authentication, Model model) throws Exception {
 
-        return pageUtil.forward(authentication, model, "front/user_info");
+    return pageUtil.forward(authentication, model, "front/user_info");
+  }
+
+  @PostMapping(value = "/uploadUserImg")
+  @ResponseBody
+  public JSONObject uploadUserImg(
+      Authentication authentication, @RequestParam("user-pic") MultipartFile file)
+      throws Exception {
+    JSONObject object = new JSONObject();
+    SysUser sysUser = new SysUser();
+
+    String fileUrl = FileUtil.upload(file);
+    if (StringUtils.isNotBlank(fileUrl)) {
+      sysUser.setImgUrl(fileUrl);
+      sysUser.setName(authentication.getName());
+      boolean b = sysUserService.updateImgUrlByName(sysUser);
+
+      if (b) {
+
+        object.put("status", "200");
+        object.put("imgUrl", fileUrl);
+      } else {
+
+        object.put("status", "400");
+      }
+    } else {
+
+      object.put("status", "400");
     }
 
-    @PostMapping(value = "/uploadUserImg")
-    @ResponseBody
-    public JSONObject uploadUserImg(
-            Authentication authentication, @RequestParam("user-pic") MultipartFile file)
-            throws Exception {
-        JSONObject object = new JSONObject();
-        SysUser sysUser = new SysUser();
-
-        String fileUrl = FileUtil.upload(file);
-        if (StringUtils.isNotBlank(fileUrl)) {
-            sysUser.setImgUrl(fileUrl);
-            sysUser.setName(authentication.getName());
-            boolean b = sysUserService.updateImgUrlByName(sysUser);
-
-            if (b) {
-
-                object.put("status", "200");
-                object.put("imgUrl", fileUrl);
-            } else {
-
-                object.put("status", "400");
-            }
-        } else {
-
-            object.put("status", "400");
-        }
-
-        return object;
+    return object;
   }
 }

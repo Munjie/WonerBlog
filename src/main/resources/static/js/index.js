@@ -138,7 +138,7 @@ function buldHtml(obj) {
     text += '            </div>';
     text += '            <div class=\'am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text\'>';
     text += '                <span><a href="" class=\'blog-color\'>' + obj['articleType'] + ' &nbsp;</a></span>';
-    text += '                <span>@' + obj['originalAuthor'] + ' &nbsp;</span>';
+    text += '                <span>@' + obj['author'] + ' &nbsp;</span>';
     text += '                <span>' + obj['publishDate'] + '</span>';
     text += '                <h1><a href="' + obj['articleUrl'] + '">' + obj['articleTitle'] + '</a></h1>';
     text += '                <p>';

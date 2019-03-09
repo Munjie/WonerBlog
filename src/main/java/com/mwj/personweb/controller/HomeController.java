@@ -16,64 +16,63 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
 
-/**
- * @Author: 母哥 @Date: 2019-03-04 11:28 @Version 1.0
- */
+/** @Author: 母哥 @Date: 2019-03-04 11:28 @Version 1.0 */
 @Controller
 public class HomeController {
-    private static Logger logger = LoggerFactory.getLogger(HomeController.class);
+  private static Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-    @Autowired
-    private PageUtil pageUtil;
+  private static final String USER_AGENT = "user-agent";
 
-    @GetMapping("/")
-    public String index(Authentication authentication, Model model) throws Exception {
-        return pageUtil.forward(authentication, model, "front/index");
+  @Autowired private PageUtil pageUtil;
+
+  @GetMapping("/")
+  public String index(Authentication authentication, Model model) throws Exception {
+    return pageUtil.forward(authentication, model, "front/index");
+  }
+
+  @GetMapping("/login.html")
+  public String login() {
+    return "front/login";
+  }
+
+  @GetMapping("/register.html")
+  public String register() {
+    return "front/register";
+  }
+
+  @PostMapping(value = "/check_edit")
+  @ResponseBody
+  public JSONObject toEdit(HttpServletRequest request, String name) throws Exception {
+    JSONObject object = new JSONObject();
+    Principal principal = request.getUserPrincipal();
+    if (principal == null) {
+      object.put("status", "400");
     }
 
-    @GetMapping("/login.html")
-    public String login() {
-        return "front/login";
+    return object;
+  }
+
+  @GetMapping("/article_edit.html")
+  public String articleEdit(Authentication authentication, Model model) throws Exception {
+    return pageUtil.forward(authentication, model, "front/edit_article");
+  }
+
+  @GetMapping("/archives")
+  public String archives(
+      HttpServletResponse response,
+      HttpServletRequest request,
+      Authentication authentication,
+      Model model)
+      throws Exception {
+    response.setCharacterEncoding("utf-8");
+    response.setContentType("text/html;charset=utf-8");
+    request.getSession().removeAttribute("lastUrl");
+    String archive = request.getParameter("archive");
+
+    try {
+      response.setHeader("archive", archive);
+    } catch (Exception e) {
     }
-
-    @GetMapping("/register.html")
-    public String register() {
-        return "front/register";
-    }
-
-    @PostMapping(value = "/check_edit")
-    @ResponseBody
-    public JSONObject toEdit(HttpServletRequest request, String name) throws Exception {
-        JSONObject object = new JSONObject();
-        Principal principal = request.getUserPrincipal();
-        if (principal == null) {
-            object.put("status", "400");
-        }
-
-        return object;
-    }
-
-    @GetMapping("/article_edit.html")
-    public String articleEdit(Authentication authentication, Model model) throws Exception {
-        return pageUtil.forward(authentication, model, "front/article_edit");
-    }
-
-    @GetMapping("/archives")
-    public String archives(
-            HttpServletResponse response,
-            HttpServletRequest request,
-            Authentication authentication,
-            Model model)
-            throws Exception {
-        response.setCharacterEncoding("utf-8");
-        response.setContentType("text/html;charset=utf-8");
-        request.getSession().removeAttribute("lastUrl");
-        String archive = request.getParameter("archive");
-
-        try {
-            response.setHeader("archive", archive);
-        } catch (Exception e) {
-        }
-        return pageUtil.forward(authentication, model, "front/archives_article");
+    return pageUtil.forward(authentication, model, "front/archives_article");
   }
 }

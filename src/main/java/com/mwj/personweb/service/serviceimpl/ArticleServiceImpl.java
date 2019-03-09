@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mwj.personweb.dao.IArtcileDao;
 import com.mwj.personweb.model.Article;
+import com.mwj.personweb.service.IArchiveService;
 import com.mwj.personweb.service.IArticleService;
 import com.mwj.personweb.service.redis.RedisServer;
 import com.mwj.personweb.utils.CommonUtil;
@@ -34,6 +35,8 @@ public class ArticleServiceImpl implements IArticleService {
 
   @Autowired private RedisServer redisServer;
 
+  @Autowired private IArchiveService archiveService;
+
   @Override
   public JSONArray findAllArticles(String rows, String pageNo) {
 
@@ -53,7 +56,7 @@ public class ArticleServiceImpl implements IArticleService {
       map.put("articleTitle", article.getArticleTitle());
       map.put("articleType", article.getArticleType());
       map.put("publishDate", article.getPublishDate());
-      map.put("originalAuthor", article.getOriginalAuthor());
+      map.put("author", article.getAuthor());
       map.put("articleTabloid", article.getArticleTabloid());
       map.put("articleImg", randomPath());
       newArticles.add(map);
@@ -84,6 +87,9 @@ public class ArticleServiceImpl implements IArticleService {
 
       int i = artcileDao.insertArticle(article);
 
+      // 判断发表文章的归档日期是否存在，不存在则插入归档日期
+      String archiveName = TimeUtil.timeWhippletreeToYear(article.getPublishDate().substring(0, 7));
+      archiveService.addArchiveName(archiveName);
       articleReturn.put("status", 200);
       articleReturn.put("articleTitle", article.getArticleTitle());
       articleReturn.put("author", article.getOriginalAuthor());
@@ -199,6 +205,11 @@ public class ArticleServiceImpl implements IArticleService {
 
     int i = artcileDao.countArticleArchiveByArchive(archive);
     return i;
+  }
+
+  @Override
+  public int countArticleCategoryByCategory(String category) {
+    return artcileDao.countArticleCategoryByCategory(category);
   }
 
   public static String randomPath() {
