@@ -115,12 +115,12 @@ public class ArticleServiceImpl implements IArticleService {
     String s = redisServer.get(String.valueOf(articleId));
     if (StringUtils.isNotBlank(s)) {
       articleInfo = JsonUtil.getStringToObject(s, Article.class);
-      logger.info("从redis缓存获取文章名成功");
+      logger.info("get article detail from redis success!");
     } else {
       articleInfo = artcileDao.showArticleTitleDetailByArticleId(articleId);
       redisServer.set(String.valueOf(articleId), JsonUtil.getObjectToJson(articleInfo));
       redisServer.expire(String.valueOf(articleId), 2000);
-      logger.info("设置redis缓存文章名成功");
+      logger.info("set article detail from redis success!");
     }
     Map<String, String> articleMap = new HashMap<>();
     articleMap.put("articleTitle", articleInfo.getArticleTitle());
@@ -135,12 +135,12 @@ public class ArticleServiceImpl implements IArticleService {
     String s = redisServer.get(String.valueOf(articleId));
     if (StringUtils.isNotBlank(s)) {
       article = JsonUtil.getStringToObject(s, Article.class);
-      logger.info("从redis缓存获取文章详细信息成功");
+      logger.info("Get article detail from redis success!");
     } else {
       article = artcileDao.showArticleTitleDetailByArticleId(articleId);
       redisServer.set(String.valueOf(articleId), JsonUtil.getObjectToJson(article));
       redisServer.expire(String.valueOf(articleId), 2000);
-      logger.info("设置redis缓存文章详细信息成功");
+      logger.info("Set article detail from redis success!");
     }
 
     JSONObject jsonObject = new JSONObject();
@@ -210,6 +210,11 @@ public class ArticleServiceImpl implements IArticleService {
   @Override
   public int countArticleCategoryByCategory(String category) {
     return artcileDao.countArticleCategoryByCategory(category);
+  }
+
+  @Override
+  public List<Article> newArticle() {
+    return artcileDao.newArticle();
   }
 
   public static String randomPath() {

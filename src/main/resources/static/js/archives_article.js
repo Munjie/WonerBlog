@@ -17,7 +17,7 @@ function putInArchivesArticleInfo(data) {
         '<span class="node" style="-webkit-box-sizing: content-box;-moz-box-sizing: content-box;box-sizing: content-box;">' +
         '<i class="fa fa-calendar"></i>' +
         '</span>' +
-        '<h1 class="title  am-animation-slide-top">#目前总计<span class="archivesNum">' + data['articleNum'] + '</span>篇日志.</h1>' +
+        '<h1 class="title  am-animation-slide-top">##全网<span class="archivesNum">' + data['articleNum'] + '</span>篇日志.</h1>' +
         '</div>');
     var strArray = new Array();
     $.each(data['result'], function (index, obj) {
@@ -45,9 +45,11 @@ function putInArchivesArticleInfo(data) {
         var content = $('<div class="content am-comment-main am-animation-slide-top am-animation-delay-1"></div>');
         content.append($('<header class="am-comment-hd" style="background: #fff">' +
             '<div class="contentTitle am-comment-meta">' +
-            '<a href="/findArticle?articleId=' + obj['articleId'] + '&originalAuthor=' + obj['originalAuthor'] + '">' + obj['articleTitle'] + '</a>' +
+            '<a href="/article/find/' + obj['articleId'] + '">' + obj['articleTitle'] + '</a>' +
             '</div>' +
-            '</header>'));
+            '</header>'
+        ))
+        ;
         var amCommentBd = $('<div class="am-comment-bd"></div>');
         amCommentBd.append($('<i class="fa fa-calendar"> <a href="/archives?archive=' + obj['publishDate'] + '">' + obj['publishDate'] + '</a></i>' +
             '<i class="fa fa-folder"> <a href="/categories?category=' + obj['articleCategories'] + '">' + obj['articleCategories'] + '</a></i>'));
@@ -125,7 +127,7 @@ $.ajax({
         var categories = $('.categories');
         categories.empty();
         categories.append($('<div class="categories-title">' +
-            '<h3 style="font-size: 20px">Archives</h3>' +
+            '<h3 style="font-size: 20px">存档</h3>' +
             '</div>'));
         var categoriesComment = $('<div class="categories-comment am-animation-slide-top"></div>');
         $.each(data['result'], function (index, obj) {

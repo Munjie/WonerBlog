@@ -1,6 +1,9 @@
 package com.mwj.personweb.service;
 
+import com.mwj.personweb.model.Tags;
 import net.sf.json.JSONObject;
+
+import java.util.List;
 
 /** @Auther: munjie @Date: 2019/3/9 19:32 @Description: */
 public interface ITagsService {
@@ -34,4 +37,11 @@ public interface ITagsService {
    * @return
    */
   int getTagsSizeByTagName(String tagName);
+  /**
+   * @description //TODO
+   * @param:
+   * @return:
+   * @date: 2019/3/9 22:10
+   */
+  List<Tags> allTags();
 }

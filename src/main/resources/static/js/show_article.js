@@ -13,14 +13,11 @@ $.ajax({
 
 
 $.ajax({
-//通过文章id和原作者请求文章信息
+//通过文章id文章信息
     type: 'GET',
     url: '/article/show/' + articleId,
     dataType: 'json',
     async: false,
-    // data: {
-    //     articleId: articleId
-    // },
     success: function (data) {
         if (data.status == "200") {
             $(function () {
@@ -38,7 +35,7 @@ function buildHead(data) {
     text += '                <h1 class=\'am-article-title blog-text-center\'>' + data.articleTitle + '</h1>';
     text += '                <p class=\'am-article-meta blog-text-center\'>';
     text += '                    <span><a href=\'#\' class=\'blog-color\'>' + data.articleType + ' &nbsp;</a></span>-';
-    text += '                    <span><a href=\'#\'>@' + data.originalAuthor + ' &nbsp;</a></span>-';
+    text += '                    <span><a href=\'#\'>@' + data.author + ' &nbsp;</a></span>-';
     text += '                    <span><a href=\'#\'>' + data.publishDate + '</a></span>';
     text += '                </p>';
     text += '            </div>';

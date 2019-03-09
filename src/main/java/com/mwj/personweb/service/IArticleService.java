@@ -4,6 +4,7 @@ import com.mwj.personweb.model.Article;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import java.util.List;
 import java.util.Map;
 
 /** @Author: 母哥 @Date: 2019-02-15 11:08 @Version 1.0 */
@@ -67,4 +68,11 @@ public interface IArticleService {
    * @return 该分类下文章的数目
    */
   int countArticleCategoryByCategory(String category);
+  /**
+   * @description //TODO
+   * @param:
+   * @return:
+   * @date: 2019/3/9 23:18
+   */
+  List<Article> newArticle();
 }

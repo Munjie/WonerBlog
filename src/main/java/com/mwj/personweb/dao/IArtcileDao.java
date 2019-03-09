@@ -23,4 +23,6 @@ public interface IArtcileDao {
   int countArticleArchiveByArchive(@Param("archive") String archive);
 
   int countArticleCategoryByCategory(@Param("category") String category);
+
+  List<Article> newArticle();
 }

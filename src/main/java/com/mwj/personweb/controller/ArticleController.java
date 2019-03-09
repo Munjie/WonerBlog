@@ -1,13 +1,14 @@
 package com.mwj.personweb.controller;
 
 import com.mwj.personweb.model.Article;
+import com.mwj.personweb.model.Tags;
 import com.mwj.personweb.service.IArticleService;
 import com.mwj.personweb.service.ITagsService;
-import com.mwj.personweb.utils.BuildArticleTabloidUtil;
-import com.mwj.personweb.utils.CommonUtil;
-import com.mwj.personweb.utils.FileUtil;
-import com.mwj.personweb.utils.TimeUtil;
+import com.mwj.personweb.service.redis.RedisServer;
+import com.mwj.personweb.utils.*;
 import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /** @Author: 母哥 @Date: 2019-02-22 17:21 @Version 1.0 Restful请求 */
@@ -26,9 +28,15 @@ import java.util.Map;
 @RequestMapping("/article")
 public class ArticleController {
 
+  private Logger logger = LoggerFactory.getLogger(ArticleController.class);
+
   @Autowired private IArticleService articleService;
 
   @Autowired private ITagsService tagService;
+
+  @Autowired private PageUtil pageUtil;
+
+  @Autowired private RedisServer redisServer;
 
   @PostMapping(value = "/publish")
   @ResponseBody
@@ -68,15 +76,44 @@ public class ArticleController {
       @PathVariable("articleId") String articleId,
       HttpServletResponse response,
       Model model,
-      HttpServletRequest request) {
+      HttpServletRequest request,
+      Authentication authentication)
+      throws Exception {
     response.setCharacterEncoding("utf-8");
     response.setContentType("text/html;charset=utf-8");
     request.getSession().removeAttribute("lastUrl");
+    List<Tags> tags = null;
+    List<Article> articles = null;
 
     Map<String, String> articleMap =
         articleService.showArticleTitleByArticleId(Long.parseLong(articleId));
     model.addAttribute("articleTitle", articleMap.get("articleTitle"));
     String articleTabloid = articleMap.get("articleTabloid");
+    if (redisServer.hasKey("tags")) {
+      String tags_temp = redisServer.get("tags");
+      tags = JsonUtil.getStringToList(tags_temp, Tags.class);
+      logger.info("get tags from redis success!");
+
+    } else {
+      tags = tagService.allTags();
+      String listToJson = JsonUtil.getListToJson(tags);
+      redisServer.set("tags", listToJson);
+      logger.info("set tags to redis success!");
+    }
+    // 从redis获取最新文章
+    if (redisServer.hasKey("article_title")) {
+      String newArticle = redisServer.get("article_title");
+      articles = JsonUtil.getStringToList(newArticle, Article.class);
+      logger.info("get article_title from redis success!");
+
+    } else {
+      articles = articleService.newArticle();
+      String listToJson = JsonUtil.getListToJson(articles);
+      redisServer.set("article_title", listToJson);
+      logger.info("set article_title to redis success!");
+    }
+    model.addAttribute("tags", tags);
+    model.addAttribute("articles", articles);
     if (articleTabloid.length() <= 110) {
       model.addAttribute("articleTabloid", articleTabloid);
     } else {
@@ -85,7 +122,7 @@ public class ArticleController {
 
     // 将文章id存入响应头
     response.setHeader("articleId", articleId);
-    return "front/show_article";
+    return pageUtil.forward(authentication, model, "front/show_article");
   }
 
   /**

@@ -39,4 +39,10 @@ public class Tags {
     this.tagName = tagName;
     this.tagSize = tagSize;
   }
+
+  public Tags(int id, String tagName, int tagSize) {
+    this.id = id;
+    this.tagName = tagName;
+    this.tagSize = tagSize;
+  }
 }

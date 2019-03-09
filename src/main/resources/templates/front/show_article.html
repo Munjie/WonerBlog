@@ -24,6 +24,7 @@
     <link rel="stylesheet" href="../../static/css/editormd.min.css"/>
     <link rel="stylesheet" href="../../static/css/editor.css"/>
     <link rel="stylesheet" href="../../static/css/global.css">
+    <link rel="stylesheet" href="../../static/css/global.css">
     <script type="text/javascript" src="../../static/js/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="../../static/js/jquery-3.3.1.min.js"></script>
     <script src="../../static/lib/marked.min.js"></script>
@@ -37,7 +38,7 @@
     <script type="text/javascript" src="../../static/js/editormd.js"></script>
     <script type="text/javascript" src="../../static/js/editormd.min.js"></script>
     <script src="../../static/js/show_article.js"></script>
-
+    <script src="../../static/js/common.js"></script>
 
 </head>
 
@@ -99,21 +100,15 @@
         <div class="blog-clear-margin blog-sidebar-widget blog-bor am-g ">
             <h2 class="blog-title"><span>TAG cloud</span></h2>
             <div class="am-u-sm-12 blog-clear-padding">
-                <a href="" class="blog-tag">amaze</a>
-                <a href="" class="blog-tag">妹纸 UI</a>
-                <a href="" class="blog-tag">HTML5</a>
-                <a href="" class="blog-tag">这是标签</a>
-                <a href="" class="blog-tag">Impossible</a>
-                <a href="" class="blog-tag">开源前端框架</a>
+                <div th:each="tag:${tags}">
+                    <a href="" class="blog-tag"><span th:text="${tag.tagName}"></span></a>
+                </div>
             </div>
         </div>
         <div class="blog-sidebar-widget blog-bor">
             <h2 class="blog-title"><span>最新文章</span></h2>
-            <ul class="am-list">
-                <li><a href="#">每个人都有一个死角， 自己走不出来，别人也闯不进去。</a></li>
-                <li><a href="#">我把最深沉的秘密放在那里。</a></li>
-                <li><a href="#">你不懂我，我不怪你。</a></li>
-                <li><a href="#">每个人都有一道伤口， 或深或浅，盖上布，以为不存在。</a></li>
+            <ul class="am-list" th:each="article:${articles}">
+                <li><a th:href="${article.articleId}" th:text="${article.articleTitle}"></a></li>
             </ul>
         </div>
 

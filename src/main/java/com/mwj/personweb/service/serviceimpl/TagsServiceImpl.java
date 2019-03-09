@@ -14,21 +14,21 @@ import java.util.List;
 @Service
 public class TagsServiceImpl implements ITagsService {
 
-  @Autowired private ITagsDao tagMapper;
+  @Autowired private ITagsDao tagsDao;
 
   @Override
   public void addTags(String[] tags, int tagSize) {
     for (String tag : tags) {
-      if (tagMapper.findIsExitByTagName(tag) == 0) {
+      if (tagsDao.findIsExitByTagName(tag) == 0) {
         Tags t = new Tags(tag, tagSize);
-        tagMapper.insertTag(t);
+        tagsDao.insertTag(t);
       }
     }
   }
 
   @Override
   public JSONObject findTagsCloud() {
-    List<Tags> tags = tagMapper.findTagsCloud();
+    List<Tags> tags = tagsDao.findTagsCloud();
     JSONObject jsonObject = new JSONObject();
     jsonObject.put("status", 200);
     jsonObject.put("result", JSONArray.fromObject(tags));
@@ -38,11 +38,18 @@ public class TagsServiceImpl implements ITagsService {
 
   @Override
   public int countTagsNum() {
-    return tagMapper.countTagsNum();
+    return tagsDao.countTagsNum();
   }
 
   @Override
   public int getTagsSizeByTagName(String tagName) {
-    return tagMapper.getTagsSizeByTagName(tagName);
+    return tagsDao.getTagsSizeByTagName(tagName);
+  }
+
+  @Override
+  public List<Tags> allTags() {
+
+    List<Tags> tagsCloud = tagsDao.findTagsCloud();
+    return tagsCloud;
   }
 }
