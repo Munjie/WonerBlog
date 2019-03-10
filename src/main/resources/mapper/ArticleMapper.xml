@@ -88,6 +88,10 @@
        select articleId,articleTitle from article ORDER BY publishDate desc limit 8
     </select>
 
+    <select id="findArticleByMainId" resultType="com.mwj.personweb.model.Article" parameterType="java.lang.Integer">
+       select * from article where id=#{id} limit 1
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from article
     where id = #{id,jdbcType=INTEGER}

@@ -227,6 +227,11 @@ public class ArticleServiceImpl implements IArticleService {
     artcileDao.updateArticleById(article);
   }
 
+  @Override
+  public Article getArticleByMainId(int id) {
+    return artcileDao.findArticleByMainId(id);
+  }
+
   public static String randomPath() {
     int random = (int) (Math.random() * 10 + 1);
     String path = "i/f" + random + ".jpg";

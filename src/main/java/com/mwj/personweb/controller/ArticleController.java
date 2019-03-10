@@ -103,6 +103,7 @@ public class ArticleController {
       PageInfo<CommentBo> commentsPaginator =
           commentService.getComments(articleById.getId(), Integer.parseInt(cp), 6);
       request.setAttribute("comments", commentsPaginator);
+      request.setAttribute("article", articleById);
     }
     model.addAttribute("articleTitle", articleMap.get("articleTitle"));
     String articleTabloid = articleMap.get("articleTabloid");

@@ -31,17 +31,19 @@ public class CommentServiceImpl implements ICommentService {
     // 检查评论输入数据
     checkComment(comments);
     // ContentVo contents = contentService.getContents(String.valueOf(comments.getCid()));
-    Article article = articleService.getArticleById(comments.getCid());
+    Article article = articleService.getArticleByMainId(comments.getCid());
     if (null == article) {
       throw new TipException("不存在的文章");
     }
     comments.setOwnerId(article.getAuthorId());
     comments.setCreated(DateKit.getCurrentUnixTime());
     commentDao.insertSelective(comments);
-    Article tempArticle = new Article();
-    tempArticle.setId(article.getId());
-    tempArticle.setCommentsNum(article.getCommentsNum() + 1);
-    articleService.updateArticleById(tempArticle);
+    if (article.getCommentsNum() == null) {
+      article.setCommentsNum(1);
+    } else {
+      article.setCommentsNum(article.getCommentsNum() + 1);
+    }
+    articleService.updateArticleById(article);
   }
 
   @Override

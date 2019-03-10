@@ -89,4 +89,6 @@ public interface IArticleService {
    * @date: 2019/3/10 10:31
    */
   void updateArticleById(Article article);
+
+  Article getArticleByMainId(int id);
 }

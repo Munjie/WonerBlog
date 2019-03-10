@@ -24,27 +24,34 @@
     <script type="text/javascript" src="../../static/js/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="../../static/js/jquery-3.3.1.min.js"></script>
     <script src="../../static/js/common.js"></script>
+    <script src="../../static/js/comments.js"></script>
 </head>
 <body>
 <div th:fragment="comments">
     <div sec:authorize="isAnonymous()">
         <span class="blog-comment"><a href="/login.html">登录</a>后评论</span>
     </div>
-    <form class="am-form am-g" sec:authorize="isAuthenticated()">
+    <form method="post" id="comment-form" class="am-form am-g" role="form">
+        <input type="hidden" name="coid" id="coid"/>
+        <input type="hidden" name="cid" id="cid" th:value="${article.id}"/>
+        <input type="hidden" name="_csrf_token" th:value="${_csrf_token}"/>
         <h3 class="blog-comment">评论</h3>
         <fieldset>
             <div class="am-form-group am-u-sm-4 blog-clear-left">
-                <input type="text" class="" placeholder="名字">
+                <input type="text" name="author" maxlength="12" id="author" placeholder="Name">
             </div>
             <div class="am-form-group am-u-sm-4">
-                <input type="email" class="" placeholder="邮箱">
+                <input type="email" name="mail" id="mail" placeholder="Email">
             </div>
             <div class="am-form-group">
-                <textarea class="" rows="5" placeholder="一字千金"></textarea>
+                 <textarea name="text" id="textarea" class="form-control" placeholder="评论不能为空哦!"
+                           required="required" minlength="5"
+                           maxlength="2000" rows="5"></textarea>
             </div>
 
             <p>
-                <button type="submit" class="am-btn am-btn-default">发表评论</button>
+                <button id="misubmit" type="button" onclick="pub_comments()" class="am-btn am-btn-default">发表评论</button>
+
             </p>
         </fieldset>
     </form>

@@ -1,8 +1,11 @@
 package com.mwj.personweb.handler;
 
 import com.mwj.personweb.constant.WebConst;
+import com.mwj.personweb.tdo.Types;
 import com.mwj.personweb.utils.Commons;
 import com.mwj.personweb.utils.IPUtil;
+import com.mwj.personweb.utils.MapCache;
+import com.mwj.personweb.utils.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,8 @@ public class InterceptorHandler implements HandlerInterceptor {
 
   @Autowired private Commons commons;
 
+  private MapCache cache = MapCache.single();
+
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
       throws Exception {
@@ -37,6 +42,14 @@ public class InterceptorHandler implements HandlerInterceptor {
     String ip = IPUtil.getIpAddrByRequest(request);
     logger.info("UserAgent: {}", request.getHeader(USER_AGENT));
     logger.info(user + "访问博客地址: {}, 来路地址: {}", uri, ip);
+
+    // 设置get请求的token
+    if (request.getMethod().equals("GET") || request.getMethod().equals("POST")) {
+      String csrf_token = UUID.UU64();
+      // 默认存储30分钟
+      cache.hset(Types.CSRF_TOKEN.getType(), csrf_token, uri, 30 * 60);
+      request.setAttribute("_csrf_token", csrf_token);
+    }
     return true;
   }
 

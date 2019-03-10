@@ -27,4 +27,6 @@ public interface IArtcileDao {
   List<Article> newArticle();
 
   void updateArticleById(Article article);
+
+  Article findArticleByMainId(int id);
 }
