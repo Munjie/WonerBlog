@@ -71,6 +71,7 @@ public class ArticleController {
     long articleId = timeUtil.getLongTime();
     article.setArticleId(articleId);
     article.setPublishDate(nowDate);
+    article.setCommentsNum(0);
     article.setArticleTags(CommonUtil.arrayToString(tags));
     article.setAuthor(authentication.getName());
     returnJson = articleService.insertArticle(article);

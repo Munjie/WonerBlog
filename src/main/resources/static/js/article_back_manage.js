@@ -17,15 +17,47 @@ function putInArticle(data) {
 }
 
 
+function deleteArticle(cid) {
+    if (confirm("确定删除？删除不可恢复")) {
+        $.ajax({
+            type: 'post',
+            url: '/delete_article',
+            dataType: 'json',
+            data: {
+                cid: cid
+            },
+            success: function (data) {
+                if (data == 0) {
+                    alert("文章删除成功")
+                } else {
+                    alert('文章删除失败');
+                }
+            },
+            error: function () {
+                alert("文章删除失败");
+            }
+        });
+
+        return true;
+    } else {
+
+        return false;
+    }
+
+}
+
+
 function buldHtml(obj) {
 
     var text = '';
     text += ' <tr>';
     text += '                                    <td><input type=\'checkbox\'></td>';
     text += '                                    <td>8</td>';
-    text += '                                    <td><a href=\'#\'>' + obj['articleTitle'] + '</a></td>';
+    text += '                                    <td><a href="' + obj['articleUrl'] + '">' + obj['articleTitle'] + '</a></td>';
     text += '                                    <td>' + obj['articleType'] + '</td>';
     text += '                                    <td class=\'am-hide-sm-only\'>' + obj['author'] + '</td>';
+    text += '                                    <td class=\'am-hide-sm-only\'>' + obj['commentsNum'] + '</td>';
+    text += '                                    <td class=\'am-hide-sm-only\'>' + obj['likes'] + '</td>';
     text += '                                    <td class=\'am-hide-sm-only\'>' + obj['publishDate'] + '</td>';
     text += '                                    <td>';
     text += '                                        <div class=\'am-btn-toolbar\'>';
@@ -36,7 +68,7 @@ function buldHtml(obj) {
     text += '                                                <button class=\'am-btn am-btn-default am-btn-xs am-hide-sm-only\'><span';
     text += '                                                        class=\'am-icon-copy\'></span> 复制';
     text += '                                                </button>';
-    text += '                                                <button class=\'am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only\'>';
+    text += '                                                <button class=\'am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only\' onclick="deleteArticle(' + obj['id'] + ')">';
     text += '                                                    <span class=\'am-icon-trash-o\'></span> 删除';
     text += '                                                </button>';
     text += '                                            </div>';
@@ -246,5 +278,12 @@ function ajaxFirst(currentPage) {
         return new Paging($(this), options);
     }
 })(jQuery, window, document);
+
+
+
+
+
+
+
 
 

@@ -97,15 +97,18 @@ public class CommentServiceImpl implements ICommentService {
     commentDao.deleteByPrimaryKey(coid);
     Article article = articleService.getArticleById(cid);
     if (null != article && article.getCommentsNum() > 0) {
-      Article temp = new Article();
-      temp.setId(cid);
-      temp.setCommentsNum(article.getCommentsNum() - 1);
-      articleService.updateArticleById(temp);
+      article.setCommentsNum(article.getCommentsNum() - 1);
+      articleService.updateArticleById(article);
     }
   }
 
   @Override
   public void update(CommentVo comments) {}
+
+  @Override
+  public int deleteCommentsById(Integer cid) {
+    return commentDao.deleteCommentsById(cid);
+  }
 
   /**
    * 检查评论输入数据

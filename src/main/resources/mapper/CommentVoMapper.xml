@@ -138,6 +138,13 @@
     delete from t_comments
     where coid = #{coid,jdbcType=INTEGER}
   </delete>
+
+    <delete id="deleteCommentsById" parameterType="java.lang.Integer">
+    delete from t_comments
+    where cid = #{cid,jdbcType=INTEGER}
+  </delete>
+
+
     <delete id="deleteByExample" parameterType="com.mwj.personweb.model.CommentVoExample">
         delete from t_comments
         <if test="_parameter != null">

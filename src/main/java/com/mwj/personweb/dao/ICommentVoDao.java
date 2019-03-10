@@ -39,4 +39,6 @@ public interface ICommentVoDao {
   int updateByPrimaryKeyWithBLOBs(CommentVo record);
 
   int updateByPrimaryKey(CommentVo record);
+
+  int deleteCommentsById(Integer cid);
 }

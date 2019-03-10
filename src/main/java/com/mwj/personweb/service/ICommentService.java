@@ -57,4 +57,12 @@ public interface ICommentService {
    * @param comments
    */
   void update(CommentVo comments);
+
+  /**
+   * 删除关联文章评论，
+   *
+   * @param cid
+   * @throws Exception
+   */
+  int deleteCommentsById(Integer cid);
 }

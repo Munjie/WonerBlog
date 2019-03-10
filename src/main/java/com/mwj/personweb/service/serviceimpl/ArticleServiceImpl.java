@@ -6,6 +6,7 @@ import com.mwj.personweb.dao.IArtcileDao;
 import com.mwj.personweb.model.Article;
 import com.mwj.personweb.service.IArchiveService;
 import com.mwj.personweb.service.IArticleService;
+import com.mwj.personweb.service.ICommentService;
 import com.mwj.personweb.service.redis.RedisServer;
 import com.mwj.personweb.utils.CommonUtil;
 import com.mwj.personweb.utils.JsonUtil;
@@ -37,6 +38,8 @@ public class ArticleServiceImpl implements IArticleService {
 
   @Autowired private IArchiveService archiveService;
 
+  @Autowired private ICommentService commentService;
+
   @Override
   public JSONArray findAllArticles(String rows, String pageNo) {
 
@@ -59,6 +62,9 @@ public class ArticleServiceImpl implements IArticleService {
       map.put("author", article.getAuthor());
       map.put("articleTabloid", article.getArticleTabloid());
       map.put("articleImg", randomPath());
+      map.put("likes", article.getLikes());
+      map.put("commentsNum", article.getCommentsNum());
+      map.put("id", article.getId());
       newArticles.add(map);
     }
     JSONArray jsonArray = JSONArray.fromObject(newArticles);
@@ -230,6 +236,20 @@ public class ArticleServiceImpl implements IArticleService {
   @Override
   public Article getArticleByMainId(int id) {
     return artcileDao.findArticleByMainId(id);
+  }
+
+  @Override
+  public int deleteArticle(int id) {
+
+    try {
+      artcileDao.deleteArticleById(id);
+      commentService.deleteCommentsById(id);
+
+    } catch (Exception e) {
+      logger.error("删除文章" + id + "失败");
+      return 0;
+    }
+    return 1;
   }
 
   public static String randomPath() {

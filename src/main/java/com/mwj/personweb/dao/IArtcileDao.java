@@ -29,4 +29,6 @@ public interface IArtcileDao {
   void updateArticleById(Article article);
 
   Article findArticleByMainId(int id);
+
+  int deleteArticleById(int id);
 }

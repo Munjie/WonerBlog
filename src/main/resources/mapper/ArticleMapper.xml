@@ -18,17 +18,18 @@
         <result column="nextArticleId" property="nextarticleid" jdbcType="BIGINT"/>
         <result column="articleContent" property="articlecontent" jdbcType="LONGVARCHAR"/>
         <result column="articleTabloid" property="articletabloid" jdbcType="LONGVARCHAR"/>
+        <result column="commentsNum" property="commentsNum" jdbcType="INTEGER"/>
     </resultMap>
     <sql id="Base_Column_List">
     id, articleId, author, originalAuthor, articleTitle, articleTags, articleType, articleCategories, 
-    publishDate, updateDate, articleUrl, likes, lastArticleId, nextArticleId, articleContent, articleTabloid
+    publishDate, updateDate, articleUrl, likes, lastArticleId, nextArticleId, articleContent, articleTabloid,commentsNum
   </sql>
 
 
     <select id="findAllArticles" resultType="com.mwj.personweb.model.Article">
        select
        articleId,author,articleTitle,articleType,
-       publishDate,articleTabloid
+       publishDate,articleTabloid,likes,commentsNum,id
        from
        article
        order by
@@ -92,7 +93,7 @@
        select * from article where id=#{id} limit 1
     </select>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <delete id="deleteArticleById" parameterType="java.lang.Integer">
     delete from article
     where id = #{id,jdbcType=INTEGER}
   </delete>
@@ -102,13 +103,13 @@
       articleType, articleCategories, publishDate, 
       updateDate, articleUrl, likes, 
       lastArticleId, nextArticleId, articleContent, 
-      articleTabloid)
+      articleTabloid,commentsNum)
     values (#{id,jdbcType=INTEGER}, #{articleId,jdbcType=BIGINT}, #{author,jdbcType=VARCHAR},
       #{originalAuthor,jdbcType=VARCHAR}, #{articleTitle,jdbcType=VARCHAR}, #{articleTags,jdbcType=VARCHAR},
       #{articleType,jdbcType=VARCHAR}, #{articleCategories,jdbcType=VARCHAR}, #{publishDate,jdbcType=VARCHAR},
       #{updateDate,jdbcType=VARCHAR}, #{articleUrl,jdbcType=VARCHAR}, #{likes,jdbcType=INTEGER},
       #{lastArticleId,jdbcType=BIGINT}, #{nextArticleId,jdbcType=BIGINT}, #{articleContent,jdbcType=LONGVARCHAR},
-      #{articleTabloid,jdbcType=LONGVARCHAR})
+      #{articleTabloid,jdbcType=LONGVARCHAR},#{commentsNum,jdbcType=INTEGER})
   </insert>
     <insert id="insertSelective" parameterType="com.mwj.personweb.model.Article">
         insert into article

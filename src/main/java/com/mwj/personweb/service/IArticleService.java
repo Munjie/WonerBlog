@@ -3,6 +3,7 @@ package com.mwj.personweb.service;
 import com.mwj.personweb.model.Article;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -91,4 +92,13 @@ public interface IArticleService {
   void updateArticleById(Article article);
 
   Article getArticleByMainId(int id);
+
+  /**
+   * 通过id删除文章
+   *
+   * @param id 文章id
+   * @return 1--删除成功 0--删除失败
+   */
+  @Transactional
+  int deleteArticle(int id);
 }
