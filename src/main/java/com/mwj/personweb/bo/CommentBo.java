@@ -21,6 +21,7 @@ public class CommentBo extends CommentVo {
     setContent(comments.getContent());
     setOwnerId(comments.getOwnerId());
     setCid(comments.getCid());
+    setHeadImg(comments.getHeadImg());
   }
 
   public int getLevels() {

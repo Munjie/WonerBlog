@@ -54,9 +54,7 @@ public class TimeUtil {
     return LocalDate.parse(date, format);
   }
 
-  /**
-   * 解析日期
-   */
+  /** 解析日期 */
   public static LocalDate getParseDateForSix(String date) {
     DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     return LocalDate.parse(date, format);
@@ -95,5 +93,29 @@ public class TimeUtil {
       s.append(str.substring(5, 7));
     }
     return String.valueOf(s);
+  }
+
+  /**
+   * 格式化unix时间戳为日期
+   *
+   * @param unixTime
+   * @return
+   */
+  public static String fmtdate(Integer unixTime) {
+    return fmtdate(unixTime, "yyyy-MM-dd");
+  }
+
+  /**
+   * 格式化unix时间戳为日期
+   *
+   * @param unixTime
+   * @param patten
+   * @return
+   */
+  public static String fmtdate(Integer unixTime, String patten) {
+    if (null != unixTime && StringUtils.isNotBlank(patten)) {
+      return DateKit.formatDateByUnixTime(unixTime, patten);
+    }
+    return "";
   }
 }

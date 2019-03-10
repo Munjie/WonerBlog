@@ -14,7 +14,7 @@ public class CommentVo implements Serializable {
   private Integer cid;
 
   /** 评论生成时的GMT unix时间戳 */
-  private Integer created;
+  private String created;
 
   /** 评论作者 */
   private String author;
@@ -49,6 +49,9 @@ public class CommentVo implements Serializable {
   /** 评论内容 */
   private String content;
 
+  /** 评论用户头像 */
+  private String headImg;
+
   private static final long serialVersionUID = 1L;
 
   public Integer getCoid() {
@@ -67,11 +70,11 @@ public class CommentVo implements Serializable {
     this.cid = cid;
   }
 
-  public Integer getCreated() {
+  public String getCreated() {
     return created;
   }
 
-  public void setCreated(Integer created) {
+  public void setCreated(String created) {
     this.created = created;
   }
 
@@ -163,7 +166,15 @@ public class CommentVo implements Serializable {
     this.content = content;
   }
 
-  @Override
+  public String getHeadImg() {
+    return headImg;
+  }
+
+  public void setHeadImg(String headImg) {
+    this.headImg = headImg;
+  }
+
+  /*@Override
   public String toString() {
     return "CommentVo{"
         + "coid="
@@ -201,6 +212,52 @@ public class CommentVo implements Serializable {
         + parent
         + ", content='"
         + content
+        + '\''
+        + '}';
+  }*/
+
+  @Override
+  public String toString() {
+    return "CommentVo{"
+        + "coid="
+        + coid
+        + ", cid="
+        + cid
+        + ", created='"
+        + created
+        + '\''
+        + ", author='"
+        + author
+        + '\''
+        + ", authorId="
+        + authorId
+        + ", ownerId="
+        + ownerId
+        + ", mail='"
+        + mail
+        + '\''
+        + ", url='"
+        + url
+        + '\''
+        + ", ip='"
+        + ip
+        + '\''
+        + ", agent='"
+        + agent
+        + '\''
+        + ", type='"
+        + type
+        + '\''
+        + ", status='"
+        + status
+        + '\''
+        + ", parent="
+        + parent
+        + ", content='"
+        + content
+        + '\''
+        + ", headImg='"
+        + headImg
         + '\''
         + '}';
   }

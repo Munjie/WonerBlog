@@ -4,7 +4,7 @@
     <resultMap id="BaseResultMap" type="com.mwj.personweb.model.CommentVo">
         <id column="coid" jdbcType="INTEGER" property="coid"/>
         <result column="cid" jdbcType="INTEGER" property="cid"/>
-        <result column="created" jdbcType="INTEGER" property="created"/>
+        <result column="created" jdbcType="VARCHAR" property="created"/>
         <result column="author" jdbcType="VARCHAR" property="author"/>
         <result column="author_id" jdbcType="INTEGER" property="authorId"/>
         <result column="owner_id" jdbcType="INTEGER" property="ownerId"/>
@@ -15,6 +15,7 @@
         <result column="type" jdbcType="VARCHAR" property="type"/>
         <result column="status" jdbcType="VARCHAR" property="status"/>
         <result column="parent" jdbcType="INTEGER" property="parent"/>
+        <result column="head_img" jdbcType="VARCHAR" property="headImg"/>
     </resultMap>
     <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.mwj.personweb.model.CommentVo">
         <result column="content" jdbcType="LONGVARCHAR" property="content"/>
@@ -81,7 +82,7 @@
     </sql>
     <sql id="Base_Column_List">
     coid, cid, created, author, author_id, owner_id, mail, url, ip, agent, type, status, 
-    parent
+    parent,head_img
   </sql>
     <sql id="Blob_Column_List">
     content
@@ -149,7 +150,7 @@
       mail, url, ip, agent, 
       type, status, parent, 
       content)
-    values (#{coid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, #{created,jdbcType=INTEGER}, 
+    values (#{coid,jdbcType=INTEGER}, #{cid,jdbcType=INTEGER}, #{created,jdbcType=VARCHAR},
       #{author,jdbcType=VARCHAR}, #{authorId,jdbcType=INTEGER}, #{ownerId,jdbcType=INTEGER}, 
       #{mail,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{ip,jdbcType=VARCHAR}, #{agent,jdbcType=VARCHAR}, 
       #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{parent,jdbcType=INTEGER}, 
@@ -201,6 +202,9 @@
             <if test="content != null">
                 content,
             </if>
+            <if test="headImg != null">
+                head_img,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="coid != null">
@@ -210,7 +214,7 @@
                 #{cid,jdbcType=INTEGER},
             </if>
             <if test="created != null">
-                #{created,jdbcType=INTEGER},
+                #{created,jdbcType=VARCHAR},
             </if>
             <if test="author != null">
                 #{author,jdbcType=VARCHAR},
@@ -244,6 +248,9 @@
             </if>
             <if test="content != null">
                 #{content,jdbcType=LONGVARCHAR},
+            </if>
+            <if test="headImg != null">
+                #{headImg,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
@@ -349,7 +356,7 @@
                 cid = #{cid,jdbcType=INTEGER},
             </if>
             <if test="created != null">
-                created = #{created,jdbcType=INTEGER},
+                created = #{created,jdbcType=VARCHAR},
             </if>
             <if test="author != null">
                 author = #{author,jdbcType=VARCHAR},
@@ -390,7 +397,7 @@
     <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.mwj.personweb.model.CommentVo">
     update t_comments
     set cid = #{cid,jdbcType=INTEGER},
-      created = #{created,jdbcType=INTEGER},
+      created = #{created,jdbcType=VARCHAR},
       author = #{author,jdbcType=VARCHAR},
       author_id = #{authorId,jdbcType=INTEGER},
       owner_id = #{ownerId,jdbcType=INTEGER},
@@ -407,7 +414,7 @@
     <update id="updateByPrimaryKey" parameterType="com.mwj.personweb.model.CommentVo">
     update t_comments
     set cid = #{cid,jdbcType=INTEGER},
-      created = #{created,jdbcType=INTEGER},
+      created = #{created,jdbcType=VARCHAR},
       author = #{author,jdbcType=VARCHAR},
       author_id = #{authorId,jdbcType=INTEGER},
       owner_id = #{ownerId,jdbcType=INTEGER},

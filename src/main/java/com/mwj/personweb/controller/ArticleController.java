@@ -100,9 +100,9 @@ public class ArticleController {
         cp = "1";
       }
       request.setAttribute("cp", cp);
-      PageInfo<CommentBo> commentsPaginator =
+      PageInfo<CommentBo> comments =
           commentService.getComments(articleById.getId(), Integer.parseInt(cp), 6);
-      request.setAttribute("comments", commentsPaginator);
+      request.setAttribute("comments", comments);
       request.setAttribute("article", articleById);
     }
     model.addAttribute("articleTitle", articleMap.get("articleTitle"));

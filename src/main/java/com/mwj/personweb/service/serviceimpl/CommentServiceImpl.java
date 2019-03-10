@@ -12,6 +12,7 @@ import com.mwj.personweb.service.IArticleService;
 import com.mwj.personweb.service.ICommentService;
 import com.mwj.personweb.utils.DateKit;
 import com.mwj.personweb.utils.MyUtils;
+import com.mwj.personweb.utils.TimeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,7 +37,8 @@ public class CommentServiceImpl implements ICommentService {
       throw new TipException("不存在的文章");
     }
     comments.setOwnerId(article.getAuthorId());
-    comments.setCreated(DateKit.getCurrentUnixTime());
+    int currentUnixTime = DateKit.getCurrentUnixTime();
+    comments.setCreated(TimeUtil.fmtdate(currentUnixTime, "yyyy-MM-dd HH:mm:ss"));
     commentDao.insertSelective(comments);
     if (article.getCommentsNum() == null) {
       article.setCommentsNum(1);

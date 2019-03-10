@@ -4,8 +4,11 @@ import com.mwj.personweb.bo.RestResponseBo;
 import com.mwj.personweb.exception.ExceptionHelper;
 import com.mwj.personweb.exception.TipException;
 import com.mwj.personweb.model.CommentVo;
+import com.mwj.personweb.model.SysUser;
 import com.mwj.personweb.service.ICommentService;
+import com.mwj.personweb.service.ISysUserService;
 import com.mwj.personweb.tdo.Types;
+import com.mwj.personweb.utils.CommonUtil;
 import com.mwj.personweb.utils.IPUtil;
 import com.mwj.personweb.utils.MyUtils;
 import com.vdurmont.emoji.EmojiParser;
@@ -13,10 +16,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
@@ -33,18 +36,21 @@ public class CommentsController extends AbstractController {
 
   @Autowired private ICommentService commentService;
 
+  @Autowired private ISysUserService sysUserService;
+
   @PostMapping(value = "/comment")
   @ResponseBody
   @Transactional(rollbackFor = TipException.class)
   public RestResponseBo comment(
       HttpServletRequest request,
       HttpServletResponse response,
-      @RequestParam Integer cid,
-      @RequestParam Integer coid,
-      @RequestParam String author,
-      @RequestParam String mail,
-      @RequestParam String text,
-      @RequestParam String _csrf_token) {
+      Integer cid,
+      Integer coid,
+      String author,
+      String mail,
+      String text,
+      String _csrf_token,
+      Authentication authentication) {
     String ref = request.getHeader("Referer");
     /* if (StringUtils.isBlank(ref) || StringUtils.isBlank(_csrf_token)) {
       return RestResponseBo.fail("Bad request");
@@ -54,7 +60,7 @@ public class CommentsController extends AbstractController {
     if (StringUtils.isBlank(token)) {
       return RestResponseBo.fail("Bad request");
     }*/
-
+    String headImg = null;
     if (null == cid || StringUtils.isBlank(text)) {
       return RestResponseBo.fail("请输入完整后评论");
     }
@@ -68,6 +74,15 @@ public class CommentsController extends AbstractController {
 
     if (text.length() > 200) {
       return RestResponseBo.fail("请输入200个字符以内的评论");
+    }
+
+    if (authentication != null && authentication.getName() != null) {
+      author = authentication.getName();
+      SysUser user = sysUserService.findByName(authentication.getName());
+      mail = user.getEmail();
+      headImg = user.getImgUrl();
+    } else {
+      headImg = CommonUtil.gravatarImg(mail);
     }
 
     String val = IPUtil.getIpAddrByRequest(request) + ":" + cid;
@@ -90,6 +105,7 @@ public class CommentsController extends AbstractController {
     comments.setContent(text);
     comments.setMail(mail);
     comments.setParent(coid);
+    comments.setHeadImg(headImg);
     try {
       commentService.insertComment(comments);
       cookie(
@@ -100,7 +116,7 @@ public class CommentsController extends AbstractController {
       cache.hset(Types.COMMENTS_FREQUENCY.getType(), val, 1, 60);
       return RestResponseBo.ok();
     } catch (Exception e) {
-      String msg = "评论发布失败";
+      String msg = "评论失败";
       return ExceptionHelper.handlerException(logger, msg, e);
     }
   }
