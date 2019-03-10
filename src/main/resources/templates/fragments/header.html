@@ -46,7 +46,7 @@
                     </a>
                     <ul class="am-dropdown-content" sec:authorize="isAuthenticated()">
                         <li><a href="#">文章管理</a></li>
-                        <li><a href="/admin/toLogin" sec:authorize="hasRole('ROLE_ADMIN')">后台管理</a></li>
+                        <li><a href="/toBack" sec:authorize="hasRole('ROLE_ADMIN')">后台管理</a></li>
                     </ul>
                 </li>
             </ul>
