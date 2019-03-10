@@ -209,7 +209,7 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByPrimaryKeySelective" parameterType="com.mwj.personweb.model.Article">
+    <update id="updateArticleBpar" parameterType="com.mwj.personweb.model.Article">
         update article
         <set>
             <if test="articleid != null">
@@ -296,4 +296,18 @@
       nextArticleId = #{nextarticleid,jdbcType=BIGINT}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+    <update id="updateArticleById" parameterType="com.mwj.personweb.model.Article">
+        update
+        article
+        set
+        originalAuthor=#{originalAuthor},articleTitle=#{articleTitle},updateDate=#{updateDate},
+        articleContent=#{articleContent},articleTags=#{articleTags},articleType=#{articleType},
+        articleCategories=#{articleCategories},articleUrl=#{articleUrl},articleTabloid=#{articleTabloid},
+         commentsNum=#{commentsNum},authorId=#{authorId},ownerId=#{ownerId}
+         where
+         id=#{id}
+
+
+    </update>
 </mapper>

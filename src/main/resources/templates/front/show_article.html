@@ -24,7 +24,6 @@
     <link rel="stylesheet" href="../../static/css/editormd.min.css"/>
     <link rel="stylesheet" href="../../static/css/editor.css"/>
     <link rel="stylesheet" href="../../static/css/global.css">
-    <link rel="stylesheet" href="../../static/css/global.css">
     <script type="text/javascript" src="../../static/js/jquery-3.3.1.js"></script>
     <script type="text/javascript" src="../../static/js/jquery-3.3.1.min.js"></script>
     <script src="../../static/lib/marked.min.js"></script>
@@ -55,26 +54,8 @@
         <div class="am-article-bd" id="article_view">
             <textarea style="display: none" id="mdInfo"></textarea>
         </div>
-        <form class="am-form am-g">
-            <h3 class="blog-comment">评论</h3>
-            <fieldset>
-                <div class="am-form-group am-u-sm-4 blog-clear-left">
-                    <input type="text" class="" placeholder="名字">
-                </div>
-                <div class="am-form-group am-u-sm-4">
-                    <input type="email" class="" placeholder="邮箱">
-                </div>
-                <div class="am-form-group">
-                    <textarea class="" rows="5" placeholder="一字千金"></textarea>
-                </div>
-
-                <p>
-                    <button type="submit" class="am-btn am-btn-default">发表评论</button>
-                </p>
-            </fieldset>
-        </form>
-
         <hr>
+        <div th:replace="../templates/fragments/comments :: comments"></div>
     </div>
 
     <div class="am-u-md-4 am-u-sm-12 blog-sidebar">
@@ -115,11 +96,10 @@
     </div>
 </div>
 <!-- content end -->
-
+<!-- comments  -->
 
 <div th:replace="../templates/fragments/footer :: footer"></div>
 
-<![endif]-->
 
 </body>
 </html>

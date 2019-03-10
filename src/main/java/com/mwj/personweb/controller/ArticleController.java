@@ -1,12 +1,16 @@
 package com.mwj.personweb.controller;
 
+import com.github.pagehelper.PageInfo;
+import com.mwj.personweb.bo.CommentBo;
 import com.mwj.personweb.model.Article;
 import com.mwj.personweb.model.Tags;
 import com.mwj.personweb.service.IArticleService;
+import com.mwj.personweb.service.ICommentService;
 import com.mwj.personweb.service.ITagsService;
 import com.mwj.personweb.service.redis.RedisServer;
 import com.mwj.personweb.utils.*;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +41,8 @@ public class ArticleController {
   @Autowired private PageUtil pageUtil;
 
   @Autowired private RedisServer redisServer;
+
+  @Autowired private ICommentService commentService;
 
   @PostMapping(value = "/publish")
   @ResponseBody
@@ -87,6 +93,17 @@ public class ArticleController {
 
     Map<String, String> articleMap =
         articleService.showArticleTitleByArticleId(Long.parseLong(articleId));
+    Article articleById = articleService.getArticleById(Long.parseLong(articleId));
+    if (articleById != null) {
+      String cp = request.getParameter("cp");
+      if (StringUtils.isBlank(cp)) {
+        cp = "1";
+      }
+      request.setAttribute("cp", cp);
+      PageInfo<CommentBo> commentsPaginator =
+          commentService.getComments(articleById.getId(), Integer.parseInt(cp), 6);
+      request.setAttribute("comments", commentsPaginator);
+    }
     model.addAttribute("articleTitle", articleMap.get("articleTitle"));
     String articleTabloid = articleMap.get("articleTabloid");
     if (redisServer.hasKey("tags")) {
@@ -161,5 +178,22 @@ public class ArticleController {
       }
     }
     return resultMap;
+  }
+
+  /**
+   * 查询文章的评论信息，并补充到里面，返回前端
+   *
+   * @param request
+   * @param id
+   */
+  private void completeArticle(HttpServletRequest request, int id) {
+
+    /*String cp = request.getParameter("cp");
+    if (StringUtils.isBlank(cp)) {
+      cp = "1";
+    }
+    request.setAttribute("cp", cp);
+    PageInfo<CommentBo> commentsPaginator = commentService.getComments(id, Integer.parseInt(cp), 6);
+    request.setAttribute("comments", commentsPaginator);*/
   }
 }

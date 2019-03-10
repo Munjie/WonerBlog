@@ -25,4 +25,6 @@ public interface IArtcileDao {
   int countArticleCategoryByCategory(@Param("category") String category);
 
   List<Article> newArticle();
+
+  void updateArticleById(Article article);
 }

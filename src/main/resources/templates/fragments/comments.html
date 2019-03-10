@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security4">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>BiuBiuCat</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    <link rel="icon" type="image/png" href="../static/i/favicon.png">
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="../../static/i/app-icon72x72@2x.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+    <link rel="apple-touch-icon-precomposed" href="../../static/i/app-icon72x72@2x.png">
+    <meta name="msapplication-TileImage" content="i/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#0e90d2">
+    <link rel="stylesheet" href="../../static/css/amazeui.min.css">
+    <link rel="stylesheet" href="../../static/css/global.css">
+    <link rel="stylesheet" href="../../static/css/style.min.css">
+    <script type="text/javascript" src="../../static/js/jquery-3.3.1.js"></script>
+    <script type="text/javascript" src="../../static/js/jquery-3.3.1.min.js"></script>
+    <script src="../../static/js/common.js"></script>
+</head>
+<body>
+<div th:fragment="comments">
+    <div sec:authorize="isAnonymous()">
+        <span class="blog-comment"><a href="/login.html">登录</a>后评论</span>
+    </div>
+    <form class="am-form am-g" sec:authorize="isAuthenticated()">
+        <h3 class="blog-comment">评论</h3>
+        <fieldset>
+            <div class="am-form-group am-u-sm-4 blog-clear-left">
+                <input type="text" class="" placeholder="名字">
+            </div>
+            <div class="am-form-group am-u-sm-4">
+                <input type="email" class="" placeholder="邮箱">
+            </div>
+            <div class="am-form-group">
+                <textarea class="" rows="5" placeholder="一字千金"></textarea>
+            </div>
+
+            <p>
+                <button type="submit" class="am-btn am-btn-default">发表评论</button>
+            </p>
+        </fieldset>
+    </form>
+    <div th:if="${comments}">
+        <ul class="am-comments-list" th:each="comment :${comments.list}">
+            <li class="am-comment">
+                <a href="#link-to-user-home">
+                    <img src="http://s.amazeui.org/media/i/demos/bw-2014-06-19.jpg?imageView/1/w/96/h/96/q/80" alt=""
+                         class="am-comment-avatar" width="48" height="48">
+                </a>
+                <div class="am-comment-main">
+                    <header class="am-comment-hd">
+                        <div class="am-comment-meta">
+                            <a href="#link-to-user" class="am-comment-author" th:text="${comment.author}"></a> 评论于
+                            <time datetime="2013-07-27T04:54:29-07:00" title="2013年7月27日 下午7:54 格林尼治标准时间+0800"
+                                  th:text="${comment.created}">
+                            </time>
+                        </div>
+                    </header>
+                    <div class="am-comment-bd">
+                        <p th:utext="${comment.content}"></p>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="lists-navigator clearfix">
+            <ol class="page-navigator">
+                <th:block th:if="${comments.hasPreviousPage}">
+                    <li class="prev"><a th:href="'?cp='+${comments.prePage}+'#comments'">←</a></li>
+                </th:block>
+                <th:block th:each="navIndex : ${comments.navigatepageNums}">
+                    <li th:class="${comments.pageNum}==${navIndex}?'current':''"><a
+                            th:href="'?cp='+${navIndex}+'#comments'" th:text="${navIndex}"></a>
+                    </li>
+                </th:block>
+                <th:block th:if="${comments.hasNextPage}">
+                    <li class="next"><a th:href="'?cp='+${comments.nextPage}+'#comments'">→</a></li>
+                </th:block>
+            </ol>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

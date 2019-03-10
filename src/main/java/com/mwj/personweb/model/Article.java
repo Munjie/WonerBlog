@@ -54,7 +54,15 @@ public class Article implements Serializable {
   /** 喜欢 */
   private int likes = 0;
 
+  /** 插图 */
   private String articleImg;
+
+  /** 评论 */
+  private Integer commentsNum;
+
+  private Integer authorId;
+
+  private Integer ownerId;
 
   public String getArticleImg() {
     return articleImg;
@@ -194,5 +202,29 @@ public class Article implements Serializable {
 
   public void setLikes(int likes) {
     this.likes = likes;
+  }
+
+  public Integer getCommentsNum() {
+    return commentsNum;
+  }
+
+  public void setCommentsNum(Integer commentsNum) {
+    this.commentsNum = commentsNum;
+  }
+
+  public Integer getAuthorId() {
+    return authorId;
+  }
+
+  public void setAuthorId(Integer authorId) {
+    this.authorId = authorId;
+  }
+
+  public Integer getOwnerId() {
+    return ownerId;
+  }
+
+  public void setOwnerId(Integer ownerId) {
+    this.ownerId = ownerId;
   }
 }

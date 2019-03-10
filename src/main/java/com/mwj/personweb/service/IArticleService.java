@@ -75,4 +75,18 @@ public interface IArticleService {
    * @date: 2019/3/9 23:18
    */
   List<Article> newArticle();
+  /**
+   * @description //TODO
+   * @param:
+   * @return:
+   * @date: 2019/3/10 9:57
+   */
+  Article getArticleById(long articleId);
+  /**
+   * @description //TODO
+   * @param:
+   * @return:
+   * @date: 2019/3/10 10:31
+   */
+  void updateArticleById(Article article);
 }
