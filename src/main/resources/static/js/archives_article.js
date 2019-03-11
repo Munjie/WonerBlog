@@ -17,7 +17,7 @@ function putInArchivesArticleInfo(data) {
         '<span class="node" style="-webkit-box-sizing: content-box;-moz-box-sizing: content-box;box-sizing: content-box;">' +
         '<i class="fa fa-calendar"></i>' +
         '</span>' +
-        '<h1 class="title  am-animation-slide-top">##全网<span class="archivesNum">' + data['articleNum'] + '</span>篇日志.</h1>' +
+        '<h1 class="title  am-animation-slide-top">##共<span class="archivesNum">' + data['articleNum'] + '</span>篇文章.</h1>' +
         '</div>');
     var strArray = new Array();
     $.each(data['result'], function (index, obj) {

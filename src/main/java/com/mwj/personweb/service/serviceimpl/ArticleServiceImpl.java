@@ -99,17 +99,11 @@ public class ArticleServiceImpl implements IArticleService {
       articleReturn.put("articleTitle", article.getArticleTitle());
       articleReturn.put("author", article.getOriginalAuthor());
       // 本博客中的URL
-      articleReturn.put(
-          "articleUrl",
-          "/findArticle?articleId="
-              + article.getArticleId()
-              + "&originalAuthor="
-              + article.getOriginalAuthor());
+      articleReturn.put("articleUrl", "/article/find/" + article.getArticleId());
       return articleReturn;
     } catch (Exception e) {
       articleReturn.put("status", 500);
-      logger.error("用户 " + article.getAuthor() + " 保存文章 " + article.getArticleTitle() + " 失败");
-      e.printStackTrace();
+      logger.error("用户 " + article.getAuthor() + " 保存文章 " + article.getArticleTitle() + " 失败", e);
       return articleReturn;
     }
   }

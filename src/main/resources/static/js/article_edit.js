@@ -93,17 +93,13 @@ function publishSuccessPutIn(data) {
     var successBox = $('<div class="success-box"></div>');
     var successArticleTitle = $('<div class="successArticleTitle"><span>' + data.articleTitle + '</span></div>');
     var successWord = $('<div class="success-word"><p><i class="am-success am-icon-check-square-o" style="color: #5eb95e"></i> 发布成功</p></div>');
-    var successTimeAndUser = $('<div class="success-time-user">' +
-        '<p><i class="am-icon-calendar"></i>&nbsp;' + data.updateDate + '&nbsp;&nbsp;&nbsp;&nbsp;<i class="am-icon-user"></i>&nbsp;' + data.author + '</p>' +
-        '</div>');
     var successBtn = $('<div class="successBtn">' +
-        '<a href="/editor" class="reWriteBtn am-btn am-btn-danger am-round">写新文章</a>' +
+        '<a href="/article_edit.html"   class="reWriteBtn am-btn am-btn-danger am-round">写新文章</a>' +
         '<a href="' + data.articleUrl + '" class="lookArticleBtn am-btn am-btn-danger am-round">查看文章</a>' +
         '</div>');
 
     successBox.append(successArticleTitle);
     successBox.append(successWord);
-    successBox.append(successTimeAndUser);
     successBox.append(successBtn);
     success.append(successBox);
     sec.append(success);
