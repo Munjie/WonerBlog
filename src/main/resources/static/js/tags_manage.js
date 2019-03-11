@@ -4,7 +4,7 @@ window.onload = function () {
 };
 
 
-//填充分类
+//填充标签
 function putInArticle(data) {
     $('#all_article_manage').empty();
     var articles = $('#all_article_manage');
@@ -17,31 +17,76 @@ function putInArticle(data) {
 }
 
 
-function deleteArticle(cid) {
+function selectAll() {
+    if ($("#allChecks").is(":checked")) {
+        $(":checkbox").prop("checked", true);//所有选择框都选中
+    } else {
+        $(":checkbox").prop("checked", false);
+    }
+}
+
+
+// //批量删除
+function deleteAllTags() {
+    //判断至少写了一项
+    var checkedNum = $("input[name='subcheck']:checked").length;
+    if (checkedNum == 0) {
+        alert("请至少选择一项!");
+        return false;
+    }
+    if (confirm("确定删除所选项目?")) {
+        var checkedList = new Array();
+        $("input[name='subcheck']:checked").each(function () {
+            checkedList.push($(this).val());
+        });
+        $.ajax({
+            type: "POST",
+            url: "/bachDeleteTags",
+            data: {"delitems": checkedList.toString()},
+            datatype: "html",
+            success: function (data) {
+                if (data['status'] == 200) {
+                    $("[name='checkbox2']:checkbox").attr("checked", false);
+                    alert('删除成功!');
+                    setTimeout("location.reload()", 1000);//页面刷新
+
+                } else {
+                    alert('删除失败!');
+
+                }
+
+            },
+            error: function (data) {
+                alert('删除失败!');
+            }
+        });
+    }
+}
+
+
+function deleteTag(id) {
     if (confirm("确定删除？删除不可恢复")) {
         $.ajax({
             type: 'post',
-            url: '/delete_categories',
+            url: '/delete_tag',
             dataType: 'json',
             data: {
-                cid: cid
+                id: id
             },
             success: function (data) {
-                if (data == 0) {
-                    alert("分类删除成功")
+                if (data['status'] == 200) {
+                    alert("标签删除成功")
+                    setTimeout("location.reload()", 1000);//页面刷新
                 } else {
-                    alert('分类删除失败');
+                    alert('标签删除失败');
                 }
             },
             error: function () {
-                alert("分类删除失败");
+                alert("标签删除失败");
             }
         });
 
-        return true;
-    } else {
 
-        return false;
     }
 
 }
@@ -51,24 +96,17 @@ function buldHtml(obj) {
 
     var text = '';
     text += ' <tr>';
-    text += '                                    <td><input type=\'checkbox\'></td>';
-    text += '                                    <td>8</td>';
-    text += '                                    <td><a href="' + obj['articleUrl'] + '">' + obj['articleTitle'] + '</a></td>';
-    text += '                                    <td>' + obj['articleType'] + '</td>';
-    text += '                                    <td class=\'am-hide-sm-only\'>' + obj['author'] + '</td>';
-    text += '                                    <td class=\'am-hide-sm-only\'>' + obj['commentsNum'] + '</td>';
-    text += '                                    <td class=\'am-hide-sm-only\'>' + obj['likes'] + '</td>';
-    text += '                                    <td class=\'am-hide-sm-only\'>' + obj['publishDate'] + '</td>';
+    text += '                                    <td><input value=" ' + obj['id'] + ' " id="subcheck" name="subcheck" type=\'checkbox\'></td>';
+    text += '                                    <td>' + obj['id'] + '</td>';
+    text += '                                    <td>' + obj['tagName'] + '</td>';
+    text += '                                    <td class=\'am-hide-sm-only\'>' + obj['tagSize'] + '</td>';
     text += '                                    <td>';
     text += '                                        <div class=\'am-btn-toolbar\'>';
     text += '                                            <div class=\'am-btn-group am-btn-group-xs\'>';
     text += '                                                <button class=\'am-btn am-btn-default am-btn-xs am-text-secondary\'><span';
     text += '                                                        class=\'am-icon-pencil-square-o\'></span> 编辑';
     text += '                                                </button>';
-    text += '                                                <button class=\'am-btn am-btn-default am-btn-xs am-hide-sm-only\'><span';
-    text += '                                                        class=\'am-icon-copy\'></span> 复制';
-    text += '                                                </button>';
-    text += '                                                <button class=\'am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only\' onclick="deleteArticle(' + obj['id'] + ')">';
+    text += '                                                <button class=\'am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only\' onclick="deleteTag(' + obj['id'] + ')">';
     text += '                                                    <span class=\'am-icon-trash-o\'></span> 删除';
     text += '                                                </button>';
     text += '                                            </div>';
@@ -85,7 +123,7 @@ function ajaxFirst(currentPage) {
     //加载时请求
     $.ajax({
         type: 'POST',
-        url: '/allCategories',
+        url: '/allTags',
         dataType: 'json',
         data: {
             rows: "5",
@@ -108,7 +146,7 @@ function ajaxFirst(currentPage) {
             });
         },
         error: function () {
-            alert("获得分类信息失败！");
+            alert("获得标签信息失败！");
         }
     });
 }

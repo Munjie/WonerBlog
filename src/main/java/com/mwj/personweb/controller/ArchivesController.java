@@ -11,45 +11,36 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * @Author: 母哥 @Date: 2019-03-08 16:01 @Version 1.0
- */
+/** @Author: 母哥 @Date: 2019-03-08 16:01 @Version 1.0 */
 @RestController
 public class ArchivesController {
 
-    private static Logger logger = LoggerFactory.getLogger(ArchivesController.class);
+  private static Logger logger = LoggerFactory.getLogger(ArchivesController.class);
 
-    @Autowired
-    private IArchiveService archiveService;
-    @Autowired
-    private IArticleService articleService;
+  @Autowired private IArchiveService archiveService;
+  @Autowired private IArticleService articleService;
 
-    /**
-     * 获得所有归档日期以及每个归档日期的文章数目
-     *
-     * @return
-     */
-    @GetMapping(value = "/findArchiveNameAndArticleNum")
-    public JSONObject findArchiveNameAndArticleNum() {
-        return archiveService.findArchiveNameAndArticleNum();
-    }
+  /**
+   * 获得所有归档日期以及每个归档日期的文章数目
+   *
+   * @return
+   */
+  @GetMapping(value = "/findArchiveNameAndArticleNum")
+  public JSONObject findArchiveNameAndArticleNum() {
+    return archiveService.findArchiveNameAndArticleNum();
+  }
 
-    /**
-     * 分页获得该归档日期下的文章
-     *
-     * @param archive
-     * @param request
-     * @return
-     */
-    @GetMapping(value = "/getArchiveArticle")
-    public JSONObject getArchiveArticle(String archive, HttpServletRequest request) {
-        //        try {
-        //            archive = CommonUtil.unicodeToString(archive);
-        //        } catch (Exception e) {
-        //            logger.error("获取归档异常", e);
-        //        }
-        int rows = Integer.parseInt(request.getParameter("rows"));
-        int pageNum = Integer.parseInt(request.getParameter("pageNum"));
-        return articleService.findArticleByArchive(archive, rows, pageNum);
-    }
+  /**
+   * 分页获得该归档日期下的文章
+   *
+   * @param archive
+   * @param request
+   * @return
+   */
+  @GetMapping(value = "/getArchiveArticle")
+  public JSONObject getArchiveArticle(String archive, HttpServletRequest request) {
+    int rows = Integer.parseInt(request.getParameter("rows"));
+    int pageNum = Integer.parseInt(request.getParameter("pageNum"));
+    return articleService.findArticleByArchive(archive, rows, pageNum);
+  }
 }

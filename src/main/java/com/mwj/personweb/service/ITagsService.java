@@ -1,6 +1,7 @@
 package com.mwj.personweb.service;
 
 import com.mwj.personweb.model.Tags;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
 import java.util.List;
@@ -44,4 +45,15 @@ public interface ITagsService {
    * @date: 2019/3/9 22:10
    */
   List<Tags> allTags();
+
+  JSONArray findAllTags(String rows, String pageNo);
+  /**
+   * @description //批量删除标签
+   * @param:
+   * @return:
+   * @date: 2019/3/11 16:39
+   */
+  JSONObject deleteTags(int id);
+
+  JSONObject bachDeleteTags(List list);
 }

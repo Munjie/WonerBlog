@@ -1,10 +1,7 @@
 package com.mwj.personweb.dao;
 
 import com.mwj.personweb.model.Tags;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -28,4 +25,17 @@ public interface ITagsDao {
 
   @Select("select tagSize from tags where tagName=#{tagName}")
   int getTagsSizeByTagName(String tagName);
+
+  @Select("select * from tags order by id asc")
+  List<Tags> findAllTags();
+
+  @Delete("delete from tags where id=#{id}")
+  int deleteTags(int id);
+
+  @Delete(
+      "<script>  delete from tags where id in\n"
+          + "        <foreach collection=\"list\" index=\"index\" item=\"item\" open=\"(\" separator=\",\" close=\")\">\n"
+          + "            #{item}\n"
+          + "        </foreach></script>")
+  int batchDelete(List<Integer> id);
 }

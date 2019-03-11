@@ -51,11 +51,11 @@ function putInArchivesArticleInfo(data) {
         ))
         ;
         var amCommentBd = $('<div class="am-comment-bd"></div>');
-        amCommentBd.append($('<i class="fa fa-calendar"> <a href="/archives?archive=' + obj['publishDate'] + '">' + obj['publishDate'] + '</a></i>' +
-            '<i class="fa fa-folder"> <a href="/categories?category=' + obj['articleCategories'] + '">' + obj['articleCategories'] + '</a></i>'));
+        amCommentBd.append($('<i class="fa fa-calendar"> <a  class="am-badge am-badge-success am-round" href="/archives?archive=' + obj['publishDate'] + '">' + obj['publishDate'] + '</a></i>' +
+            '<i class="fa fa-folder"> <a class="am-badge am-badge-secondary am-round" href="/categories?category=' + obj['articleCategories'] + '">' + obj['articleCategories'] + '</a></i>'));
         var amCommentBdTags = $('<i class="am-comment-bd-tags fa fa-tag"></i>');
         for (var i = 0; i < obj['articleTags'].length; i++) {
-            var tag = $('<a href="/tags?tag=' + obj['articleTags'][i] + '">' + obj['articleTags'][i] + '</a>');
+            var tag = $('<a  class="am-badge am-badge-secondary am-round" href="/tags?tag=' + obj['articleTags'][i] + '">' + obj['articleTags'][i] + '</a>');
             amCommentBdTags.append(tag);
             if (i != (obj['articleTags'].length - 1)) {
                 amCommentBdTags.append(",");
