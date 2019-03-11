@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 /** @Author: 母哥 @Date: 2019-02-28 11:08 @Version 1.0 */
@@ -34,17 +35,13 @@ public class BackController {
 
   @Autowired private SessionRegistry sessionRegistry;
 
-  @Autowired
-  private ISysUserService userService;
+  @Autowired private ISysUserService userService;
 
-  @Autowired
-  protected AuthenticationManager authenticationManager;
+  @Autowired protected AuthenticationManager authenticationManager;
 
-  @Autowired
-  private EmailUtils emailUtils;
+  @Autowired private EmailUtils emailUtils;
 
-  @Autowired
-  private RedisServer redisServer;
+  @Autowired private RedisServer redisServer;
 
   @GetMapping(value = "/toLogin")
   public String backLogin() {
@@ -59,10 +56,12 @@ public class BackController {
   }
 
   @RequestMapping(value = "/login/success")
-  public void loginSuccess(Authentication authentication, HttpServletResponse response)
-          throws Exception {
+  public void loginSuccess(
+      Authentication authentication, HttpServletResponse response, HttpSession session)
+      throws Exception {
     SysUser user = null;
     if (authentication != null && authentication.getName() != null) {
+      session.setAttribute("name", authentication.getName());
       user = userService.findByName(authentication.getName());
       redisServer.set(user.getName(), JsonUtil.getObjectToJson(user));
       logger.info("当前登陆用户为：：" + authentication.getName());
@@ -148,7 +147,7 @@ public class BackController {
   @ResponseBody
   public JSONObject register(SysUser sysUser, HttpServletRequest request) {
     emailUtils.registerSucSender(
-            sysUser.getEmail(), sysUser.getName(), sysUser.getPassword(), "www.biubiucat.com");
+        sysUser.getEmail(), sysUser.getName(), sysUser.getPassword(), "www.biubiucat.com");
     return userService.insertUser(sysUser);
   }
 }

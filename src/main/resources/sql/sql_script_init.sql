@@ -40,6 +40,15 @@ CREATE TABLE `persistent_logins` (
   PRIMARY KEY (`series`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--图片表
+CREATE TABLE `img` (--用户表sys_user：
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `img_url` varchar(255) ,
+  `user_name` varchar(255) ,
+   `img_type` varchar(255) ,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 --初始化数据
 --这里的权限格式为ROLE_XXX，是Spring Security规定的

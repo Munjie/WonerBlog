@@ -12,22 +12,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * @Author: 母哥 @Date: 2019-03-01 17:13 @Version 1.0
- */
+/** @Author: 母哥 @Date: 2019-03-01 17:13 @Version 1.0 */
 @Component
 public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
-    Logger log = LoggerFactory.getLogger(getClass());
+  Logger log = LoggerFactory.getLogger(getClass());
 
-    @Override
-    public void onLogoutSuccess(
-            HttpServletRequest request, HttpServletResponse response, Authentication authentication)
-            throws IOException, ServletException {
-        String username = ((User) authentication.getPrincipal()).getUsername();
-        log.info("退出成功，当前用户名：{}", username);
+  @Override
+  public void onLogoutSuccess(
+      HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+      throws IOException, ServletException {
+    String username = ((User) authentication.getPrincipal()).getUsername();
 
-        // 重定向到登录页
-        response.sendRedirect("/");
+    log.info("退出成功，当前用户名：{}", username);
+
+    // 重定向到登录页
+    response.sendRedirect("/");
   }
 }
