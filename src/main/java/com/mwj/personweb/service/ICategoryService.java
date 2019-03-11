@@ -26,4 +26,21 @@ public interface ICategoryService {
    * @return
    */
   int countCategoriesNum();
+
+  /**
+   * @description //TODO
+   * @param:
+   * @return:
+   * @date: 2019/3/11 10:44
+   */
+  JSONArray findAllCategories(String rows, String pageNo);
+  /**
+   * @description //TODO
+   * @param:
+   * @return:
+   * @date: 2019/3/11 11:11
+   */
+  JSONObject deleteCategories(int id);
+
+  JSONObject addCategories(String categoryName);
 }

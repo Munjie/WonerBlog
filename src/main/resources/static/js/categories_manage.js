@@ -3,6 +3,38 @@ window.onload = function () {
     ajaxFirst(1);
 };
 
+$(function () {
+    $('#doc-prompt-toggle').on('click', function () {
+        $('#my-prompt').modal({
+            relatedTarget: this,
+            onConfirm: function (e) {
+                $.ajax({
+                    type: 'post',
+                    url: '/add_categories',
+                    dataType: 'json',
+                    data: {
+                        categoryName: e.data
+                    },
+                    success: function (data) {
+                        if (data['status'] == 200) {
+                            alert("分类添加成功")
+                            ajaxFirst(1);
+                        } else {
+
+                            alert("分类添加失败");
+                        }
+                    },
+                    error: function () {
+                        alert("分类添加失败");
+                    }
+                });
+            },
+            onCancel: function (e) {
+
+            }
+        });
+    });
+});
 
 //填充分类
 function putInArticle(data) {
@@ -17,31 +49,28 @@ function putInArticle(data) {
 }
 
 
-function deleteArticle(cid) {
+function deleteCategory(id) {
     if (confirm("确定删除？删除不可恢复")) {
         $.ajax({
             type: 'post',
             url: '/delete_categories',
             dataType: 'json',
             data: {
-                cid: cid
+                id: id
             },
             success: function (data) {
-                if (data == 0) {
+                if (data['status'] == 200) {
                     alert("分类删除成功")
+                    ajaxFirst(1);
                 } else {
-                    alert('分类删除失败');
+
+                    alert("分类添加失败");
                 }
             },
             error: function () {
                 alert("分类删除失败");
             }
         });
-
-        return true;
-    } else {
-
-        return false;
     }
 
 }
@@ -52,23 +81,15 @@ function buldHtml(obj) {
     var text = '';
     text += ' <tr>';
     text += '                                    <td><input type=\'checkbox\'></td>';
-    text += '                                    <td>8</td>';
-    text += '                                    <td><a href="' + obj['articleUrl'] + '">' + obj['articleTitle'] + '</a></td>';
-    text += '                                    <td>' + obj['articleType'] + '</td>';
-    text += '                                    <td class=\'am-hide-sm-only\'>' + obj['author'] + '</td>';
-    text += '                                    <td class=\'am-hide-sm-only\'>' + obj['commentsNum'] + '</td>';
-    text += '                                    <td class=\'am-hide-sm-only\'>' + obj['likes'] + '</td>';
-    text += '                                    <td class=\'am-hide-sm-only\'>' + obj['publishDate'] + '</td>';
+    text += '                                    <td>' + obj['id'] + '</td>';
+    text += '                                    <td>' + obj['categoryName'] + '</td>';
     text += '                                    <td>';
     text += '                                        <div class=\'am-btn-toolbar\'>';
     text += '                                            <div class=\'am-btn-group am-btn-group-xs\'>';
     text += '                                                <button class=\'am-btn am-btn-default am-btn-xs am-text-secondary\'><span';
     text += '                                                        class=\'am-icon-pencil-square-o\'></span> 编辑';
     text += '                                                </button>';
-    text += '                                                <button class=\'am-btn am-btn-default am-btn-xs am-hide-sm-only\'><span';
-    text += '                                                        class=\'am-icon-copy\'></span> 复制';
-    text += '                                                </button>';
-    text += '                                                <button class=\'am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only\' onclick="deleteArticle(' + obj['id'] + ')">';
+    text += '                                                <button class=\'am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only\' onclick="deleteCategory(' + obj['id'] + ')">';
     text += '                                                    <span class=\'am-icon-trash-o\'></span> 删除';
     text += '                                                </button>';
     text += '                                            </div>';

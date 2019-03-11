@@ -42,9 +42,8 @@ public class AdminController {
    * @date: 2019/3/11 10:23
    */
   @GetMapping(value = "/article_manage")
-  private String articleManage() {
-
-    return "back/article_manage";
+  private String articleManage(Authentication authentication, Model model) throws Exception {
+    return pageUtil.forward(authentication, model, "back/article_manage");
   }
 
   /**
@@ -54,9 +53,8 @@ public class AdminController {
    * @date: 2019/3/11 10:25
    */
   @GetMapping(value = "/comments_manage")
-  private String commentsManage() {
-
-    return "back/comments_manage";
+  private String commentsManage(Authentication authentication, Model model) throws Exception {
+    return pageUtil.forward(authentication, model, "back/comments_manage");
   }
 
   /**
@@ -66,9 +64,8 @@ public class AdminController {
    * @date: 2019/3/11 10:24
    */
   @GetMapping(value = "/categories_manage")
-  private String categoriesManage() {
-
-    return "back/categories_manage";
+  private String categoriesManage(Authentication authentication, Model model) throws Exception {
+    return pageUtil.forward(authentication, model, "back/categories_manage");
   }
 
   /**
@@ -78,9 +75,8 @@ public class AdminController {
    * @date: 2019/3/11 10:22
    */
   @GetMapping(value = "/tags_manage")
-  private String tagsManage() {
-
-    return "back/tags_manage";
+  private String tagsManage(Authentication authentication, Model model) throws Exception {
+    return pageUtil.forward(authentication, model, "back/tags_manage");
   }
   /**
    * 删除文章 post

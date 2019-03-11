@@ -43,7 +43,6 @@ public class ArticleServiceImpl implements IArticleService {
   @Override
   public JSONArray findAllArticles(String rows, String pageNo) {
 
-    com.alibaba.fastjson.JSONObject json = new com.alibaba.fastjson.JSONObject();
     int pageNum = Integer.parseInt(pageNo);
     int pageSize = Integer.parseInt(rows);
 
