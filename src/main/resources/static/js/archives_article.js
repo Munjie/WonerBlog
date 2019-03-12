@@ -110,7 +110,8 @@ function ajaxFirst(currentPage, archive1) {
 
         },
         error: function () {
-            alert("获取分类文章失败");
+            swal("获取分类文章失败!", "", "error");
+
         }
     });
 }
@@ -146,6 +147,6 @@ $.ajax({
         })
     },
     error: function () {
-        alert("获取归档信息失败");
+        swal("获取归档信息失败!", "", "error");
     }
 });

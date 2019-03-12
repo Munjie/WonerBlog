@@ -4,10 +4,6 @@ var aCategory = "";
 $('#originalAuthorHide').hide();
 $('.articleUrlHide').hide();
 
-var fnClose = function (e) {
-    e.returnValue = '确定离开当前页面吗?';
-};
-window.addEventListener('beforeunload', fnClose);
 
 var testEditor;
 $(function () {
@@ -54,9 +50,9 @@ publishBtn.click(function () {
     var articleTitleValues = articleTitle.val();
     var articleContentValues = articleContent.val();
     if (articleTitleValues.length === 0) {
-        noticeBoxTitle.show();
+        swal("文章标题不能为空!", "", "warning");
     } else if (articleContentValues.length === 0) {
-        noticeBoxContent.show();
+        swal("文章内容不能为空!", "", "warning");
     } else {
         $('#my-alert').modal();
         $.ajax({
@@ -122,7 +118,7 @@ $.ajax({
             $('#select-grade').val(data['result']['articleGrade']);
             $('#originalAuthor').val(data['result']['originalAuthor']);
             $('#articleUrl').val(data['result']['articleUrl']);
-            if (data['result']['articleType'] == "转载") {
+            if (data['result']['articleType'] == "转载" || data['result']['articleType'] == "翻译") {
                 $('#originalAuthorHide').show();
                 $('.articleUrlHide').show();
             }
@@ -178,7 +174,7 @@ $(function () {
 // 显示文章作者
 var articleType = $('#select-type');
 $('#select-type').blur(function () {
-    if (articleType.val() == "转载") {
+    if (articleType.val() == "转载" || articleType.val() == "翻译") {
         $('#originalAuthorHide').show();
         $('.articleUrlHide').show();
     } else if (articleType.val() == "原创") {
@@ -202,15 +198,15 @@ surePublishBtn.click(function () {
     var originalAuthorValue = originalAuthor.val();
     var articleUrlValue = articleUrl.val();
     if (articleTagsValue.length === 0 || articleTagsValue[tagNum - 1] === "") {
-        $('.notice-box-tags').show();
+        swal("请添加文章标签!", "", "warning");
     } else if (articleTypeValue === "choose") {
-        $('.notice-box-type').show();
+        swal("请选择一个文章类型!", "", "warning");
     } else if (articleCategoriesValue === "choose") {
-        $('.notice-box-categories').show();
-    } else if (articleType.val() == "转载" && originalAuthorValue === "") {
-        $('.notice-box-originalAuthor').show();
-    } else if (articleType.val() == "转载" && articleUrlValue === "") {
-        $('.notice-box-url').show();
+        swal("请选择一个博客分类!", "", "warning");
+    } else if (articleType.val() == "转载" || articleType.val() == "翻译" && originalAuthorValue === "") {
+        swal("请输入原作者!", "", "warning");
+    } else if (articleType.val() == "转载" || articleType.val() == "翻译" && articleUrlValue === "") {
+        swal("请输入原文链接!", "", "warning");
     } else {
         $.ajax({
             type: "POST",
@@ -232,21 +228,18 @@ surePublishBtn.click(function () {
             success: function (data) {
                 if (data['status'] == 200) {
                     $('#my-alert').modal('close');
-                    window.removeEventListener('beforeunload', fnClose);
                     publishSuccessPutIn(data);
-                } else if (data['status'] == 403) {
-                    window.removeEventListener('beforeunload', fnClose);
-                    $.get("/toLogin", function (data, status, xhr) {
-                        window.location.replace("/login");
-                    });
                 } else if (data['status'] == 500) {
-                    alert("发表博客失败")
+
+                    swal("发表博客失败!", "", "error");
                 } else {
-                    alert("发表博客失败");
+
+                    swal("发表博客失败!", "", "error");
                 }
             },
             error: function () {
-                alert("发表博客请求失败！")
+
+                swal("发表博客请求失败!", "", "error");
             }
         })
     }

@@ -3,10 +3,10 @@ function checkEmail() {
     var reg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
     var email = $('#register_email').val();
     if (email === "") { //输入不能为空
-        alert("输入不能为空!");
+        swal("邮箱不能为空!", "", "warning");
         return false;
     } else if (!reg.test(email)) { //正则验证不通过，格式不对
-        alert("输入邮箱不正确!");
+        swal("输入邮箱不正确!", "", "warning");
         return false;
     } else {
         $.ajax({
@@ -19,7 +19,7 @@ function checkEmail() {
             },
             success: function (data) {
                 if (data['status'] == 400) {
-                    alert("该邮箱所属用户不存在!")
+                    swal(data['msg'], "", "info");
                     return false;
                 }
             },
@@ -40,7 +40,7 @@ function sendEmailCode() {
         },
         success: function (data) {
             if (data['status'] == 400) {
-                alert("重置密码失败!")
+                swal(data['msg'], "", "error");
                 return false;
             }
         },
@@ -53,10 +53,10 @@ function checkEmailCode() {
     var reg = /^[0-9]*$/;
     var emailCode = $('#email_code').val();
     if (emailCode === "") { //输入不能为空
-        alert("输入不能为空!");
+        swal("验证码不能为空!", "", "warning");
         return false;
     } else if (!reg.test(emailCode)) {
-        alert("验证码输入有误!");
+        swal("验证码有误!", "", "warning");
         return false;
 
     } else {
@@ -71,7 +71,7 @@ function checkEmailCode() {
             },
             success: function (data) {
                 if (data['status'] == 400) {
-                    alert("验证码不匹配！")
+                    swal(data['msg'], "", "warning");
                     return false;
                 }
             },
@@ -93,10 +93,10 @@ function restPwd() {
         },
         success: function (data) {
             if (data['status'] == 400) {
-                alert("重置密码失败!")
-                return false;
+                swal(data['msg'], "", "error");
+
             } else {
-                alert("重置密码成功,新密码已发送您的邮箱!")
+                swal(data['msg'], "", "success");
             }
         },
     });

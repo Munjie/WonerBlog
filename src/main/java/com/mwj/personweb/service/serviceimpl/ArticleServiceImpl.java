@@ -246,7 +246,7 @@ public class ArticleServiceImpl implements IArticleService {
   }
 
   public static String randomPath() {
-    int random = (int) (Math.random() * 10 + 1);
+    int random = (int) (Math.random() * 13 + 1);
     String path = "i/f" + random + ".jpg";
     return path;
   }

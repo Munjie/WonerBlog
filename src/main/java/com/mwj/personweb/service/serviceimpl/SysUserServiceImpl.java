@@ -14,121 +14,117 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
-/**
- * @Author: 母哥 @Date: 2019-03-01 10:54 @Version 1.0
- */
+/** @Author: 母哥 @Date: 2019-03-01 10:54 @Version 1.0 */
 @Service
 public class SysUserServiceImpl implements ISysUserService {
 
-    @Autowired
-    private IUserDao userDao;
+  @Autowired private IUserDao userDao;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+  @Autowired private BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
-    private RedisServer redisServer;
+  @Autowired private RedisServer redisServer;
 
-    public SysUser findById(Integer id) {
-        return userDao.findById(id);
+  public SysUser findById(Integer id) {
+    return userDao.findById(id);
+  }
+
+  public SysUser findByName(String name) {
+    return userDao.findByName(name);
+  }
+
+  @Override
+  public Boolean isExitUser(String name) {
+
+    SysUser user = userDao.findByName(name);
+    return user != null;
+  }
+
+  @Override
+  public JSONObject insertUser(SysUser sysUser) {
+    JSONObject jsonObject = new JSONObject();
+    if (sysUser != null) {
+      sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
+
+      sysUser.setImgUrl(CommonUtil.gravatarImg(sysUser.getEmail()));
+      int i = userDao.insertSysUser(sysUser);
+
+      if (i > 0) {
+
+        jsonObject.put("status", "200");
+      } else {
+
+        jsonObject.put("status", "400");
+      }
+    } else {
+
+      jsonObject.put("status", "400");
     }
 
-    public SysUser findByName(String name) {
-        return userDao.findByName(name);
+    return jsonObject;
+  }
+
+  @Override
+  public JSONObject findUserByEmail(String email) {
+
+    JSONObject jsonObject = new JSONObject();
+    if (StringUtils.isNotBlank(email)) {
+
+      List<SysUser> userList = userDao.findUserByEmail(email);
+      if (CollectionUtils.isEmpty(userList)) {
+        jsonObject.put("status", "400");
+        jsonObject.put("msg", "该邮箱所属用户不存在");
+      } else {
+
+        jsonObject.put("status", "200");
+      }
     }
+    return jsonObject;
+  }
 
-    @Override
-    public Boolean isExitUser(String name) {
+  @Override
+  public JSONObject resetPassword(SysUser sysUser) {
+    JSONObject jsonObject = new JSONObject();
+    try {
+      if (sysUser != null) {
 
-        SysUser user = userDao.findByName(name);
-        return user != null;
-    }
-
-    @Override
-    public JSONObject insertUser(SysUser sysUser) {
-        JSONObject jsonObject = new JSONObject();
-        if (sysUser != null) {
-            sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
-
-            sysUser.setImgUrl(CommonUtil.gravatarImg(sysUser.getEmail()));
-            int i = userDao.insertSysUser(sysUser);
-
-            if (i > 0) {
-
-                jsonObject.put("status", "200");
-            } else {
-
-                jsonObject.put("status", "400");
-            }
+        sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
+        int i = userDao.resetPassword(sysUser);
+        if (i > 0) {
+          jsonObject.put("status", "200");
+          jsonObject.put("msg", "重置密码成功，密码已发送邮箱");
         } else {
-
-            jsonObject.put("status", "400");
+          jsonObject.put("status", "400");
+          jsonObject.put("msg", "重置密码失败");
         }
-
-        return jsonObject;
+      }
+    } catch (Exception e) {
+      jsonObject.put("status", "400");
+      jsonObject.put("msg", "重置密码失败");
     }
 
-    @Override
-    public JSONObject findUserByEmail(String email) {
+    return jsonObject;
+  }
 
-        JSONObject jsonObject = new JSONObject();
-        if (StringUtils.isNotBlank(email)) {
-
-            List<SysUser> userList = userDao.findUserByEmail(email);
-            if (CollectionUtils.isEmpty(userList)) {
-                jsonObject.put("status", "400");
-            } else {
-
-                jsonObject.put("status", "200");
+  @Override
+  public boolean updateImgUrlByName(SysUser sysUser) {
+    boolean falg = true;
+    try {
+      if (sysUser != null) {
+        int i = userDao.updateImgUrlByName(sysUser);
+        if (i > 0) {
+          if (redisServer.hasKey(sysUser.getName())) {
+            if (redisServer.delKey(sysUser.getName())) {
+              falg = true;
             }
+          }
+        } else {
+          falg = false;
         }
-        return jsonObject;
+      }
+
+    } catch (Exception e) {
+      falg = false;
     }
-
-    @Override
-    public JSONObject resetPassword(SysUser sysUser) {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            if (sysUser != null) {
-
-                sysUser.setPassword(passwordEncoder.encode(sysUser.getPassword()));
-                int i = userDao.resetPassword(sysUser);
-                if (i > 0) {
-
-                    jsonObject.put("status", "200");
-                } else {
-
-                    jsonObject.put("status", "400");
-                }
-            }
-
-        } catch (Exception e) {
-            jsonObject.put("status", "400");
-        }
-
-        return jsonObject;
-    }
-
-    @Override
-    public boolean updateImgUrlByName(SysUser sysUser) {
-        boolean falg = true;
-        try {
-            if (sysUser != null) {
-                int i = userDao.updateImgUrlByName(sysUser);
-                if (i > 0) {
-                    if (redisServer.hasKey(sysUser.getName())) {
-                        if (redisServer.delKey(sysUser.getName())) {
-                            falg = true;
-                        }
-                    }
-                } else {
-                    falg = false;
-                }
-            }
-
-        } catch (Exception e) {
-            falg = false;
-        }
-        return falg;
+    return falg;
   }
 }

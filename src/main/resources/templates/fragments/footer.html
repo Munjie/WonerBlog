@@ -2,19 +2,10 @@
       xmlns:th="http://www.thymeleaf.org"
 >
 <head>
+
 </head>
 <body>
 <div th:fragment="footer">
-    <!-- <div class="container">
-         <footer>
-             &lt;!&ndash; this is footer &ndash;&gt;
-             © 2018 BiuBiuCat
-             <span sec:authorize="isAuthenticated()">
-                 | Logged user: [[${#httpServletRequest.remoteUser}]]
-               |<a th:href="@{/logout}">Logout</a>
-             </span>
-         </footer>
-     </div>-->
     <footer class="blog-footer">
         <div class="am-g am-g-fixed blog-fixed am-u-sm-centered blog-footer-padding">
             <div class="am-u-sm-12 am-u-md-4- am-u-lg-4">
@@ -46,23 +37,23 @@
                 </p>
             </div>
         </div>
-        <!-- 侧边栏内容 -->
-        <div id="doc-oc-demo2" class="am-offcanvas">
-            <div class="am-offcanvas-bar">
-                <div class="am-offcanvas-content">
-                    <p style="text-align: center; margin-top: 50px">
-                        <img class="am-radius" alt="140*140"
-                             src="../../static/images/wecaht.jpg"
-                             width="140" height="140"/>
-                    </p>
-                    <p style="text-align: center"> 扫码关注我噢！</p>
-                    <br>
-                </div>
-            </div>
-        </div>
         <div class="blog-text-center">© 2018 StudentMu <a href="http://www.miitbeian.gov.cn" target="_blank">沪ICP备19003704号-1
         </a></div>
     </footer>
+    <!-- 侧边栏内容 -->
+    <div id="doc-oc-demo2" class="am-offcanvas">
+        <div class="am-offcanvas-bar">
+            <div class="am-offcanvas-content">
+                <p style="text-align: center; margin-top: 50px">
+                    <img class="am-radius" alt="140*140"
+                         src="../../static/images/wecaht.jpg"
+                         width="140" height="140"/>
+                </p>
+                <p style="text-align: center"> 扫码关注我噢！</p>
+                <br>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

@@ -28,13 +28,16 @@ function deleteArticle(cid) {
             },
             success: function (data) {
                 if (data == 0) {
-                    alert("文章删除成功")
+                    swal("文章删除成功!", "", "success");
+
                 } else {
-                    alert('文章删除失败');
+
+                    swal("文章删除失败!", "", "error");
                 }
             },
             error: function () {
-                alert("文章删除失败");
+
+                swal("文章删除失败!", "", "error");
             }
         });
 
