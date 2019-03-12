@@ -31,4 +31,6 @@ public interface IArtcileDao {
   Article findArticleByMainId(int id);
 
   int deleteArticleById(int id);
+
+  List<Article> findArticleByTag(@Param("tag") String tag);
 }

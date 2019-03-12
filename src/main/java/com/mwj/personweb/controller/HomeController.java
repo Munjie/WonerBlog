@@ -1,5 +1,9 @@
 package com.mwj.personweb.controller;
 
+import com.mwj.personweb.model.Tags;
+import com.mwj.personweb.service.ITagsService;
+import com.mwj.personweb.service.redis.RedisServer;
+import com.mwj.personweb.utils.JsonUtil;
 import com.mwj.personweb.utils.PageUtil;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.security.Principal;
+import java.util.List;
 
 /** @Author: 母哥 @Date: 2019-03-04 11:28 @Version 1.0 */
 @Controller
@@ -24,6 +29,10 @@ public class HomeController {
   private static final String USER_AGENT = "user-agent";
 
   @Autowired private PageUtil pageUtil;
+
+  @Autowired private ITagsService tagService;
+
+  @Autowired private RedisServer redisServer;
 
   @GetMapping("/")
   public String index(Authentication authentication, Model model) throws Exception {
@@ -57,7 +66,7 @@ public class HomeController {
     return pageUtil.forward(authentication, model, "front/edit_article");
   }
 
-  @GetMapping("/archives")
+  @GetMapping("/archives.html")
   public String archives(
       HttpServletResponse response,
       HttpServletRequest request,
@@ -74,5 +83,28 @@ public class HomeController {
     } catch (Exception e) {
     }
     return pageUtil.forward(authentication, model, "front/archives_article");
+  }
+
+  @GetMapping("/tags.html")
+  public String tags(
+      Authentication authentication,
+      Model model,
+      HttpServletResponse response,
+      HttpServletRequest request)
+      throws Exception {
+    List<Tags> tags = null;
+    if (redisServer.hasKey("tags")) {
+      String tags_temp = redisServer.get("tags");
+      tags = JsonUtil.getStringToList(tags_temp, Tags.class);
+      logger.info("get tags from redis success!");
+
+    } else {
+      tags = tagService.allTags();
+      String listToJson = JsonUtil.getListToJson(tags);
+      redisServer.set("tags", listToJson);
+      logger.info("set tags to redis success!");
+    }
+    model.addAttribute("tags", tags);
+    return pageUtil.forward(authentication, model, "front/tags");
   }
 }

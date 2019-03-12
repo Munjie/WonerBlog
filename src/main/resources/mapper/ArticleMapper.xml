@@ -97,6 +97,14 @@
     delete from article
     where id = #{id,jdbcType=INTEGER}
   </delete>
+
+    <select id="findArticleByTag" parameterType="java.lang.String" resultType="com.mwj.personweb.model.Article">
+        select articleId,originalAuthor,articleTitle,articleTags,
+        articleType,articleCategories,publishDate
+        from article where articleTags
+        like '%${tag}%' order by id desc
+    </select>
+
     <insert id="insertArticle" parameterType="com.mwj.personweb.model.Article">
     insert into article (id, articleId, author, 
       originalAuthor, articleTitle, articleTags, 

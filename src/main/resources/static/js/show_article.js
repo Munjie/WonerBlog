@@ -34,7 +34,7 @@ function buildHead(data) {
     text += '            <div class=\'am-article-hd\'>';
     text += '                <h1 class=\'am-article-title blog-text-center\'>' + data.articleTitle + '</h1>';
     text += '                <p class=\'am-article-meta blog-text-center\'>';
-    text += '                    <span><a href=\'#\' class=\'blog-color\'>' + data.articleType + ' &nbsp;</a></span>-';
+    text += '                    <span><a href="/tagArticle/' + data.articleType + '" class=\'blog-color\'>' + data.articleType + ' &nbsp;</a></span>-';
     text += '                    <span><a href=\'#\'>@' + data.author + ' &nbsp;</a></span>-';
     text += '                    <span><a href=\'#\'>' + data.publishDate + '</a></span>';
     text += '                </p>';

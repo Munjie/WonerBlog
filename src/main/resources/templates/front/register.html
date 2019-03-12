@@ -16,6 +16,7 @@
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/underscore.js/1.9.1/underscore-min.js"></script>
     <script src="https://cdn.bootcss.com/amazeui/2.7.2/js/amazeui.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="../../static/js/index.js"></script>
     <script src="../../static/js/register.js"></script>
 </head>
@@ -43,19 +44,19 @@
 
                 <div class="am-form-group">
                     <label for="doc-vld-name-2-1">用户名：</label>
-                    <input type="text" id="doc-vld-name-2-1" data-validation-message="用户名不能为空"
+                    <input type="text" id="doc-vld-name-2-1" onblur="checkName()"
                            placeholder="输入用户名"
                            required/>
                 </div>
                 <div class="am-form-group">
                     <label for="doc-vld-name-2-1">密码：</label>
-                    <input type="password" id="doc-vld-password-2-1" data-validation-message="密码不能为空"
+                    <input type="password" id="doc-vld-password-2-1" onblur="checkPwd()"
                            placeholder="输入密码"
                            required/>
                 </div>
                 <div class="am-form-group">
                     <label for="doc-vld-email-2-1">邮箱：</label>
-                    <input type="email" id="doc-vld-email-2-1" data-validation-message="输入地球上的电子邮箱"
+                    <input type="email" id="doc-vld-email-2-1" onblur="checkEmail()"
                            placeholder="输入邮箱" required/>
                 </div>
                 <button class="am-btn am-btn-secondary" type="button" onclick="register()">注 册</button>

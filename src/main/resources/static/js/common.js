@@ -10,8 +10,7 @@ function editArticle() {
         },
         success: function (data) {
             if (data['status'] == 400) {
-                alert("请先登录噢!")
-                window.location.href = "/login.html";
+                swal("请先登录嗷~~!", "", "info");
             } else {
 
                 window.location.href = "/article_edit.html";
@@ -33,11 +32,13 @@ function pub_comments() {
         success: function (result) {
             $('#comment-form input[name=coid]').val('');
             if (result && result.success) {
-                alert("评论成功!");
-                window.location.reload();
+                swal("评论成功!", "", "success");
+                setTimeout("location.reload()", 1000);//页面刷新
+             
             } else {
                 if (result.msg) {
-                    alert(result.msg);
+                    swal(result.msg, "", "warning");
+
                 }
             }
         }

@@ -1,0 +1,19 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-size: 20px
+}
+
+.center-tags {
+    width: 200px;
+    height: 200px;
+    background-color: #00b7ee;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    text-align: center;
+    line-height: 180px;
+}

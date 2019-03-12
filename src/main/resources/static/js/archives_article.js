@@ -8,7 +8,7 @@ $.ajax({
     }
 });
 
-//填充归档文章
+//填充存档文章
 function putInArchivesArticleInfo(data) {
     var categoryTimeline = $('.categoryTimeline');
     categoryTimeline.empty();
@@ -55,7 +55,7 @@ function putInArchivesArticleInfo(data) {
             '<i class="fa fa-folder"> <a class="am-badge am-badge-secondary am-round" href="/categories?category=' + obj['articleCategories'] + '">' + obj['articleCategories'] + '</a></i>'));
         var amCommentBdTags = $('<i class="am-comment-bd-tags fa fa-tag"></i>');
         for (var i = 0; i < obj['articleTags'].length; i++) {
-            var tag = $('<a  class="am-badge am-badge-secondary am-round" href="/tags?tag=' + obj['articleTags'][i] + '">' + obj['articleTags'][i] + '</a>');
+            var tag = $('<a  class="am-badge am-badge-secondary am-round" href="/tagArticle/' + obj['articleTags'][i] + '">' + obj['articleTags'][i] + '</a>');
             amCommentBdTags.append(tag);
             if (i != (obj['articleTags'].length - 1)) {
                 amCommentBdTags.append(",");
@@ -128,13 +128,13 @@ $.ajax({
         var categories = $('.categories');
         categories.empty();
         categories.append($('<div class="categories-title">' +
-            '<h3 style="font-size: 20px">存档</h3>' +
+            '<h3 style="font-size: 20px" class="am-icon-archive">存档</h3>' +
             '</div>'));
         var categoriesComment = $('<div class="categories-comment am-animation-slide-top"></div>');
         $.each(data['result'], function (index, obj) {
             categoriesComment.append($('<div class="category">' +
                 '<span>' +
-                '<a class="categoryName">' + obj['archiveName'] + '</a>' +
+                '<span class="am-icon-calendar"><a class="categoryName">' + obj['archiveName'] + '</a></span>' +
                 '<span class="categoryNum">(' + obj['archiveArticleNum'] + ')</span>' +
                 '</span>' +
                 '</div>'));
@@ -147,6 +147,6 @@ $.ajax({
         })
     },
     error: function () {
-        swal("获取归档信息失败!", "", "error");
+        swal("获取存档信息失败!", "", "error");
     }
 });

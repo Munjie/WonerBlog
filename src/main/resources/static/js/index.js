@@ -46,8 +46,8 @@ function editArticle() {
         },
         success: function (data) {
             if (data['status'] == 400) {
-                alert("请先登录噢!")
-                window.location.href = "/login.html";
+                swal("请先登录嗷~~!", "", "info");
+                // window.location.href = "/login.html";
             } else {
 
                 window.location.href = "/article_edit.html";
@@ -137,7 +137,7 @@ function buldHtml(obj) {
     text += '                <img src=" ' + obj['articleImg'] + '" alt=\'\' class=\'am-u-sm-12\'>';
     text += '            </div>';
     text += '            <div class=\'am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text\'>';
-    text += '                <span><a href="" class=\'blog-color\'>' + obj['articleType'] + ' &nbsp;</a></span>';
+    text += '                <span><a href="/tagArticle/' + obj['articleType'] + '" class=\'blog-color\'>' + obj['articleType'] + ' &nbsp;</a></span>';
     text += '                <span>@' + obj['author'] + ' &nbsp;</span>';
     text += '                <span>' + obj['publishDate'] + '</span>';
     text += '                <h1><a href="' + obj['articleUrl'] + '">' + obj['articleTitle'] + '</a></h1>';

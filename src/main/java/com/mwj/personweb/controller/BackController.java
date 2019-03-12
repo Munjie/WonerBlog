@@ -7,6 +7,7 @@ import com.mwj.personweb.service.redis.RedisServer;
 import com.mwj.personweb.utils.EmailUtils;
 import com.mwj.personweb.utils.JsonUtil;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,6 +147,18 @@ public class BackController {
   @PostMapping(value = "/register")
   @ResponseBody
   public JSONObject register(SysUser sysUser, HttpServletRequest request) {
+
+    JSONObject jsonObject = new JSONObject();
+    if (StringUtils.isBlank(sysUser.getName())) {
+      jsonObject.put("status", "400");
+      jsonObject.put("msg", "用户名不能为空");
+      return jsonObject;
+    } else if (userService.isExitUser(sysUser.getName())) {
+      jsonObject.put("status", "400");
+      jsonObject.put("msg", "用户名已存在");
+      return jsonObject;
+    }
+
     emailUtils.registerSucSender(
         sysUser.getEmail(), sysUser.getName(), sysUser.getPassword(), "www.biubiucat.com");
     return userService.insertUser(sysUser);

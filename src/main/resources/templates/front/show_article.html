@@ -36,9 +36,9 @@
     <script src="../../static/js/mazui/amazeui.min.js"></script>
     <script type="text/javascript" src="../../static/js/editormd.js"></script>
     <script type="text/javascript" src="../../static/js/editormd.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="../../static/js/show_article.js"></script>
     <script src="../../static/js/common.js"></script>
-
 </head>
 
 <body id="blog-article-sidebar">
@@ -82,7 +82,8 @@
             <h2 class="blog-title"><span>TAG cloud</span></h2>
             <div class="am-u-sm-12 blog-clear-padding">
                 <div th:each="tag:${tags}">
-                    <a href="" class="blog-tag"><span th:text="${tag.tagName}"></span></a>
+                    <a th:href="@{'/tagArticle/'+${tag.tagName}}" class="blog-tag"><span
+                            th:text="${tag.tagName}"></span></a>
                 </div>
             </div>
         </div>

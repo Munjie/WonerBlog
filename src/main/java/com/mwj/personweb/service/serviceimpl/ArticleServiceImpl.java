@@ -10,6 +10,7 @@ import com.mwj.personweb.service.ICommentService;
 import com.mwj.personweb.service.redis.RedisServer;
 import com.mwj.personweb.utils.CommonUtil;
 import com.mwj.personweb.utils.JsonUtil;
+import com.mwj.personweb.utils.StringAndArray;
 import com.mwj.personweb.utils.TimeUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -243,6 +244,51 @@ public class ArticleServiceImpl implements IArticleService {
       return 0;
     }
     return 1;
+  }
+
+  @Override
+  public JSONObject findArticleByTag(String tag, int rows, int pageNum) {
+    PageHelper.startPage(pageNum, rows);
+    List<Article> articles = artcileDao.findArticleByTag(tag);
+    PageInfo<Article> pageInfo = new PageInfo<>(articles);
+    JSONObject articleJson;
+    JSONArray articleJsonArray = new JSONArray();
+    // 二次判断标签是否匹配
+    for (Article article : articles) {
+      String[] tagsArray = StringAndArray.stringToArray(article.getArticleTags());
+      for (String str : tagsArray) {
+        if (str.equals(tag)) {
+          articleJson = new JSONObject();
+          articleJson.put("articleId", article.getArticleId());
+          articleJson.put("originalAuthor", article.getOriginalAuthor());
+          articleJson.put("articleTitle", article.getArticleTitle());
+          articleJson.put("articleCategories", article.getArticleCategories());
+          articleJson.put("publishDate", article.getPublishDate());
+          articleJson.put("articleTags", tagsArray);
+          articleJsonArray.add(articleJson);
+        }
+      }
+    }
+
+    JSONObject pageJson = new JSONObject();
+    pageJson.put("pageNum", pageInfo.getPageNum());
+    pageJson.put("pageSize", pageInfo.getPageSize());
+    pageJson.put("total", pageInfo.getTotal());
+    pageJson.put("pages", pageInfo.getPages());
+    pageJson.put("isFirstPage", pageInfo.isIsFirstPage());
+    pageJson.put("isLastPage", pageInfo.isIsLastPage());
+
+    JSONObject jsonObject = new JSONObject();
+    jsonObject.put("status", 201);
+    jsonObject.put("result", articleJsonArray);
+    jsonObject.put("tag", tag);
+    jsonObject.put("pageInfo", pageJson);
+    return jsonObject;
+  }
+
+  @Override
+  public List<Article> tagArticle(String tagName) {
+    return artcileDao.findArticleByTag(tagName);
   }
 
   public static String randomPath() {

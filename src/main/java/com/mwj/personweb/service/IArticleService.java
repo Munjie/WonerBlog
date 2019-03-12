@@ -101,4 +101,19 @@ public interface IArticleService {
    */
   @Transactional
   int deleteArticle(int id);
+
+  /**
+   * 通过标签分页获得文章部分信息
+   *
+   * @param tag
+   * @return
+   */
+  JSONObject findArticleByTag(String tag, int rows, int pageNum);
+  /**
+   * 通过标签获得文章部分信息
+   *
+   * @param tagName
+   * @return
+   */
+  List<Article> tagArticle(String tagName);
 }
