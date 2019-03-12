@@ -91,4 +91,14 @@ public class AdminController {
 
     return articleService.deleteArticle(cid);
   }
+  /**
+   * @description //用户信息
+   * @param:
+   * @return:
+   * @date: 2019/3/11 10:22
+   */
+  @GetMapping(value = "/user_manage")
+  private String userInfo(Authentication authentication, Model model) throws Exception {
+    return pageUtil.forward(authentication, model, "back/user_info");
+  }
 }

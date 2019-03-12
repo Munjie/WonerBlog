@@ -1,22 +1,33 @@
 package com.mwj.personweb.service.serviceimpl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.mwj.personweb.dao.IUserDao;
 import com.mwj.personweb.model.SysUser;
 import com.mwj.personweb.service.ISysUserService;
 import com.mwj.personweb.service.redis.RedisServer;
 import com.mwj.personweb.utils.CommonUtil;
+import com.mwj.personweb.utils.ReturnMsgUtil;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /** @Author: 母哥 @Date: 2019-03-01 10:54 @Version 1.0 */
 @Service
 public class SysUserServiceImpl implements ISysUserService {
+
+  private static Logger logger = LoggerFactory.getLogger(SysUserServiceImpl.class);
 
   @Autowired private IUserDao userDao;
 
@@ -126,5 +137,57 @@ public class SysUserServiceImpl implements ISysUserService {
       falg = false;
     }
     return falg;
+  }
+
+  @Override
+  public JSONArray allSysUser(String rows, String pageNum) {
+
+    int pageNo = Integer.parseInt(pageNum);
+    int pageSize = Integer.parseInt(rows);
+
+    PageHelper.startPage(pageNo, pageSize);
+    List<SysUser> sysUsers = userDao.allSysUser();
+    PageInfo<SysUser> pageInfo = new PageInfo<>(sysUsers);
+    List<Map<String, Object>> newUser = new ArrayList<>();
+    Map<String, Object> map;
+
+    for (SysUser sysUser : sysUsers) {
+      map = new HashMap<>();
+      map.put("id", sysUser.getId());
+      map.put("name", sysUser.getName());
+      map.put("email", sysUser.getEmail());
+      map.put("imgUrl", sysUser.getImgUrl());
+      map.put("userName", sysUser.getUsername());
+      newUser.add(map);
+    }
+    JSONArray jsonArray = JSONArray.fromObject(newUser);
+    Map<String, Object> thisPageInfo = new HashMap<>();
+    thisPageInfo.put("pageNum", pageInfo.getPageNum());
+    thisPageInfo.put("pageSize", pageInfo.getPageSize());
+    thisPageInfo.put("total", pageInfo.getTotal());
+    thisPageInfo.put("pages", pageInfo.getPages());
+    thisPageInfo.put("isFirstPage", pageInfo.isIsFirstPage());
+    thisPageInfo.put("isLastPage", pageInfo.isIsLastPage());
+
+    jsonArray.add(thisPageInfo);
+    //    logger.info(jsonArray.toString());
+    return jsonArray;
+  }
+
+  @Override
+  public JSONObject deleteUser(Integer id) {
+
+    try {
+      int i = userDao.deleteUser(id);
+      if (i > 0) {
+        return ReturnMsgUtil.bulidRetunMsg("200", "删除用户成功");
+      } else {
+
+        return ReturnMsgUtil.bulidRetunMsg("400", "删除用失败");
+      }
+    } catch (Exception e) {
+      logger.error("删除" + id + "失败");
+      return ReturnMsgUtil.bulidRetunMsg("400", "删除用失败");
+    }
   }
 }

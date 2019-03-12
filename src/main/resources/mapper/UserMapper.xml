@@ -28,6 +28,11 @@
       SELECT * FROM sys_user WHERE email = #{email}
     </select>
 
+
+    <select id="allSysUser" resultMap="userMap">
+       SELECT * FROM sys_user
+    </select>
+
     <update id="resetPassword" parameterType="com.mwj.personweb.model.SysUser">
 
      update sys_user SET password = #{password} where email = #{email}
@@ -36,4 +41,9 @@
     <update id="updateImgUrlByName" parameterType="com.mwj.personweb.model.SysUser">
      update sys_user SET imgurl = #{imgUrl} where name = #{name}
     </update>
+
+    <delete id="deleteUser" parameterType="java.lang.Integer">
+         delete FROM sys_user WHERE id = #{id}
+
+    </delete>
 </mapper>

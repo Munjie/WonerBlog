@@ -4,20 +4,22 @@ import com.mwj.personweb.model.SysUser;
 
 import java.util.List;
 
-/**
- * @Author: 母哥 @Date: 2019-02-28 14:53 @Version 1.0
- */
+/** @Author: 母哥 @Date: 2019-02-28 14:53 @Version 1.0 */
 public interface IUserDao {
 
-    SysUser findById(Integer id);
+  SysUser findById(Integer id);
 
-    SysUser findByName(String name);
+  SysUser findByName(String name);
 
-    int insertSysUser(SysUser sysUser);
+  int insertSysUser(SysUser sysUser);
 
-    List<SysUser> findUserByEmail(String email);
+  List<SysUser> findUserByEmail(String email);
 
-    int resetPassword(SysUser sysUser);
+  int resetPassword(SysUser sysUser);
 
-    int updateImgUrlByName(SysUser sysUser);
+  int updateImgUrlByName(SysUser sysUser);
+
+  List<SysUser> allSysUser();
+
+  int deleteUser(Integer id);
 }

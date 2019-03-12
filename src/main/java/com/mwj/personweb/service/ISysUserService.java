@@ -1,24 +1,27 @@
 package com.mwj.personweb.service;
 
 import com.mwj.personweb.model.SysUser;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-/**
- * @Author: 母哥 @Date: 2019-03-01 16:29 @Version 1.0
- */
+/** @Author: 母哥 @Date: 2019-03-01 16:29 @Version 1.0 */
 public interface ISysUserService {
 
-    SysUser findById(Integer id);
+  SysUser findById(Integer id);
 
-    SysUser findByName(String name);
+  SysUser findByName(String name);
 
-    Boolean isExitUser(String name);
+  Boolean isExitUser(String name);
 
-    JSONObject insertUser(SysUser sysUser);
+  JSONObject insertUser(SysUser sysUser);
 
-    JSONObject findUserByEmail(String email);
+  JSONObject findUserByEmail(String email);
 
-    JSONObject resetPassword(SysUser sysUser);
+  JSONObject resetPassword(SysUser sysUser);
 
-    boolean updateImgUrlByName(SysUser sysUser);
+  boolean updateImgUrlByName(SysUser sysUser);
+
+  JSONArray allSysUser(String rows, String pageNum);
+
+  JSONObject deleteUser(Integer id);
 }
