@@ -17,15 +17,16 @@ $(function () {
                     },
                     success: function (data) {
                         if (data['status'] == 200) {
-                            alert("分类添加成功")
+                            swal("分类添加成功!", "", "success");
                             ajaxFirst(1);
                         } else {
 
-                            alert("分类添加失败");
+                            swal("分类添加失败!", "", "error");
                         }
                     },
                     error: function () {
-                        alert("分类添加失败");
+
+                        swal("分类添加失败!", "", "error");
                     }
                 });
             },
@@ -60,15 +61,16 @@ function deleteCategory(id) {
             },
             success: function (data) {
                 if (data['status'] == 200) {
-                    alert("分类删除成功")
+                    swal("分类删除成功!", "", "success");
                     ajaxFirst(1);
                 } else {
 
-                    alert("分类添加失败");
+                    swal("分类删除成功!", "", "error");
+
                 }
             },
             error: function () {
-                alert("分类删除失败");
+                swal("分类删除成功!", "", "error");
             }
         });
     }
@@ -129,7 +131,7 @@ function ajaxFirst(currentPage) {
             });
         },
         error: function () {
-            alert("获得分类信息失败！");
+            swal("获得分类信息失败!", "", "error");
         }
     });
 }

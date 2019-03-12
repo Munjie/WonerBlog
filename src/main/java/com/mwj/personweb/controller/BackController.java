@@ -157,10 +157,21 @@ public class BackController {
       jsonObject.put("status", "400");
       jsonObject.put("msg", "用户名已存在");
       return jsonObject;
+    } else if (StringUtils.isBlank(sysUser.getEmail())) {
+      jsonObject.put("status", "400");
+      jsonObject.put("msg", "请输入邮箱");
+      return jsonObject;
+    } else if (!sysUser.getEmail().matches("^(\\w-*\\.*)+@(\\w-?)+(\\.\\w{2,})+$")) {
+      jsonObject.put("status", "400");
+      jsonObject.put("msg", "输入邮箱不正确！");
+      return jsonObject;
     }
+    jsonObject = userService.insertUser(sysUser);
+    if (jsonObject.get("status").equals("200")) {
 
-    emailUtils.registerSucSender(
-        sysUser.getEmail(), sysUser.getName(), sysUser.getPassword(), "www.biubiucat.com");
-    return userService.insertUser(sysUser);
+      emailUtils.registerSucSender(
+          sysUser.getEmail(), sysUser.getName(), sysUser.getPassword(), "www.biubiucat.com");
+    }
+    return jsonObject;
   }
 }

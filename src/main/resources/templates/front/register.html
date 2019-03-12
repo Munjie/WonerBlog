@@ -44,19 +44,19 @@
 
                 <div class="am-form-group">
                     <label for="doc-vld-name-2-1">用户名：</label>
-                    <input type="text" id="doc-vld-name-2-1" onblur="checkName()"
+                    <input type="text" id="doc-vld-name-2-1" onfocus="nameFocus()" onblur="checkName()"
                            placeholder="输入用户名"
                            required/>
                 </div>
                 <div class="am-form-group">
                     <label for="doc-vld-name-2-1">密码：</label>
-                    <input type="password" id="doc-vld-password-2-1" onblur="checkPwd()"
+                    <input type="password" id="doc-vld-password-2-1" onfocus="passwordFocus()" onblur="checkPwd()"
                            placeholder="输入密码"
                            required/>
                 </div>
                 <div class="am-form-group">
                     <label for="doc-vld-email-2-1">邮箱：</label>
-                    <input type="email" id="doc-vld-email-2-1" onblur="checkEmail()"
+                    <input type="email" id="doc-vld-email-2-1" onfocus="emailFocus()" onblur="checkEmail()"
                            placeholder="输入邮箱" required/>
                 </div>
                 <button class="am-btn am-btn-secondary" type="button" onclick="register()">注 册</button>

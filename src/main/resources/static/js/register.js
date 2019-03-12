@@ -128,8 +128,8 @@ function register() {
         success: function (data) {
             if (data['status'] == 200) {
                 swal("注册成功,去登录吧", "", "success");
-                /* setTimeout("location.reload()", 3000);//页面刷新
-                 window.location.href = "/login.html";*/
+                document.execCommand("Refresh");
+                //  window.location.href = "/login.html";
             } else if (data['status'] == 400) {
                 swal(data['msg'], "", "info");
 
@@ -140,5 +140,21 @@ function register() {
             swal("注册请求失败", "", "error");
         }
     });
+
+}
+
+function nameFocus() {
+    document.getElementById('doc-vld-name-2-1').innerText = "";
+
+}
+
+
+function passwordFocus() {
+    document.getElementById('doc-vld-password').innerText = "";
+}
+
+
+function emailFocus() {
+    document.getElementById('doc-vld-email-2-1').innerText = "";
 
 }
