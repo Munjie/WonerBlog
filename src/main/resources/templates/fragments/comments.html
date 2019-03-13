@@ -80,7 +80,9 @@
                         <div class="am-comment-actions">
                             <a href="javascript:void(0)"
                                th:onclick="'javascript:liked('+${comment.coid}+','+${comment.coid}+','+${comment.cid}+','+${comment.cid}+')'"><i
-                                    class="am-icon-thumbs-up"></i><span th:if="${comment.likes} >0"><span
+                                    class="am-icon-thumbs-up"
+                                    th:id="${comment.coid}"></i><span
+                                    th:if="${comment.likes} >0"><span
                                     th:text="${comment.likes}"></span></span></a>
                             <a><i class="am-icon-reply"></i></a>&emsp;
                             <span class=""

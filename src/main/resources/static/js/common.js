@@ -21,9 +21,7 @@ function editArticle() {
 }
 
 function liked(coid, cid, authorId, ip, agent) {
-    var $this
-        = $(this)
-
+    var ico = document.getElementById(coid);
     $.ajax({
         type: 'post',
         url: '/likeComment',
@@ -37,12 +35,9 @@ function liked(coid, cid, authorId, ip, agent) {
         },
         success: function (result) {
             if (result && result.success) {
+                ico.style.color = "#ff2620";
                 swal("点赞成功!", "", "success");
-                niceIn($this);
-                $this.removeClass("fa-thumbs-o-up");
-                $this.addClass("fa-thumbs-up");
-                $this.addClass("text-danger");
-                setTimeout("location.reload()", 1000);//页面刷新
+                //  setTimeout("location.reload()", 1000);//页面刷新
 
             } else {
                 if (result.msg) {
