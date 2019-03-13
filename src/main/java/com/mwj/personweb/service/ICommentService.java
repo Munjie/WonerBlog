@@ -65,4 +65,6 @@ public interface ICommentService {
    * @throws Exception
    */
   int deleteCommentsById(Integer cid);
+
+  void updateAddLike(int coid);
 }

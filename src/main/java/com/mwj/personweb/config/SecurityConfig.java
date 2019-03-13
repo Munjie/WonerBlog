@@ -80,29 +80,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     // 默认访问
     http.authorizeRequests()
         .antMatchers("/home/**", "/article/**", "/kaptcha", "/admin/invalid")
-            .permitAll();
+        .permitAll()
+        .antMatchers("/toBack")
+        .hasRole("ADMIN");
     // 登录
     http.formLogin()
         .loginPage("/login")
         .successHandler(customAuthenticationSuccessHandler)
         .failureHandler(customAuthenticationFailureHandler)
         .loginProcessingUrl("/admin/login")
-            .permitAll();
+        .permitAll();
     // 登出
     http.logout()
-            .invalidateHttpSession(true) // 使session失效
-            .clearAuthentication(true) // 清除证信息
+        .invalidateHttpSession(true) // 使session失效
+        .clearAuthentication(true) // 清除证信息
         .logoutUrl("/logout")
         .deleteCookies("JSESSIONID")
         .logoutSuccessHandler(logoutSuccessHandler)
-            .permitAll();
+        .permitAll();
 
     // 自动登录
     http.rememberMe()
         .tokenRepository(persistentTokenRepository())
         // 有效时间：单位s
-            .tokenValiditySeconds(10000)
-            .userDetailsService(userDetailsService);
+        .tokenValiditySeconds(10000)
+        .userDetailsService(userDetailsService);
 
     // 验证码过滤器
     http.addFilterBefore(new VerifyCodeFilter(), UsernamePasswordAuthenticationFilter.class);

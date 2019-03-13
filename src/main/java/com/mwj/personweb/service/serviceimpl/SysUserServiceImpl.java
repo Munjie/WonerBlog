@@ -157,7 +157,6 @@ public class SysUserServiceImpl implements ISysUserService {
       map.put("name", sysUser.getName());
       map.put("email", sysUser.getEmail());
       map.put("imgUrl", sysUser.getImgUrl());
-      map.put("userName", sysUser.getUsername());
       newUser.add(map);
     }
     JSONArray jsonArray = JSONArray.fromObject(newUser);

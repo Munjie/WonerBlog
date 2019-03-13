@@ -38,7 +38,8 @@ public class CommentServiceImpl implements ICommentService {
     }
     comments.setOwnerId(article.getAuthorId());
     int currentUnixTime = DateKit.getCurrentUnixTime();
-    comments.setCreated(TimeUtil.fmtdate(currentUnixTime, "yyyy-MM-dd HH:mm:ss"));
+    // comments.setCreated(TimeUtil.fmtdate(currentUnixTime, "yyyy-MM-dd HH:mm:ss"));
+    comments.setCreated(String.valueOf(System.currentTimeMillis()));
     commentDao.insertSelective(comments);
     if (article.getCommentsNum() == null) {
       article.setCommentsNum(1);
@@ -63,6 +64,9 @@ public class CommentServiceImpl implements ICommentService {
         parents.forEach(
             parent -> {
               CommentBo comment = new CommentBo(parent);
+              if (parent.getCreated() != null) {
+                comment.setCreated(TimeUtil.getTimeStateNew(parent.getCreated()));
+              }
               comments.add(comment);
             });
         returnBo.setList(comments);
@@ -106,6 +110,16 @@ public class CommentServiceImpl implements ICommentService {
   public void update(CommentVo comments) {}
 
   @Override
+  public void updateAddLike(int coid) {
+
+    int i = commentDao.updateAddLike(coid);
+    if (i == 0) {
+
+      throw new TipException("点赞失败");
+    }
+  }
+
+  @Override
   public int deleteCommentsById(Integer cid) {
     return commentDao.deleteCommentsById(cid);
   }
@@ -129,8 +143,8 @@ public class CommentServiceImpl implements ICommentService {
     if (StringUtils.isBlank(comments.getContent())) {
       throw new TipException("评论内容不能为空");
     }
-    if (comments.getContent().length() < 5 || comments.getContent().length() > 2000) {
-      throw new TipException("评论字数在5-2000个字符");
+    if (comments.getContent().length() < 1 || comments.getContent().length() > 2000) {
+      throw new TipException("评论字符过多");
     }
     if (null == comments.getCid()) {
       throw new TipException("评论文章不能为空");

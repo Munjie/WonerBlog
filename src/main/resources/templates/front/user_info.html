@@ -89,21 +89,21 @@
             <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
                 <form class="am-form am-form-horizontal">
                     <div class="am-form-group">
-                        <label for="user-name" class="am-u-sm-3 am-form-label">用户名 / Name</label>
+                        <label for="user-name" class="am-u-sm-3 am-form-label">Name</label>
                         <div class="am-u-sm-9">
-                            <input type="text" id="user-name" placeholder="姓名 / Name">
+                            <input type="text" id="user-name" th:value="${name}" placeholder="姓名 / Name">
                         </div>
                     </div>
 
                     <div class="am-form-group">
-                        <label for="user-email" class="am-u-sm-3 am-form-label">电子邮件 / Email</label>
+                        <label for="user-email" class="am-u-sm-3 am-form-label">Email</label>
                         <div class="am-u-sm-9">
                             <input type="email" id="user-email" th:value="${email}" placeholder="输入你的电子邮件 / Email">
                         </div>
                     </div>
 
                     <div class="am-form-group">
-                        <label for="user-phone" class="am-u-sm-3 am-form-label">电话 / Telephone</label>
+                        <label for="user-phone" class="am-u-sm-3 am-form-label">Telephone</label>
                         <div class="am-u-sm-9">
                             <input type="tel" id="user-phone" placeholder="输入你的电话号码 / Telephone">
                         </div>
@@ -117,16 +117,16 @@
                     </div>
 
                     <div class="am-form-group">
-                        <label for="user-weibo" class="am-u-sm-3 am-form-label">微博 / Twitter</label>
+                        <label for="user-weibo" class="am-u-sm-3 am-form-label">Wiebo</label>
                         <div class="am-u-sm-9">
-                            <input type="text" id="user-weibo" placeholder="输入你的微博 / Twitter">
+                            <input type="text" id="user-weibo" placeholder="输入你的微博">
                         </div>
                     </div>
 
                     <div class="am-form-group">
-                        <label for="user-intro" class="am-u-sm-3 am-form-label">简介 / Intro</label>
+                        <label for="user-wechat" class="am-u-sm-3 am-form-label">Wiebo</label>
                         <div class="am-u-sm-9">
-                            <textarea class="" rows="5" id="user-intro" placeholder="为何你如此优秀..."></textarea>
+                            <input type="text" id="user-wechat" placeholder="输入你的微信">
                         </div>
                     </div>
 

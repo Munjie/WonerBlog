@@ -3,14 +3,17 @@ package com.mwj.personweb.controller;
 import com.mwj.personweb.bo.RestResponseBo;
 import com.mwj.personweb.exception.ExceptionHelper;
 import com.mwj.personweb.exception.TipException;
+import com.mwj.personweb.model.CommentLike;
 import com.mwj.personweb.model.CommentVo;
 import com.mwj.personweb.model.SysUser;
+import com.mwj.personweb.service.ICommentLikeService;
 import com.mwj.personweb.service.ICommentService;
 import com.mwj.personweb.service.ISysUserService;
 import com.mwj.personweb.tdo.Types;
 import com.mwj.personweb.utils.CommonUtil;
 import com.mwj.personweb.utils.IPUtil;
 import com.mwj.personweb.utils.MyUtils;
+import com.mwj.personweb.utils.UUID;
 import com.vdurmont.emoji.EmojiParser;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -38,6 +41,8 @@ public class CommentsController extends AbstractController {
 
   @Autowired private ISysUserService sysUserService;
 
+  @Autowired private ICommentLikeService commentLikeService;
+
   @PostMapping(value = "/comment")
   @ResponseBody
   @Transactional(rollbackFor = TipException.class)
@@ -51,18 +56,15 @@ public class CommentsController extends AbstractController {
       String text,
       String _csrf_token,
       Authentication authentication) {
-    String ref = request.getHeader("Referer");
-    /* if (StringUtils.isBlank(ref) || StringUtils.isBlank(_csrf_token)) {
-      return RestResponseBo.fail("Bad request");
-    }
-
-    String token = cache.hget(Types.CSRF_TOKEN.getType(), _csrf_token);
-    if (StringUtils.isBlank(token)) {
-      return RestResponseBo.fail("Bad request");
-    }*/
     String headImg = null;
+    int authoId = 0;
+    CommentVo comments = new CommentVo();
+    String ip = IPUtil.getIpAddrByRequest(request);
+
+    String agent = IPUtil.getAgentByRequest(request);
+
     if (null == cid || StringUtils.isBlank(text)) {
-      return RestResponseBo.fail("请输入完整后评论");
+      return RestResponseBo.fail("评论不能为空哦");
     }
     if (StringUtils.isNotBlank(author) && author.length() > 50) {
       return RestResponseBo.fail("姓名过长");
@@ -72,8 +74,8 @@ public class CommentsController extends AbstractController {
       return RestResponseBo.fail("请输入正确的邮箱格式");
     }
 
-    if (text.length() > 200) {
-      return RestResponseBo.fail("请输入200个字符以内的评论");
+    if (text.length() > 500) {
+      return RestResponseBo.fail("请输入500个字符以内的评论");
     }
 
     if (authentication != null && authentication.getName() != null) {
@@ -81,14 +83,17 @@ public class CommentsController extends AbstractController {
       SysUser user = sysUserService.findByName(authentication.getName());
       mail = user.getEmail();
       headImg = user.getImgUrl();
+      authoId = user.getId();
+
     } else {
       headImg = CommonUtil.gravatarImg(mail);
+      authoId = UUID.random(1, 100000);
     }
 
     String val = IPUtil.getIpAddrByRequest(request) + ":" + cid;
     Integer count = cache.hget(Types.COMMENTS_FREQUENCY.getType(), val);
     if (null != count && count > 0) {
-      return RestResponseBo.fail("评论有点快噢");
+      return RestResponseBo.fail("评论太快噢");
     }
 
     // 去除js脚本
@@ -96,9 +101,8 @@ public class CommentsController extends AbstractController {
     text = MyUtils.cleanXSS(text);
 
     author = EmojiParser.parseToAliases(author);
-    text = EmojiParser.parseToAliases(text);
+    // text = EmojiParser.parseToAliases(text);
 
-    CommentVo comments = new CommentVo();
     comments.setAuthor(author);
     comments.setCid(cid);
     comments.setIp(request.getRemoteAddr());
@@ -106,6 +110,10 @@ public class CommentsController extends AbstractController {
     comments.setMail(mail);
     comments.setParent(coid);
     comments.setHeadImg(headImg);
+    comments.setIp(ip);
+    comments.setAgent(agent);
+    comments.setAuthorId(authoId);
+
     try {
       commentService.insertComment(comments);
       cookie(
@@ -117,6 +125,60 @@ public class CommentsController extends AbstractController {
       return RestResponseBo.ok();
     } catch (Exception e) {
       String msg = "评论失败";
+      return ExceptionHelper.handlerException(logger, msg, e);
+    }
+  }
+  /**
+   * @description // 点赞Integer cid, Integer coid, Integer authorId, String ip, String agent,
+   * @param:
+   * @return:
+   * @date: 2019/3/13 16:51
+   */
+  @PostMapping(value = "/likeComment")
+  @ResponseBody
+  @Transactional(rollbackFor = TipException.class)
+  public RestResponseBo like(
+      HttpServletRequest request,
+      HttpServletResponse response,
+      Authentication authentication,
+      CommentLike commentLike) {
+    try {
+
+      int authorId = 0;
+      if (authentication != null && authentication.getName() != null) {
+
+        SysUser user = sysUserService.findByName(authentication.getName());
+        authorId = user.getId();
+        CommentLike commentLikeIsAuth =
+            commentLikeService.findCommentLikeIsAuth(commentLike.getCoid(), authorId);
+        if (commentLikeIsAuth == null) {
+          commentLike.setAuthorId(authorId);
+        } else {
+          throw new TipException("你已经点过赞了噢");
+        }
+      } else {
+
+        String ip = IPUtil.getIpAddrByRequest(request);
+        String agent = IPUtil.getAgentByRequest(request);
+        Integer coid = commentLike.getCoid();
+
+        CommentLike commentLikeNotAuth = commentLikeService.findCommentLikeNotAuth(coid, ip, agent);
+        if (commentLikeNotAuth == null) {
+          authorId = UUID.random(1, 100000);
+          commentLike.setAgent(agent);
+          commentLike.setIp(ip);
+          commentLike.setAuthorId(authorId);
+
+        } else {
+          throw new TipException("你已经点过赞了噢");
+        }
+      }
+      commentLikeService.addCommentLike(commentLike);
+      return RestResponseBo.ok();
+
+    } catch (Exception e) {
+
+      String msg = "点赞失败";
       return ExceptionHelper.handlerException(logger, msg, e);
     }
   }

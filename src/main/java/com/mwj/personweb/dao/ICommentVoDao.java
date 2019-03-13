@@ -41,4 +41,6 @@ public interface ICommentVoDao {
   int updateByPrimaryKey(CommentVo record);
 
   int deleteCommentsById(Integer cid);
+
+  int updateAddLike(int coid);
 }

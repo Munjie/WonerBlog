@@ -1,5 +1,6 @@
 var articleId = "";
 
+
 $.ajax({
     type: 'HEAD', // 获取头信息，type=HEAD即可
     url: window.location.href,

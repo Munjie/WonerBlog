@@ -1,5 +1,9 @@
 package com.mwj.personweb.utils;
 
+import eu.bitwalker.useragentutils.Browser;
+import eu.bitwalker.useragentutils.UserAgent;
+import eu.bitwalker.useragentutils.Version;
+
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -63,5 +67,14 @@ public class IPUtil {
     } else {
       return localip;
     }
+  }
+
+  public static String getAgentByRequest(HttpServletRequest request) {
+
+    // 获取浏览器信息
+    Browser browser = UserAgent.parseUserAgentString(request.getHeader("User-Agent")).getBrowser();
+    // 获取浏览器版本号
+    Version version = browser.getVersion(request.getHeader("User-Agent"));
+    return browser.getName() + "/" + version.getVersion();
   }
 }

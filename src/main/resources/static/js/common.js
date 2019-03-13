@@ -20,6 +20,50 @@ function editArticle() {
 
 }
 
+function liked(coid, cid, authorId, ip, agent) {
+    var $this
+        = $(this)
+
+    $.ajax({
+        type: 'post',
+        url: '/likeComment',
+        dataType: 'json',
+        data: {
+            coid: coid,
+            cid: cid,
+            authorId: authorId,
+            ip: ip,
+            agent: agent,
+        },
+        success: function (result) {
+            if (result && result.success) {
+                swal("点赞成功!", "", "success");
+                niceIn($this);
+                $this.removeClass("fa-thumbs-o-up");
+                $this.addClass("fa-thumbs-up");
+                $this.addClass("text-danger");
+                setTimeout("location.reload()", 1000);//页面刷新
+
+            } else {
+                if (result.msg) {
+                    swal(result.msg, "", "warning");
+
+                }
+            }
+        },
+        error: function () {
+            swal("点赞请求失败!", "", "error");
+        }
+    });
+}
+
+//点赞喜欢效果
+function niceIn(prop) {
+    prop.find('i').addClass('niceIn');
+    setTimeout(function () {
+        prop.find('i').removeClass('niceIn');
+    }, 1000);
+}
 
 function pub_comments() {
 
@@ -34,7 +78,7 @@ function pub_comments() {
             if (result && result.success) {
                 swal("评论成功!", "", "success");
                 setTimeout("location.reload()", 1000);//页面刷新
-             
+
             } else {
                 if (result.msg) {
                     swal(result.msg, "", "warning");

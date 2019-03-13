@@ -58,7 +58,6 @@ function buldHtml(obj) {
     text += '                                    <td>' + obj['id'] + '</td>';
     text += '                                    <td>' + obj['name'] + '</td>';
     text += '                                    <td class=\'am-hide-sm-only\'>' + obj['email'] + '</td>';
-    text += '                                    <td class=\'am-hide-sm-only\'>' + obj['userName'] + '</td>';
     text += '                                    <td><a href="' + obj['imgUrl'] + '">' + obj['imgUrl'] + '</a></td>';
     text += '                                    <td>';
     text += '                                        <div class=\'am-btn-toolbar\'>';
@@ -107,7 +106,8 @@ function ajaxFirst(currentPage) {
                 }
             });
         },
-        error: function () {
+        error: function (e) {
+            console.log(e)
             swal("用户信息请求失败!", "", "error");
         }
     });

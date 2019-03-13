@@ -26,6 +26,7 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="../../static/js/common.js"></script>
     <script src="../../static/js/comments.js"></script>
+    <script src="../../static/js/likes.js"></script>
 </head>
 <body>
 <div th:fragment="comments">
@@ -54,6 +55,8 @@
             </p>
         </fieldset>
     </form>
+
+
     <div th:if="${comments}">
         <ul class="am-comments-list" th:each="comment :${comments.list}">
             <li class="am-comment">
@@ -64,7 +67,7 @@
                 <div class="am-comment-main">
                     <header class="am-comment-hd">
                         <div class="am-comment-meta">
-                            <a href="#link-to-user" class="am-comment-author" th:text="${comment.author}"></a> 评论于
+                            <a href="#link-to-user" class="am-comment-author" th:text="${comment.author}"></a>&emsp;&emsp;
                             <time datetime="2013-07-27T04:54:29-07:00" title="2013年7月27日 下午7:54 格林尼治标准时间+0800"
                                   th:text="${comment.created}">
                             </time>
@@ -73,6 +76,19 @@
                     <div class="am-comment-bd">
                         <p th:utext="${comment.content}"></p>
                     </div>
+                    <footer class="am-comment-footer">
+                        <div class="am-comment-actions">
+                            <a href="javascript:void(0)"
+                               th:onclick="'javascript:liked('+${comment.coid}+','+${comment.coid}+','+${comment.cid}+','+${comment.cid}+')'"><i
+                                    class="am-icon-thumbs-up"></i><span th:if="${comment.likes} >0"><span
+                                    th:text="${comment.likes}"></span></span></a>
+                            <a><i class="am-icon-reply"></i></a>&emsp;
+                            <span class=""
+                                  th:text="${'##'+(commentStat.size-commentStat.count+1)+'楼'}"></span>
+                        </div>
+
+                    </footer>
+
                 </div>
             </li>
         </ul>

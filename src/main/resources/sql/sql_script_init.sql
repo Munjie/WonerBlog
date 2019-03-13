@@ -50,6 +50,27 @@ CREATE TABLE `img` (--用户表sys_user：
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+CREATE TABLE `comment ` (--评论表
+  id int (20) NOT NULL AUTO_INCREMENT,
+  comment varchar(500) ,
+  create_time date ,
+   user_id int (20) ,
+   psst_id int (20) ,
+   pid int (20) ,
+   reply_user_id (20)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `comment_likes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `cid` int(20) ,
+  `coid` int(11) ,
+  `ip` varchar(255) ,
+  `agent` varchar(255) ,
+  `likeDate` varchar(255) ,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+
 --初始化数据
 --这里的权限格式为ROLE_XXX，是Spring Security规定的
 INSERT INTO `sys_role` VALUES ('1', 'ROLE_ADMIN');

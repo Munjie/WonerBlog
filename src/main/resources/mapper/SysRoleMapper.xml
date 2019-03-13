@@ -12,4 +12,8 @@
     <select id="findByName" parameterType="java.lang.String" resultMap="roleMap">
       SELECT * FROM sys_role WHERE name = #{name}
     </select>
+
+    <select id="findAllSysRole" resultMap="roleMap">
+      SELECT * FROM sys_role
+    </select>
 </mapper>

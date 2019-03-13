@@ -52,6 +52,9 @@ public class CommentVo implements Serializable {
   /** 评论用户头像 */
   private String headImg;
 
+  /** 点赞 */
+  private int likes;
+
   private static final long serialVersionUID = 1L;
 
   public Integer getCoid() {
@@ -174,6 +177,14 @@ public class CommentVo implements Serializable {
     this.headImg = headImg;
   }
 
+  public int getLikes() {
+    return likes;
+  }
+
+  public void setLikes(int likes) {
+    this.likes = likes;
+  }
+
   /*@Override
   public String toString() {
     return "CommentVo{"
@@ -259,6 +270,8 @@ public class CommentVo implements Serializable {
         + ", headImg='"
         + headImg
         + '\''
+        + ", index="
+        + likes
         + '}';
   }
 }

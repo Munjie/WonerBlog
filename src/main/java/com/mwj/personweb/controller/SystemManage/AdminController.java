@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /** @Auther: munjie @Date: 2019/3/10 19:33 @Description: */
 @Controller
@@ -28,11 +27,8 @@ public class AdminController {
   @Autowired private PageUtil pageUtil;
 
   @GetMapping(value = "/toBack")
-  private String toIndex(
-      Authentication authentication, HttpServletRequest httpServletRequest, Model model)
-      throws Exception {
-    HttpSession session = httpServletRequest.getSession();
-    Object count = session.getServletContext().getAttribute("count");
+  private String toIndex(Authentication authentication, Model model) throws Exception {
+
     return pageUtil.forward(authentication, model, "back/index");
   }
   /**

@@ -2,6 +2,8 @@ package com.mwj.personweb.utils;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -117,5 +119,51 @@ public class TimeUtil {
       return DateKit.formatDateByUnixTime(unixTime, patten);
     }
     return "";
+  }
+  /**
+   * @description //java 时间戳 转 昨天前天 几小时前 刚刚
+   * @param:
+   * @return:
+   * @date: 2019/3/13 10:40
+   */
+  public static String getTimeStateNew(String long_time) {
+    String long_by_13 = "1000000000000";
+    String long_by_10 = "1000000000";
+    if (Long.valueOf(long_time) / Long.valueOf(long_by_13) < 1) {
+      if (Long.valueOf(long_time) / Long.valueOf(long_by_10) >= 1) {
+        long_time = long_time + "000";
+      }
+    }
+    Timestamp time = new Timestamp(Long.valueOf(long_time));
+    Timestamp now = new Timestamp(System.currentTimeMillis());
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    //    System.out.println("传递过来的时间:"+format.format(time));
+    //    System.out.println("现在的时间:"+format.format(now));
+    long day_conver = 1000 * 60 * 60 * 24;
+    long hour_conver = 1000 * 60 * 60;
+    long min_conver = 1000 * 60;
+    long time_conver = now.getTime() - time.getTime();
+    long temp_conver;
+    //    System.out.println("天数:"+time_conver/day_conver);
+    if ((time_conver / day_conver) < 3) {
+      temp_conver = time_conver / day_conver;
+      if (temp_conver <= 2 && temp_conver >= 1) {
+        return temp_conver + "天前";
+      } else {
+        temp_conver = (time_conver / hour_conver);
+        if (temp_conver >= 1) {
+          return temp_conver + "小时前";
+        } else {
+          temp_conver = (time_conver / min_conver);
+          if (temp_conver >= 1) {
+            return temp_conver + "分钟前";
+          } else {
+            return "刚刚";
+          }
+        }
+      }
+    } else {
+      return format.format(time);
+    }
   }
 }
