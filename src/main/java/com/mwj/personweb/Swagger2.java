@@ -35,7 +35,7 @@ public class Swagger2 {
 
   private ApiInfo apiInfo() {
     return new ApiInfoBuilder()
-        .title("小母同学 RESTful API")
+        .title("Student_MU RESTful API")
         .description("Spring Boot中优雅的使用Swagger2构建RESTful APIs")
         .termsOfServiceUrl("https://www.biubiucat.com/")
         .version("1.0")

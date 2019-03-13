@@ -91,6 +91,39 @@
 
                     </footer>
 
+                    <blockquote>
+                        <ul class="am-comments-list" th:each="reply :${comment.commentReplies}">
+                            <li>
+                                <a href="#link-to-user-home">
+                                    <img th:src="${reply.replyImg}" alt=""
+                                         class="am-comment-avatar" style="width: 30px;height: 30px">
+                                </a>
+                                <span class="aam-monospace"
+                                      th:text="${reply.authorId} + '回复'+${reply.authorId} + ':' +${reply.comment}"></span>
+                                <footer class="am-comment-footer">
+                                    <div class="am-comment-actions">
+                                        <a href="javascript:void(0)"
+                                           th:onclick="'javascript:liked('+${reply.id}+','+${reply.coid}+','+${reply.authorId}+','+${reply.replyId}+')'"><i
+                                                class="am-icon-thumbs-up"
+                                                th:id="${reply.id}"></i><span
+                                                th:if="${reply.likes} >0"><span
+                                                th:text="${reply.likes}"></span></span></a>
+                                        <a><i class="am-icon-reply"></i></a>&emsp;
+                                        <span class=""
+                                              th:text="${'##'+(replyStat.size-replyStat.count+1)+'楼'}"></span>
+                                        <span
+                                                th:text="${reply.created}">
+                                        </span>
+                                    </div>
+
+                                </footer>
+
+                            </li>
+
+                        </ul>
+
+                    </blockquote>
+
                 </div>
             </li>
         </ul>

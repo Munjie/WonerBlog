@@ -6,9 +6,11 @@ import com.mwj.personweb.bo.CommentBo;
 import com.mwj.personweb.dao.ICommentVoDao;
 import com.mwj.personweb.exception.TipException;
 import com.mwj.personweb.model.Article;
+import com.mwj.personweb.model.CommentReply;
 import com.mwj.personweb.model.CommentVo;
 import com.mwj.personweb.model.CommentVoExample;
 import com.mwj.personweb.service.IArticleService;
+import com.mwj.personweb.service.ICommentReplyService;
 import com.mwj.personweb.service.ICommentService;
 import com.mwj.personweb.utils.DateKit;
 import com.mwj.personweb.utils.MyUtils;
@@ -26,6 +28,8 @@ public class CommentServiceImpl implements ICommentService {
   @Autowired private ICommentVoDao commentDao;
 
   @Autowired private IArticleService articleService;
+
+  @Autowired private ICommentReplyService commentReplyService;
 
   @Override
   public void insertComment(CommentVo comments) {
@@ -64,7 +68,17 @@ public class CommentServiceImpl implements ICommentService {
         parents.forEach(
             parent -> {
               CommentBo comment = new CommentBo(parent);
+              List<CommentReply> commentReplyByCoid = null;
               if (parent.getCreated() != null) {
+                commentReplyByCoid = commentReplyService.findCommentReplyByCoid(parent.getCoid());
+                if (commentReplyByCoid != null) {
+                  for (CommentReply reply : commentReplyByCoid) {
+
+                    reply.setCreated(TimeUtil.getTimeStateNew(reply.getCreated()));
+                  }
+
+                  comment.setCommentReplies(commentReplyByCoid);
+                }
                 comment.setCreated(TimeUtil.getTimeStateNew(parent.getCreated()));
               }
               comments.add(comment);

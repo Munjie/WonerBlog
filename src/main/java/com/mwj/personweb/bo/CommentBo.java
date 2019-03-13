@@ -23,6 +23,7 @@ public class CommentBo extends CommentVo {
     setCid(comments.getCid());
     setHeadImg(comments.getHeadImg());
     setLikes(comments.getLikes());
+    setCommentReplies(comments.getCommentReplies());
   }
 
   public int getLevels() {

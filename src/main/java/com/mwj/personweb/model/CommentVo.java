@@ -1,6 +1,7 @@
 package com.mwj.personweb.model;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * @author tangj
@@ -54,6 +55,8 @@ public class CommentVo implements Serializable {
 
   /** 点赞 */
   private int likes;
+
+  private List<CommentReply> commentReplies;
 
   private static final long serialVersionUID = 1L;
 
@@ -185,47 +188,13 @@ public class CommentVo implements Serializable {
     this.likes = likes;
   }
 
-  /*@Override
-  public String toString() {
-    return "CommentVo{"
-        + "coid="
-        + coid
-        + ", cid="
-        + cid
-        + ", created="
-        + created
-        + ", author='"
-        + author
-        + '\''
-        + ", authorId="
-        + authorId
-        + ", ownerId="
-        + ownerId
-        + ", mail='"
-        + mail
-        + '\''
-        + ", url='"
-        + url
-        + '\''
-        + ", ip='"
-        + ip
-        + '\''
-        + ", agent='"
-        + agent
-        + '\''
-        + ", type='"
-        + type
-        + '\''
-        + ", status='"
-        + status
-        + '\''
-        + ", parent="
-        + parent
-        + ", content='"
-        + content
-        + '\''
-        + '}';
-  }*/
+  public List<CommentReply> getCommentReplies() {
+    return commentReplies;
+  }
+
+  public void setCommentReplies(List<CommentReply> commentReplies) {
+    this.commentReplies = commentReplies;
+  }
 
   @Override
   public String toString() {
@@ -270,8 +239,10 @@ public class CommentVo implements Serializable {
         + ", headImg='"
         + headImg
         + '\''
-        + ", index="
+        + ", likes="
         + likes
+        + ", commentReplies="
+        + commentReplies
         + '}';
   }
 }

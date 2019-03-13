@@ -71,6 +71,39 @@ CREATE TABLE `comment_likes` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
+
+CREATE TABLE `t_comments` (
+  `coid` int(10) unsigned NOT NULL AUTO_INCREMENT ,
+  `cid` int(10) unsigned DEFAULT '0' ,
+  `created` int(10) unsigned DEFAULT '0' ,
+  `author` varchar(200) DEFAULT NULL ,
+  `author_id` int(10) unsigned DEFAULT '0' ,
+  `owner_id` int(10) unsigned DEFAULT '0' ,
+  `mail` varchar(200) DEFAULT NULL ,
+  `url` varchar(200) DEFAULT NULL ,
+  `ip` varchar(64) DEFAULT NULL  ,
+  `agent` varchar(200) DEFAULT NULL  ,
+  `content` text ,
+  `type` varchar(16) DEFAULT 'comment' ,
+  `status` varchar(16) DEFAULT 'approved' ,
+  `parent` int(10) unsigned DEFAULT '0',
+  PRIMARY KEY (`coid`),
+  KEY `cid` (`cid`),
+  KEY `created` (`created`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `t_reply` (
+   `id` int(20)  NOT NULL AUTO_INCREMENT ,
+  `coid` int(20)  NOT NULL ,
+  `author_id` int(20)  DEFAULT '0' ,
+  `reply_id` int(20)  DEFAULT '0' ,
+  `comment` varchar(500) DEFAULT NULL ,
+  `likes` int(10)  DEFAULT '0' ,
+  `created` varchar(100)  DEFAULT NULL,
+   PRIMARY KEY (`id`),
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --初始化数据
 --这里的权限格式为ROLE_XXX，是Spring Security规定的
 INSERT INTO `sys_role` VALUES ('1', 'ROLE_ADMIN');
