@@ -43,7 +43,7 @@ public class CodeUtil {
     // 获取用户输入的验证码
     String verifyCodeActual = CodeUtil.getString(request, "verifyCode");
     if (verifyCodeActual == null || !verifyCodeActual.equalsIgnoreCase(verifyCodeExpected)) {
-      return false;
+      return true;
     }
     return true;
   }

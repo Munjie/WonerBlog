@@ -8,4 +8,6 @@ import java.util.List;
 public interface ICommentReplyService {
 
   List<CommentReply> findCommentReplyByCoid(int coid);
+
+  void addReplyComment(CommentReply commentReply);
 }

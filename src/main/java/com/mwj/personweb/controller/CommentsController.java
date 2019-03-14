@@ -4,9 +4,11 @@ import com.mwj.personweb.bo.RestResponseBo;
 import com.mwj.personweb.exception.ExceptionHelper;
 import com.mwj.personweb.exception.TipException;
 import com.mwj.personweb.model.CommentLike;
+import com.mwj.personweb.model.CommentReply;
 import com.mwj.personweb.model.CommentVo;
 import com.mwj.personweb.model.SysUser;
 import com.mwj.personweb.service.ICommentLikeService;
+import com.mwj.personweb.service.ICommentReplyService;
 import com.mwj.personweb.service.ICommentService;
 import com.mwj.personweb.service.ISysUserService;
 import com.mwj.personweb.tdo.Types;
@@ -43,6 +45,13 @@ public class CommentsController extends AbstractController {
 
   @Autowired private ICommentLikeService commentLikeService;
 
+  @Autowired private ICommentReplyService commentReplyService;
+  /**
+   * @description //发表评论
+   * @param:
+   * @return:
+   * @date: 2019/3/14 11:29
+   */
   @PostMapping(value = "/comment")
   @ResponseBody
   @Transactional(rollbackFor = TipException.class)
@@ -129,7 +138,7 @@ public class CommentsController extends AbstractController {
     }
   }
   /**
-   * @description // 点赞Integer cid, Integer coid, Integer authorId, String ip, String agent,
+   * @description // 点赞
    * @param:
    * @return:
    * @date: 2019/3/13 16:51
@@ -138,10 +147,7 @@ public class CommentsController extends AbstractController {
   @ResponseBody
   @Transactional(rollbackFor = TipException.class)
   public RestResponseBo like(
-      HttpServletRequest request,
-      HttpServletResponse response,
-      Authentication authentication,
-      CommentLike commentLike) {
+      HttpServletRequest request, Authentication authentication, CommentLike commentLike) {
     try {
 
       int authorId = 0;
@@ -179,6 +185,47 @@ public class CommentsController extends AbstractController {
     } catch (Exception e) {
 
       String msg = "点赞失败";
+      return ExceptionHelper.handlerException(logger, msg, e);
+    }
+  }
+  /**
+   * @description //回复评论
+   * @param:
+   * @return:
+   * @date: 2019/3/14 11:28
+   */
+  @PostMapping(value = "/replyComment")
+  @ResponseBody
+  @Transactional(rollbackFor = TipException.class)
+  public RestResponseBo replyComment(
+      HttpServletRequest request,
+      HttpServletResponse response,
+      Authentication authentication,
+      CommentReply commentReply) {
+    int authorId = 0;
+    String authorName = null;
+    String authorImg = null;
+    try {
+      if (authentication != null && authentication.getName() != null) {
+        SysUser user = sysUserService.findByName(authentication.getName());
+        authorId = user.getId();
+        authorName = user.getName();
+        authorImg = user.getImgUrl();
+      } else {
+        authorName = "热心网友";
+        authorId = UUID.random(1, 100000);
+        authorImg = "https://secure.gravatar.com/avatar";
+      }
+      commentReply.setAuthorId(authorId);
+      commentReply.setAuthorName(authorName);
+      commentReply.setCreated(String.valueOf(System.currentTimeMillis()));
+      commentReply.setAuthorImg(authorImg);
+      commentReplyService.addReplyComment(commentReply);
+
+      return RestResponseBo.ok();
+    } catch (Exception e) {
+
+      String msg = "回复失败";
       return ExceptionHelper.handlerException(logger, msg, e);
     }
   }

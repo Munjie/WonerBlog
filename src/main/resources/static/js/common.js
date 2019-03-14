@@ -101,3 +101,43 @@ function addCommentInputValue() {
 }
 
 addCommentInputValue();
+
+
+function showRepleyComment(coid, authorId, author) {
+
+
+    $('#my-prompt').modal({
+        relatedTarget: this,
+
+        onConfirm: function () {
+            var replyComment = $("#repleyComment").val();
+            $.ajax({
+                type: 'post',
+                url: '/replyComment',
+                async: false,
+                dataType: 'json',
+                data: {
+                    coid: coid,
+                    replyId: authorId,
+                    replyName: author,
+                    comment: replyComment,
+
+                },
+                success: function (result) {
+                    if (result && result.success) {
+                        swal("回复成功!", "", "success");
+                        setTimeout("location.reload()", 1000);//页面刷新
+
+                    } else {
+                        if (result.msg) {
+                            swal(result.msg, "", "warning");
+
+                        }
+                    }
+                }
+            });
+
+        },
+
+    });
+}

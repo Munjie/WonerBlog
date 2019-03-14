@@ -10,7 +10,9 @@ public class CommentReply {
   private String comment;
   private int likes;
   private String created;
-  private String replyImg;
+  private String authorImg;
+  private String replyName;
+  private String authorName;
 
   public int getId() {
     return id;
@@ -68,12 +70,28 @@ public class CommentReply {
     this.created = created;
   }
 
-  public String getReplyImg() {
-    return replyImg;
+  public String getReplyName() {
+    return replyName;
   }
 
-  public void setReplyImg(String replyImg) {
-    this.replyImg = replyImg;
+  public void setReplyName(String replyName) {
+    this.replyName = replyName;
+  }
+
+  public String getAuthorName() {
+    return authorName;
+  }
+
+  public void setAuthorName(String authorName) {
+    this.authorName = authorName;
+  }
+
+  public String getAuthorImg() {
+    return authorImg;
+  }
+
+  public void setAuthorImg(String authorImg) {
+    this.authorImg = authorImg;
   }
 
   @Override
@@ -96,7 +114,13 @@ public class CommentReply {
         + created
         + '\''
         + ", replyImg='"
-        + replyImg
+        + authorImg
+        + '\''
+        + ", replyName='"
+        + replyName
+        + '\''
+        + ", authorName='"
+        + authorName
         + '\''
         + '}';
   }

@@ -50,7 +50,7 @@
             </div>
 
             <p>
-                <button id="misubmit" type="button" onclick="pub_comments()" class="am-btn am-btn-default">发表评论</button>
+                <button id="misubmit" type="button" onclick="pub_comments()" class="am-btn am-btn-default">评 论</button>
 
             </p>
         </fieldset>
@@ -84,22 +84,25 @@
                                     th:id="${comment.coid}"></i><span
                                     th:if="${comment.likes} >0"><span
                                     th:text="${comment.likes}"></span></span></a>
-                            <a><i class="am-icon-reply"></i></a>&emsp;
+                            <a class="am-accordion-title" href="javascript:;"
+                               th:onclick="showRepleyComment([[${comment.coid}]],[[${comment.authorId}]],[[${comment.author}]])"
+                            ><i
+                                    class="am-icon-reply"></i></a>&emsp;
                             <span class=""
                                   th:text="${'##'+(commentStat.size-commentStat.count+1)+'楼'}"></span>
                         </div>
 
                     </footer>
 
-                    <blockquote>
+                    <blockquote th:if="*{not #lists.isEmpty(comment.commentReplies)}">
                         <ul class="am-comments-list" th:each="reply :${comment.commentReplies}">
                             <li>
                                 <a href="#link-to-user-home">
-                                    <img th:src="${reply.replyImg}" alt=""
+                                    <img th:src="${reply.authorImg}" alt=""
                                          class="am-comment-avatar" style="width: 30px;height: 30px">
                                 </a>
                                 <span class="aam-monospace"
-                                      th:text="${reply.authorId} + '回复'+${reply.authorId} + ':' +${reply.comment}"></span>
+                                      th:text="${reply.authorName} + '回复@'+${reply.replyName} + ':' +${reply.comment}"></span>
                                 <footer class="am-comment-footer">
                                     <div class="am-comment-actions">
                                         <a href="javascript:void(0)"
@@ -127,6 +130,19 @@
                 </div>
             </li>
         </ul>
+        <div class="am-modal am-modal-prompt" tabindex="-1" id="my-prompt">
+            <div class="am-modal-dialog">
+                <div class="am-modal-bd">
+                  <textarea name="repleyComment" id="repleyComment" class="form-control"
+                            required="required" style="width: 500px;height: 100px"
+                            maxlength="2000" rows="5"></textarea>
+                </div>
+                <div class="am-modal-footer">
+                    <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+                    <span class="am-modal-btn" data-am-modal-confirm>回复</span>
+                </div>
+            </div>
+        </div>
         <div class="lists-navigator clearfix">
             <ol class="page-navigator">
                 <th:block th:if="${comments.hasPreviousPage}">
