@@ -86,7 +86,7 @@ function checkPwd() {
         return false;
     }
     if (pwd.length < 3) {
-        swal("密码长度太短", "", "warning");
+        swal("密码太短", "", "warning");
         flag = 1;
         return false;
     }

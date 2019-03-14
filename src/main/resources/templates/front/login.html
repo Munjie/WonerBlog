@@ -2,13 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="en">
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>登录</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp"/>
-    <link rel="alternate icon" type="image/png" href="assets/i/favicon.png">
+    <link rel="icon" type="image/ico" href="../../static/assets/i/cat.ico">
     <link rel="stylesheet" href="../../static/css/amazeui.min.css">
     <link rel="stylesheet" href="../../static/css/app.css">
     <link rel="stylesheet" href="../../static/css/plugs_paging.css">
@@ -91,8 +91,9 @@
                 stackOverflow</a>
         </div>
 
-
+        <br>
         <form method="post" class="am-form" th:action="@{/admin/login}">
+            <br>
             <label for="username">用户名:</label>
             <div class="am-input-group">
                 <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>
@@ -106,21 +107,21 @@
                 <input type="password" class="am-form-field" placeholder="Password" id="password" name="password">
             </div>
             <br>
-            <label for="password">验证码:</label>
-            <div class="am-input-group">
-                <input type="text" class="am-form-field" name="verifyCode">
-                <span class="am-input-group-label"><img alt="验证码"
-                                                        style="height: 33px;width: 100px;margin-top: -9px;margin-bottom: -4px;margin-left: -13px;
-                                                        margin-right: -15px"
-                                                        onclick="this.src='/kaptcha?d='+new Date()*1"
-                                                        onmouseover="mouseover(this)"
-                                                        src="/kaptcha"/></span>
-            </div>
+            <!--   <label for="password">验证码:</label>-->
+            <!-- <div class="am-input-group">
+                 <input type="text" class="am-form-field" name="verifyCode">
+                 <span class="am-input-group-label"><img alt="验证码"
+                                                         style="height: 33px;width: 100px;margin-top: -9px;margin-bottom: -4px;margin-left: -13px;
+                                                         margin-right: -15px"
+                                                         onclick="this.src='/kaptcha?d='+new Date()*1"
+                                                         onmouseover="mouseover(this)"
+                                                         src="/kaptcha"/></span>
+             </div>-->
             <br>
             <div class="alert alert-info" th:if="${loginError}">
                 <p class="" style="color: red" th:text="${errorMsg}"></p>
             </div>
-            <label><input type="checkbox" name="remember-me"/>记住我</label>
+            <label><input type="checkbox" name="remember-me"/>自动登陆</label>
             <br/>
             <div class="am-cf">
                 <input type="submit" name="" value="登 录" class="am-btn am-btn-primary am-btn-sm am-fl">

@@ -6,6 +6,7 @@ import com.mwj.personweb.service.ISysUserService;
 import com.mwj.personweb.service.redis.RedisServer;
 import com.mwj.personweb.utils.EmailUtils;
 import com.mwj.personweb.utils.JsonUtil;
+import com.mwj.personweb.utils.PageUtil;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -43,6 +44,8 @@ public class BackController {
   @Autowired private EmailUtils emailUtils;
 
   @Autowired private RedisServer redisServer;
+
+  @Autowired private PageUtil pageUtil;
 
   @GetMapping(value = "/toLogin")
   public String backLogin() {
@@ -85,7 +88,12 @@ public class BackController {
   }
 
   @RequestMapping("/login/error")
-  public String loginError(HttpServletRequest request, HttpServletResponse response, Model model) {
+  public String loginError(
+      Authentication authentication,
+      HttpServletRequest request,
+      HttpServletResponse response,
+      Model model)
+      throws Exception {
     response.setContentType("text/html;charset=utf-8");
     MyRuntimeException exception =
         (MyRuntimeException) request.getSession().getAttribute("SECURITY_EXCEPTION");
@@ -96,7 +104,7 @@ public class BackController {
     //    }
     model.addAttribute("loginError", true);
     model.addAttribute("errorMsg", exception.getMessage());
-    return "front/login";
+    return pageUtil.forward(authentication, model, "front/login");
   }
 
   @GetMapping("/kick")
