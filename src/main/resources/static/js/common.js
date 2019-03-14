@@ -20,7 +20,8 @@ function editArticle() {
 
 }
 
-function liked(coid, cid, authorId, ip, agent) {
+//点赞评论
+function likeComment(coid) {
     var ico = document.getElementById(coid);
     $.ajax({
         type: 'post',
@@ -28,10 +29,34 @@ function liked(coid, cid, authorId, ip, agent) {
         dataType: 'json',
         data: {
             coid: coid,
-            cid: cid,
-            authorId: authorId,
-            ip: ip,
-            agent: agent,
+        },
+        success: function (result) {
+            if (result && result.success) {
+                ico.style.color = "#ff2620";
+                swal("点赞成功!", "", "success");
+                //  setTimeout("location.reload()", 1000);//页面刷新
+
+            } else {
+                if (result.msg) {
+                    swal(result.msg, "", "warning");
+
+                }
+            }
+        },
+        error: function () {
+            swal("点赞请求失败!", "", "error");
+        }
+    });
+}
+
+function likeReply(coid) {
+    var ico = document.getElementById(coid);
+    $.ajax({
+        type: 'post',
+        url: '/likeReply',
+        dataType: 'json',
+        data: {
+            coid: coid,
         },
         success: function (result) {
             if (result && result.success) {
@@ -126,7 +151,7 @@ function showRepleyComment(coid, authorId, author) {
                 success: function (result) {
                     if (result && result.success) {
                         swal("回复成功!", "", "success");
-                        setTimeout("location.reload()", 1000);//页面刷新
+                        setTimeout("location.reload()", 2000);//页面刷新
 
                     } else {
                         if (result.msg) {

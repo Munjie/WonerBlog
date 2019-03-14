@@ -13,6 +13,8 @@ public class CommentReply {
   private String authorImg;
   private String replyName;
   private String authorName;
+  private String ip;
+  private String agent;
 
   public int getId() {
     return id;
@@ -94,6 +96,22 @@ public class CommentReply {
     this.authorImg = authorImg;
   }
 
+  public String getIp() {
+    return ip;
+  }
+
+  public void setIp(String ip) {
+    this.ip = ip;
+  }
+
+  public String getAgent() {
+    return agent;
+  }
+
+  public void setAgent(String agent) {
+    this.agent = agent;
+  }
+
   @Override
   public String toString() {
     return "CommentReply{"
@@ -113,7 +131,7 @@ public class CommentReply {
         + ", created='"
         + created
         + '\''
-        + ", replyImg='"
+        + ", authorImg='"
         + authorImg
         + '\''
         + ", replyName='"
@@ -121,6 +139,12 @@ public class CommentReply {
         + '\''
         + ", authorName='"
         + authorName
+        + '\''
+        + ", ip='"
+        + ip
+        + '\''
+        + ", agent='"
+        + agent
         + '\''
         + '}';
   }

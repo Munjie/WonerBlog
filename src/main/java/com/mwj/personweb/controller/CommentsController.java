@@ -7,9 +7,9 @@ import com.mwj.personweb.model.CommentLike;
 import com.mwj.personweb.model.CommentReply;
 import com.mwj.personweb.model.CommentVo;
 import com.mwj.personweb.model.SysUser;
-import com.mwj.personweb.service.ICommentLikeService;
 import com.mwj.personweb.service.ICommentReplyService;
 import com.mwj.personweb.service.ICommentService;
+import com.mwj.personweb.service.ILikeService;
 import com.mwj.personweb.service.ISysUserService;
 import com.mwj.personweb.tdo.Types;
 import com.mwj.personweb.utils.CommonUtil;
@@ -43,7 +43,7 @@ public class CommentsController extends AbstractController {
 
   @Autowired private ISysUserService sysUserService;
 
-  @Autowired private ICommentLikeService commentLikeService;
+  @Autowired private ILikeService likeService;
 
   @Autowired private ICommentReplyService commentReplyService;
   /**
@@ -138,7 +138,7 @@ public class CommentsController extends AbstractController {
     }
   }
   /**
-   * @description // 点赞
+   * @description // 评论点赞
    * @param:
    * @return:
    * @date: 2019/3/13 16:51
@@ -146,7 +146,7 @@ public class CommentsController extends AbstractController {
   @PostMapping(value = "/likeComment")
   @ResponseBody
   @Transactional(rollbackFor = TipException.class)
-  public RestResponseBo like(
+  public RestResponseBo likeComment(
       HttpServletRequest request, Authentication authentication, CommentLike commentLike) {
     try {
 
@@ -155,8 +155,9 @@ public class CommentsController extends AbstractController {
 
         SysUser user = sysUserService.findByName(authentication.getName());
         authorId = user.getId();
+
         CommentLike commentLikeIsAuth =
-            commentLikeService.findCommentLikeIsAuth(commentLike.getCoid(), authorId);
+            likeService.findCommentLikeIsAuth(commentLike.getCoid(), authorId);
         if (commentLikeIsAuth == null) {
           commentLike.setAuthorId(authorId);
         } else {
@@ -168,7 +169,7 @@ public class CommentsController extends AbstractController {
         String agent = IPUtil.getAgentByRequest(request);
         Integer coid = commentLike.getCoid();
 
-        CommentLike commentLikeNotAuth = commentLikeService.findCommentLikeNotAuth(coid, ip, agent);
+        CommentLike commentLikeNotAuth = likeService.findCommentLikeNotAuth(coid, ip, agent);
         if (commentLikeNotAuth == null) {
           authorId = UUID.random(1, 100000);
           commentLike.setAgent(agent);
@@ -179,7 +180,7 @@ public class CommentsController extends AbstractController {
           throw new TipException("你已经点过赞了噢");
         }
       }
-      commentLikeService.addCommentLike(commentLike);
+      likeService.addCommentLike(commentLike);
       return RestResponseBo.ok();
 
     } catch (Exception e) {
@@ -212,7 +213,7 @@ public class CommentsController extends AbstractController {
         authorName = user.getName();
         authorImg = user.getImgUrl();
       } else {
-        authorName = "热心网友";
+        authorName = MyUtils.getRandomJianHan(4);
         authorId = UUID.random(1, 100000);
         authorImg = "https://secure.gravatar.com/avatar";
       }
@@ -230,6 +231,57 @@ public class CommentsController extends AbstractController {
     }
   }
 
+  /**
+   * @description // 回复点赞
+   * @param:
+   * @return:
+   * @date: 2019/3/13 16:51
+   */
+  @PostMapping(value = "/likeReply")
+  @ResponseBody
+  @Transactional(rollbackFor = TipException.class)
+  public RestResponseBo likeReply(
+      HttpServletRequest request, Authentication authentication, CommentLike commentLike) {
+    try {
+
+      int authorId = 0;
+      if (authentication != null && authentication.getName() != null) {
+
+        SysUser user = sysUserService.findByName(authentication.getName());
+        authorId = user.getId();
+
+        CommentLike commentLikeIsAuth =
+            likeService.findCommentLikeIsAuth(commentLike.getCoid(), authorId);
+        if (commentLikeIsAuth == null) {
+          commentLike.setAuthorId(authorId);
+        } else {
+          throw new TipException("你已经点过赞了噢");
+        }
+      } else {
+
+        String ip = IPUtil.getIpAddrByRequest(request);
+        String agent = IPUtil.getAgentByRequest(request);
+        Integer coid = commentLike.getCoid();
+        CommentLike commentLikeNotAuth = likeService.findCommentLikeNotAuth(coid, ip, agent);
+        if (commentLikeNotAuth == null) {
+          authorId = UUID.random(1, 100000);
+          commentLike.setAgent(agent);
+          commentLike.setIp(ip);
+          commentLike.setAuthorId(authorId);
+
+        } else {
+          throw new TipException("你已经点过赞了噢");
+        }
+      }
+      likeService.addReplyLike(commentLike);
+      return RestResponseBo.ok();
+
+    } catch (Exception e) {
+
+      String msg = "点赞失败";
+      return ExceptionHelper.handlerException(logger, msg, e);
+    }
+  }
   /**
    * 设置cookie
    *

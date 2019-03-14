@@ -37,4 +37,19 @@ public class CommentReplyServiceImpl implements ICommentReplyService {
   public List<CommentReply> findCommentReplyByCoid(int coid) {
     return commentReplyDao.findCommentReplyByCoid(coid);
   }
+
+  @Override
+  public void updateReplyLike(int id) {
+
+    try {
+      int i = commentReplyDao.updateReplyLike(id);
+      if (i == 0) {
+        throw new TipException("点赞失败");
+      }
+
+    } catch (Exception e) {
+      logger.error(id + "更新点赞表异常", e);
+      throw new TipException("点赞失败");
+    }
+  }
 }

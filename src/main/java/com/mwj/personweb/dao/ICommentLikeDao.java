@@ -17,11 +17,9 @@ public interface ICommentLikeDao {
           + "      #{authorId,jdbcType=INTEGER}, #{ip,jdbcType=VARCHAR}, #{agent,jdbcType=VARCHAR})")
   int addCommentLike(CommentLike commentLike);
 
-  int upDateLike(int id);
-
   @Select("select   *     from  comment_likes  where    coid=#{coid} and authorId=#{authorId}")
   CommentLike findCommentLikeIsAuth(int coid, int authorId); // 认证用户
 
-  @Select("select  * from  comment_likes  where  coid=#{coid} and ip=#{ip} and  agent=#{agent}")
+  @Select("select  *  from  comment_likes  where  coid=#{coid} and ip=#{ip} and  agent=#{agent}")
   CommentLike findCommentLikeNotAuth(int coid, String ip, String agent); // 非认证用户
 }

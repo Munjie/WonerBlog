@@ -3,6 +3,7 @@ package com.mwj.personweb.dao;
 import com.mwj.personweb.model.CommentReply;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.mapstruct.Mapper;
 import org.springframework.stereotype.Repository;
 
@@ -22,4 +23,10 @@ public interface ICommentReplyDao {
           + "    values (#{id,jdbcType=INTEGER}, #{coid,jdbcType=INTEGER}, #{authorId,jdbcType=INTEGER},\n"
           + "      #{replyId,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR}, #{authorImg,jdbcType=VARCHAR},#{replyName,jdbcType=VARCHAR},#{authorName,jdbcType=VARCHAR},#{created,jdbcType=VARCHAR})")
   int addReplyCommemt(CommentReply commentReply);
+
+  @Update(
+      "     update t_reply\n"
+          + "    set likes = likes +1\n"
+          + "    where id = #{id,jdbcType=INTEGER}")
+  int updateReplyLike(int id);
 }

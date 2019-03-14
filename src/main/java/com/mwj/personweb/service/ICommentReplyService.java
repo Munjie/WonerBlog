@@ -10,4 +10,6 @@ public interface ICommentReplyService {
   List<CommentReply> findCommentReplyByCoid(int coid);
 
   void addReplyComment(CommentReply commentReply);
+
+  void updateReplyLike(int id);
 }

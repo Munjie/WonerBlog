@@ -79,7 +79,7 @@
                     <footer class="am-comment-footer">
                         <div class="am-comment-actions">
                             <a href="javascript:void(0)"
-                               th:onclick="'javascript:liked('+${comment.coid}+','+${comment.coid}+','+${comment.cid}+','+${comment.cid}+')'"><i
+                               th:onclick="'javascript:likeComment('+${comment.coid}+')'"><i
                                     class="am-icon-thumbs-up"
                                     th:id="${comment.coid}"></i><span
                                     th:if="${comment.likes} >0"><span
@@ -106,12 +106,14 @@
                                 <footer class="am-comment-footer">
                                     <div class="am-comment-actions">
                                         <a href="javascript:void(0)"
-                                           th:onclick="'javascript:liked('+${reply.id}+','+${reply.coid}+','+${reply.authorId}+','+${reply.replyId}+')'"><i
+                                           th:onclick="'javascript:likeReply('+${reply.id}+')'"><i
                                                 class="am-icon-thumbs-up"
                                                 th:id="${reply.id}"></i><span
                                                 th:if="${reply.likes} >0"><span
                                                 th:text="${reply.likes}"></span></span></a>
-                                        <a><i class="am-icon-reply"></i></a>&emsp;
+                                        <a class="" href="javascript:;"
+                                           th:onclick="showRepleyComment([[${comment.coid}]],[[${reply.authorId}]],[[${reply.authorName}]])"
+                                        ><i class="am-icon-reply"></i></a>&emsp;
                                         <span class=""
                                               th:text="${'##'+(replyStat.size-replyStat.count+1)+'楼'}"></span>
                                         <span
