@@ -234,16 +234,24 @@ public class SysUserServiceImpl implements ISysUserService {
   public void updateLevStatus(SysUser sysUser) {
 
     userDao.updateLevStatus(sysUser);
+    redisServer.remove(sysUser.getName());
   }
 
   @Override
-  public void updateLev(String name) {
+  public void updateLev(SysUser sysUser) {
 
-    userDao.updateLev(name);
+    userDao.updateLev(sysUser);
+    redisServer.remove(sysUser.getName());
   }
 
   @Override
   public int findLevStatus(String name) {
     return userDao.findLevStatus(name);
+  }
+
+  @Override
+  public void updateLevStatusNotAdd(SysUser sysUser) {
+    userDao.updateLevStatusNotAdd(sysUser);
+    redisServer.remove(sysUser.getName());
   }
 }

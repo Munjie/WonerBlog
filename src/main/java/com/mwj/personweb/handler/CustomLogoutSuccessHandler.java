@@ -36,16 +36,13 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
       SysUser time = sysUserService.findTime(username);
       long l = TimeUtil.calcLoginTime(time.getLogintime(), new Date());
       if (l > 0) {
-
         sysUser.setName(username);
         sysUser.setOnlinetimes(l);
         sysUserService.updateOnlineTime(sysUser);
       }
-
+      log.info("退出成功，当前用户名：{}", username);
       sysUser.setOuttime(new Date());
       sysUserService.updateOutTime(sysUser);
-
-      log.info("退出成功，当前用户名：{}", username);
 
       // 重定向到登录页
       response.sendRedirect("/");

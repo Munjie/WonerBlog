@@ -19,10 +19,9 @@ import java.util.concurrent.TimeUnit;
 @Service("redisService")
 public class RedisUtilServerImpl implements RedisServer {
 
-    private static Logger logger = LoggerFactory.getLogger(HomeController.class);
+  private static Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-    @Resource
-    private RedisTemplate<String, ?> redisTemplate;
+  @Resource private RedisTemplate<String, ?> redisTemplate;
 
   @Override
   public boolean set(final String key, final String value) {
@@ -61,48 +60,50 @@ public class RedisUtilServerImpl implements RedisServer {
 
   @Override
   public boolean remove(final String key) {
-    boolean result =
-        redisTemplate.execute(
-            new RedisCallback<Boolean>() {
-              @Override
-              public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
-                RedisSerializer<String> serializer = redisTemplate.getStringSerializer();
-                connection.del(key.getBytes());
-                return true;
-              }
-            });
+    boolean result = false;
+    if (hasKey(key)) {
+      redisTemplate.execute(
+          new RedisCallback<Boolean>() {
+            @Override
+            public Boolean doInRedis(RedisConnection connection) throws DataAccessException {
+              RedisSerializer<String> serializer = redisTemplate.getStringSerializer();
+              connection.del(key.getBytes());
+              return true;
+            }
+          });
+    }
     return result;
   }
 
-    @Override
-    /**
-     * 判断key是否存在
-     *
-     * @param key 键
-     * @return true 存在 false不存在
-     */
-    public boolean hasKey(String key) {
-        try {
-            return redisTemplate.hasKey(key);
-        } catch (Exception e) {
-            logger.error(key + "在当前redis不存在", e);
-            return false;
-        }
+  @Override
+  /**
+   * 判断key是否存在
+   *
+   * @param key 键
+   * @return true 存在 false不存在
+   */
+  public boolean hasKey(String key) {
+    try {
+      return redisTemplate.hasKey(key);
+    } catch (Exception e) {
+      logger.error(key + "在当前redis不存在", e);
+      return false;
     }
+  }
 
-    @Override
-    public boolean delKey(String... key) {
-        try {
-            if (key != null && key.length > 0) {
-                if (key.length == 1) {
-                    redisTemplate.delete(key[0]);
-                } else {
-                    redisTemplate.delete(CollectionUtils.arrayToList(key));
-                }
-            }
-            return true;
-        } catch (Exception e) {
-            return false;
+  @Override
+  public boolean delKey(String... key) {
+    try {
+      if (key != null && key.length > 0) {
+        if (key.length == 1) {
+          redisTemplate.delete(key[0]);
+        } else {
+          redisTemplate.delete(CollectionUtils.arrayToList(key));
         }
+      }
+      return true;
+    } catch (Exception e) {
+      return false;
     }
+  }
 }

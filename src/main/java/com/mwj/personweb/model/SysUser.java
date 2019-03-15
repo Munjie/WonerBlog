@@ -36,7 +36,7 @@ public class SysUser implements Serializable {
 
   private int lev;
 
-  private int levstatus;
+  private long levstatus;
 
   public static long getSerialVersionUID() {
     return serialVersionUID;
@@ -154,11 +154,11 @@ public class SysUser implements Serializable {
     this.lev = lev;
   }
 
-  public int getLevstatus() {
+  public long getLevstatus() {
     return levstatus;
   }
 
-  public void setLevstatus(int levstatus) {
+  public void setLevstatus(long levstatus) {
     this.levstatus = levstatus;
   }
 }

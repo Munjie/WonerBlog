@@ -18,6 +18,7 @@
             <a class="am-dropdown-toggle tpl-header-list-link" href="/login.html" sec:authorize="isAnonymous()">
                 登录
             </a>
+
             <li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle sec:authorize="isAuthenticated()">
                 <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
                     <span class="tpl-header-list-user-nick"> <th:block
@@ -25,10 +26,39 @@
                 </a>
                 <ul class="am-dropdown-content">
                     <li><a href="/userInfo"><span class="am-icon-bell-o"></span> 资料</a></li>
-                    <li><a href=""><span class="am-icon-comment-o"></span>消息<span
-                            class="am-badge tpl-badge-danger am-round">9</span></a></li>
                     <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="#"><span class="am-icon-cog"></span> 设置</a></li>
                     <li><a href="/logout"><span class="am-icon-power-off"></span> 退出</a></li>
+                </ul>
+            </li>
+            <li class="am-dropdown" data-am-dropdown data-am-dropdown-toggle sec:authorize="isAuthenticated()">
+                <a class="am-dropdown-toggle tpl-header-list-link" href="javascript:;">
+                    <span class="am-icon-comment-o"></span><span
+                        class="am-badge tpl-badge-danger am-round"></span></span>
+                </a>
+                <ul class="am-dropdown-content tpl-dropdown-content">
+                    <li class="tpl-dropdown-content-external">
+                        <h3>你有 <span class="tpl-color-danger">9</span> 条新消息</h3><a href="###">全部</a></li>
+                    <li>
+                        <a href="#" class="tpl-dropdown-content-message">
+                                <span class="tpl-dropdown-content-photo">
+                      <img src="assets/img/user02.png" alt=""> </span>
+                            <span class="tpl-dropdown-content-subject">
+                      <span class="tpl-dropdown-content-from"> 禁言小张 </span>
+                                <span class="tpl-dropdown-content-time">10分钟前 </span>
+                                </span>
+                            <span class="tpl-dropdown-content-font"> Amaze UI 的诞生，依托于 GitHub 及其他技术社区上一些优秀的资源；Amaze UI 的成长，则离不开用户的支持。 </span>
+                        </a>
+                        <a href="#" class="tpl-dropdown-content-message">
+                                <span class="tpl-dropdown-content-photo">
+                      <img src="assets/img/user03.png" alt=""> </span>
+                            <span class="tpl-dropdown-content-subject">
+                      <span class="tpl-dropdown-content-from"> Steam </span>
+                                <span class="tpl-dropdown-content-time">18分钟前</span>
+                                </span>
+                            <span class="tpl-dropdown-content-font"> 为了能最准确的传达所描述的问题， 建议你在反馈时附上演示，方便我们理解。 </span>
+                        </a>
+                    </li>
+
                 </ul>
             </li>
         </h1>
@@ -43,13 +73,12 @@
                 <li><a href="/archives.html">存档</a></li>
                 <li><a href="/tags.html">标签</a></li>
                 <li><a href="/swagger-ui.html">RESTful API</a></li>
-                <li class="am-dropdown" data-am-dropdown>
+                <li class="am-dropdown" sec:authorize="hasRole('ROLE_ADMIN')" data-am-dropdown>
                     <a class="am-dropdown-toggle" data-am-dropdown-toggle href="javascript:;">
                         菜单 <span class="am-icon-caret-down"></span>
                     </a>
-                    <ul class="am-dropdown-content" sec:authorize="isAuthenticated()">
-                        <li><a href="/admin/user">文章管理</a></li>
-                        <li><a href="/toBack" sec:authorize="hasRole('ROLE_ADMIN')">后台管理</a></li>
+                    <ul class="am-dropdown-content">
+                        <li><a href="/toBack">后台管理</a></li>
                     </ul>
                 </li>
             </ul>

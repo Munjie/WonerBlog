@@ -120,15 +120,13 @@ alter table sys_user alter COLUMN status  set
 DEFAULT 0
 
 
-CREATE TABLE `user_info` (
+CREATE TABLE `message` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sysid` int(11) NOT NULL,
-  `phone` varchar(255) DEFAULT NULL,
-  `qq` varchar(255) DEFAULT NULL,
-  `wechat` varchar(255) DEFAULT NULL,
-  `status` int(10) DEFAULT '0',
-  `lev` int(10) DEFAULT '0',
-  `days` int(10) DEFAULT NULL,
-  `birth` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  `msg` varchar(255) DEFAULT NULL,
+  `articleid` int(20) DEFAULT NULL,
+  `create` varchar(100) DEFAULT NULL,
+  `status` varchar(10) DEFAULT NULL ,
+  `comname` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

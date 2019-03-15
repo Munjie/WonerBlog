@@ -48,13 +48,21 @@ public interface ISysUserService {
    * @date: 2019/3/15 18:57
    */
   void updateLevStatus(SysUser sysUser);
+
+  /**
+   * @description //更新进度时间满减
+   * @param:
+   * @return:
+   * @date: 2019/3/15 18:57
+   */
+  void updateLevStatusNotAdd(SysUser sysUser);
   /**
    * @description //更新等级
    * @param:
    * @return:
    * @date: 2019/3/15 18:57
    */
-  void updateLev(String name);
+  void updateLev(SysUser sysUser);
   /**
    * @description //查询进度时间
    * @param:

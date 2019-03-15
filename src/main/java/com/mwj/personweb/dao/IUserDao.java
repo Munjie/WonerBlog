@@ -39,13 +39,22 @@ public interface IUserDao {
    * @date: 2019/3/15 18:57
    */
   int updateLevStatus(SysUser sysUser);
+
+  /**
+   * @description //更新进度时间满减
+   * @param:
+   * @return:
+   * @date: 2019/3/15 18:57
+   */
+  int updateLevStatusNotAdd(SysUser sysUser);
+
   /**
    * @description //更新等级
    * @param:
    * @return:
    * @date: 2019/3/15 18:57
    */
-  int updateLev(String name);
+  int updateLev(SysUser sysUser);
   /**
    * @description //查询进度时间
    * @param:

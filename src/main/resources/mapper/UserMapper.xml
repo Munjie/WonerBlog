@@ -83,14 +83,20 @@
     </update>
 
 
-    <update id="updateLevStatus" parameterType="java.lang.String">
+    <update id="updateLevStatus" parameterType="com.mwj.personweb.model.SysUser">
+     update sys_user SET levstatus =  #{levstatus} + levstatus
+      where name = #{name}
+    </update>
+
+
+    <update id="updateLevStatusNotAdd" parameterType="com.mwj.personweb.model.SysUser">
      update sys_user SET levstatus =  #{levstatus}
       where name = #{name}
     </update>
 
 
     <update id="updateLev" parameterType="com.mwj.personweb.model.SysUser">
-     update sys_user SET lev =  #{lev}
+     update sys_user SET lev =  lev + #{lev}
       where name = #{name}
     </update>
 

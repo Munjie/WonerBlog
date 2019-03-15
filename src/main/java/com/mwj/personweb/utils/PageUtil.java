@@ -10,6 +10,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
+import java.util.Map;
+
 /** @Author: 母哥 @Date: 2019-03-08 11:17 @Version 1.0 */
 @Component
 public class PageUtil {
@@ -41,9 +43,12 @@ public class PageUtil {
         model.addAttribute("wechat", user.getWechat());
         model.addAttribute("birth", user.getBirth());
         model.addAttribute("onlinetimes", user.getOnlinetimes());
-        model.addAttribute("lev", user.getLev());
 
-        float process = (float) user.getLevstatus() / 50 * 100; // 进度条
+        Map map = MyUtils.buildLev(String.valueOf(user.getOnlinetimes()));
+        model.addAttribute("lev", map.get("lev"));
+        int status = Integer.parseInt((String) map.get("status"));
+
+        float process = (float) status / 10 * 100; // 进度条
 
         model.addAttribute("levstatus", String.valueOf(process) + "%");
       }

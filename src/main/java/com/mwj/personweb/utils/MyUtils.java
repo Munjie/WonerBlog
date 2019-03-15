@@ -15,6 +15,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
@@ -218,5 +220,22 @@ public class MyUtils {
       }
     }
     return val;
+  }
+
+  public static Map buildLev(String time) {
+
+    Map map = new HashMap();
+    if (time != null) {
+      String status = time.substring(time.length() - 1, time.length());
+
+      if (time.length() < 2) {
+        map.put("lev", '0');
+      } else {
+        map.put("lev", time.substring(0, time.length() - 1));
+      }
+      map.put("status", status);
+    }
+
+    return map;
   }
 }
