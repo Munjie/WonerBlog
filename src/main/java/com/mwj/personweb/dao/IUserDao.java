@@ -22,4 +22,6 @@ public interface IUserDao {
   List<SysUser> allSysUser();
 
   int deleteUser(Integer id);
+
+  int updateUserInfo(SysUser sysUser);
 }

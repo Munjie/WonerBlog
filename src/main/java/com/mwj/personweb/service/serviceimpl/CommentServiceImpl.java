@@ -12,10 +12,13 @@ import com.mwj.personweb.model.CommentVoExample;
 import com.mwj.personweb.service.IArticleService;
 import com.mwj.personweb.service.ICommentReplyService;
 import com.mwj.personweb.service.ICommentService;
+import com.mwj.personweb.service.redis.RedisServer;
 import com.mwj.personweb.utils.DateKit;
 import com.mwj.personweb.utils.MyUtils;
 import com.mwj.personweb.utils.TimeUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,11 +28,15 @@ import java.util.List;
 @Service
 public class CommentServiceImpl implements ICommentService {
 
+  private Logger logger = LoggerFactory.getLogger(CommentServiceImpl.class);
+
   @Autowired private ICommentVoDao commentDao;
 
   @Autowired private IArticleService articleService;
 
   @Autowired private ICommentReplyService commentReplyService;
+
+  @Autowired private RedisServer redisServer;
 
   @Override
   public void insertComment(CommentVo comments) {
@@ -70,7 +77,19 @@ public class CommentServiceImpl implements ICommentService {
               CommentBo comment = new CommentBo(parent);
               List<CommentReply> commentReplyByCoid = null;
               if (parent.getCreated() != null) {
+                /*if (redisServer.hasKey(String.valueOf(parent.getCoid()))) {
+                  // redis 获取回复
+                  String s = redisServer.get(String.valueOf(parent.getCoid()));
+                  commentReplyByCoid = JsonUtil.getStringToList(s, CommentReply.class);
+                  logger.info("Get comment reply from redis success!");
+
+                } */
+                // 设置缓存
                 commentReplyByCoid = commentReplyService.findCommentReplyByCoid(parent.getCoid());
+                /* redisServer.set(
+                    String.valueOf(parent.getCoid()), JsonUtil.getListToJson(commentReplyByCoid));
+                logger.info("Set comment reply from redis success!");*/
+
                 if (commentReplyByCoid != null) {
                   for (CommentReply reply : commentReplyByCoid) {
 

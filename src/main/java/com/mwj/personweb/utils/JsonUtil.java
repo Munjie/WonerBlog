@@ -165,11 +165,15 @@ public class JsonUtil {
    * @return
    */
   public static <T> String getObjectToJson(T model) {
-    String StrObject = JSONObject.toJSONString(model);
-    return StrObject;
+    String StrObject = null;
+    try {
 
-    // User输出: {"cId":"100","pwd":"123456","uName":"lmx"}
-    // Map输出:  {"uName":"llmmxx","pwd":"123","cId":"300"}
+      StrObject = JSON.toJSONString(model);
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return StrObject;
   }
 
   /**

@@ -8,6 +8,11 @@
         <result property="email" column="email"/>
         <result property="imgUrl" column="imgurl"/>
         <result property="username" column="username"/>
+
+        <result property="phone" column="phone"/>
+        <result property="qq" column="qq"/>
+        <result property="wechat" column="wechat"/>
+        <result property="birth" column="birth"/>
     </resultMap>
     <select id="findById" parameterType="java.lang.Integer" resultMap="userMap">
        SELECT * FROM sys_user WHERE id = #{id}
@@ -40,6 +45,16 @@
 
     <update id="updateImgUrlByName" parameterType="com.mwj.personweb.model.SysUser">
      update sys_user SET imgurl = #{imgUrl} where name = #{name}
+    </update>
+
+    <update id="updateUserInfo" parameterType="com.mwj.personweb.model.SysUser">
+     update sys_user SET name = #{name},
+     email = #{email},
+     phone = #{phone},
+     qq = #{qq},
+     wechat = #{wechat},
+     birth = #{birth}
+      where id = #{id}
     </update>
 
     <delete id="deleteUser" parameterType="java.lang.Integer">

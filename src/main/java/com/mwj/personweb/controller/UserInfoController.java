@@ -1,5 +1,8 @@
 package com.mwj.personweb.controller;
 
+import com.mwj.personweb.bo.RestResponseBo;
+import com.mwj.personweb.exception.ExceptionHelper;
+import com.mwj.personweb.exception.TipException;
 import com.mwj.personweb.model.SysUser;
 import com.mwj.personweb.service.ISysUserService;
 import com.mwj.personweb.utils.FileUtil;
@@ -11,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,5 +66,46 @@ public class UserInfoController {
     }
 
     return object;
+  }
+
+  /**
+   * @description // 更新user信息
+   * @param:
+   * @return:
+   * @date: 2019/3/13 16:51
+   */
+  @PostMapping(value = "/updateUserInfo")
+  @ResponseBody
+  @Transactional(rollbackFor = TipException.class)
+  public RestResponseBo updateUserInfo(Authentication authentication, SysUser sysUser) {
+    try {
+
+      if (authentication == null) {
+        throw new TipException("请重新登录");
+      }
+      sysUserService.updateUserInfo(sysUser);
+      return RestResponseBo.ok();
+
+    } catch (Exception e) {
+      String msg = "保存失败";
+      return ExceptionHelper.handlerException(logger, msg, e);
+    }
+  }
+
+  @PostMapping(value = "/checkNameForUpdate")
+  @ResponseBody
+  @Transactional(rollbackFor = TipException.class)
+  public RestResponseBo checkName(String name) {
+
+    try {
+      if (sysUserService.isExitUser(name)) {
+        throw new TipException("用户名已存在");
+      }
+      return RestResponseBo.ok();
+
+    } catch (Exception e) {
+      String msg = "检查用户名失败";
+      return ExceptionHelper.handlerException(logger, msg, e);
+    }
   }
 }

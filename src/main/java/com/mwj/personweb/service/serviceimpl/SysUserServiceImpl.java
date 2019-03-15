@@ -3,6 +3,7 @@ package com.mwj.personweb.service.serviceimpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mwj.personweb.dao.IUserDao;
+import com.mwj.personweb.exception.TipException;
 import com.mwj.personweb.model.SysUser;
 import com.mwj.personweb.service.ISysUserService;
 import com.mwj.personweb.service.redis.RedisServer;
@@ -171,6 +172,23 @@ public class SysUserServiceImpl implements ISysUserService {
     jsonArray.add(thisPageInfo);
     //    logger.info(jsonArray.toString());
     return jsonArray;
+  }
+
+  @Override
+  public void updateUserInfo(SysUser sysUser) {
+    try {
+      int i = userDao.updateUserInfo(sysUser);
+      if (redisServer.hasKey(sysUser.getName())) {
+
+        redisServer.remove(sysUser.getName());
+      }
+      if (i == 0) {
+        throw new TipException("保存失败");
+      }
+    } catch (Exception e) {
+      logger.error(sysUser.getId() + "更新用户信息异常", e);
+      throw new TipException("更新失败");
+    }
   }
 
   @Override

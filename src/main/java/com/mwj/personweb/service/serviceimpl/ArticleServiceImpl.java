@@ -288,7 +288,18 @@ public class ArticleServiceImpl implements IArticleService {
 
   @Override
   public List<Article> tagArticle(String tagName) {
-    return artcileDao.findArticleByTag(tagName);
+    List<Article> articleByTag = null;
+    if (redisServer.hasKey(tagName)) {
+      String s = redisServer.get(tagName);
+      articleByTag = JsonUtil.getStringToList(s, Article.class);
+      logger.info("get article by tagname from redis success!");
+    } else {
+
+      articleByTag = artcileDao.findArticleByTag(tagName);
+      redisServer.set(tagName, JsonUtil.getListToJson(articleByTag));
+      logger.info("set article by tagname from redis success!");
+    }
+    return articleByTag;
   }
 
   public static String randomPath() {

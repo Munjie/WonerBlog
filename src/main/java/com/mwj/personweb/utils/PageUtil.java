@@ -34,6 +34,13 @@ public class PageUtil {
       model.addAttribute("userImg", user.getImgUrl());
       model.addAttribute("email", user.getEmail());
       model.addAttribute("name", user.getName());
+      model.addAttribute("userId", user.getId());
+      if ("front/user_info".equals(page)) {
+        model.addAttribute("phone", user.getPhone());
+        model.addAttribute("qq", user.getQq());
+        model.addAttribute("wechat", user.getWechat());
+        model.addAttribute("birth", user.getBirth());
+      }
     }
 
     return page;

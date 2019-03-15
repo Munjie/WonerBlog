@@ -2,74 +2,112 @@ package com.mwj.personweb.model;
 
 import java.io.Serializable;
 
-/**
- * @Author: 母哥 @Date: 2019-02-28 14:51 @Version 1.0
- */
+/** @Author: 母哥 @Date: 2019-02-28 14:51 @Version 1.0 */
 public class SysUser implements Serializable {
 
-    static final long serialVersionUID = 1L;
+  static final long serialVersionUID = 1L;
 
-    private int id;
+  private int id;
 
-    private String name;
+  private String name;
 
-    private String password;
+  private String password;
 
-    private String email;
+  private String email;
 
-    private String imgUrl;
+  private String imgUrl;
 
-    private String username;
+  private String username;
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
+  private String phone;
 
-    public int getId() {
-        return id;
-    }
+  private String qq;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+  private String wechat;
 
-    public String getName() {
-        return name;
-    }
+  private String birth;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public static long getSerialVersionUID() {
+    return serialVersionUID;
+  }
 
-    public String getPassword() {
-        return password;
-    }
+  public int getId() {
+    return id;
+  }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
 
-    public String getEmail() {
-        return email;
-    }
+  public String getName() {
+    return name;
+  }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+  public void setName(String name) {
+    this.name = name;
+  }
 
-    public String getImgUrl() {
-        return imgUrl;
-    }
+  public String getPassword() {
+    return password;
+  }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-    public String getUsername() {
-        return username;
-    }
+  public String getEmail() {
+    return email;
+  }
 
-    public void setUsername(String username) {
-        this.username = username;
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getImgUrl() {
+    return imgUrl;
+  }
+
+  public void setImgUrl(String imgUrl) {
+    this.imgUrl = imgUrl;
+  }
+
+  public String getUsername() {
+    return username;
+  }
+
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  public String getPhone() {
+    return phone;
+  }
+
+  public void setPhone(String phone) {
+    this.phone = phone;
+  }
+
+  public String getQq() {
+    return qq;
+  }
+
+  public void setQq(String qq) {
+    this.qq = qq;
+  }
+
+  public String getWechat() {
+    return wechat;
+  }
+
+  public void setWechat(String wechat) {
+    this.wechat = wechat;
+  }
+
+  public String getBirth() {
+    return birth;
+  }
+
+  public void setBirth(String birth) {
+    this.birth = birth;
   }
 }

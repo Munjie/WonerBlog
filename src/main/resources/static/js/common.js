@@ -5,6 +5,7 @@ function editArticle() {
         url: '/check_edit',
         cache: false, //实际使用中请禁用缓存
         dataType: 'json',
+        async: false,
         data: {
             name: null,
         },
@@ -27,6 +28,7 @@ function likeComment(coid) {
         type: 'post',
         url: '/likeComment',
         dataType: 'json',
+        async: false,
         data: {
             coid: coid,
         },
@@ -55,6 +57,7 @@ function likeReply(coid) {
         type: 'post',
         url: '/likeReply',
         dataType: 'json',
+        async: false,
         data: {
             coid: coid,
         },

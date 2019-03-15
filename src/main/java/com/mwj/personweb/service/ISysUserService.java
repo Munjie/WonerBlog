@@ -24,4 +24,6 @@ public interface ISysUserService {
   JSONArray allSysUser(String rows, String pageNum);
 
   JSONObject deleteUser(Integer id);
+
+  void updateUserInfo(SysUser sysUser);
 }

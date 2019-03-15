@@ -114,3 +114,21 @@ INSERT INTO `sys_user` VALUES ('2', 'mwj', '123');
 
 INSERT INTO `sys_user_role` VALUES ('1', '1');
 INSERT INTO `sys_user_role` VALUES ('2', '2');
+
+
+alter table sys_user alter COLUMN status  set
+DEFAULT 0
+
+
+CREATE TABLE `user_info` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sysid` int(11) NOT NULL,
+  `phone` varchar(255) DEFAULT NULL,
+  `qq` varchar(255) DEFAULT NULL,
+  `wechat` varchar(255) DEFAULT NULL,
+  `status` int(10) DEFAULT '0',
+  `lev` int(10) DEFAULT '0',
+  `days` int(10) DEFAULT NULL,
+  `birth` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8
