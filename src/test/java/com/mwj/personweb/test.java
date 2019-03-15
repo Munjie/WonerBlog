@@ -1,6 +1,7 @@
 package com.mwj.personweb;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -8,7 +9,7 @@ import java.util.Date;
 /** @Author: 母哥 @Date: 2019-03-07 15:49 @Version 1.0 */
 public class test {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws ParseException {
     /* // TODO Auto-generated method stub
     Random rand = new Random();
     StringBuilder sb = new StringBuilder();
@@ -30,6 +31,28 @@ public class test {
     }*/
     System.out.println(test.formateTime(System.currentTimeMillis()));
     System.out.println(test.getTimeStateNew(String.valueOf(1000000000000l)));
+
+    String start = "2018-07-12 10:00:00";
+    String end = "2018-07-15 18:00:00";
+
+    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    Date startDate = f.parse(start);
+    Date endDate = f.parse(end);
+    // 东八区
+    long startHour = startDate.getTime() / (1000 * 60 * 60) + 8;
+    long endHour = endDate.getTime() / (1000 * 60 * 60) + 8;
+
+    long startDay = startHour / 24;
+    long endDay = endHour / 24;
+
+    long start1 = startHour % 24;
+    long end1 = endHour % 24;
+
+    long hour =
+        (endDay - startDay - 1) * (17 - 9)
+            + Math.max(Math.min(end1, 17) - 9, 0)
+            + Math.max(17 - Math.max(start1, 9), 0);
+    System.out.println(hour);
   }
 
   // 将传入时间与当前时间进行对比，是否今天\昨天\前天\同一年

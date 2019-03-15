@@ -40,6 +40,12 @@ public class PageUtil {
         model.addAttribute("qq", user.getQq());
         model.addAttribute("wechat", user.getWechat());
         model.addAttribute("birth", user.getBirth());
+        model.addAttribute("onlinetimes", user.getOnlinetimes());
+        model.addAttribute("lev", user.getLev());
+
+        float process = (float) user.getLevstatus() / 50 * 100; // 进度条
+
+        model.addAttribute("levstatus", String.valueOf(process) + "%");
       }
     }
 

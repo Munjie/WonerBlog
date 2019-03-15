@@ -88,12 +88,14 @@
                 <div class="am-panel am-panel-default">
                     <div class="am-panel-bd">
                         <div class="user-info">
-                            <p>等级信息</p>
+                            <p>下一等级</p>
                             <div class="am-progress am-progress-sm">
-                                <div class="am-progress-bar am-progress-bar-success" style="width: 10%"></div>
+                                <div class="am-progress-bar am-progress-bar-success"
+                                     th:style=" 'width:'+${levstatus} "></div>
                             </div>
-                            <p class="user-info-order">当前等级：<strong>LV8</strong> 活跃天数：<strong>587</strong>
-                                距离下一级别：<strong>160</strong></p>
+                            <p class="user-info-order">LV：<strong th:text="${lev} +'级'"></strong> OnLine：<strong
+                                    th:text="${onlinetimes} + 'min'"></strong>
+                            </p>
                         </div>
                     </div>
                 </div>

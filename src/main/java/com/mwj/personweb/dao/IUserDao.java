@@ -24,4 +24,33 @@ public interface IUserDao {
   int deleteUser(Integer id);
 
   int updateUserInfo(SysUser sysUser);
+
+  int updateLoginTime(SysUser sysUser);
+
+  int updateOutTime(SysUser sysUser);
+
+  SysUser findTime(String name);
+
+  int updateOnlineTime(SysUser sysUser);
+  /**
+   * @description //更新进度时间
+   * @param:
+   * @return:
+   * @date: 2019/3/15 18:57
+   */
+  int updateLevStatus(SysUser sysUser);
+  /**
+   * @description //更新等级
+   * @param:
+   * @return:
+   * @date: 2019/3/15 18:57
+   */
+  int updateLev(String name);
+  /**
+   * @description //查询进度时间
+   * @param:
+   * @return:
+   * @date: 2019/3/15 18:57
+   */
+  int findLevStatus(String name);
 }

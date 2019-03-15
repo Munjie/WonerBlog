@@ -26,4 +26,40 @@ public interface ISysUserService {
   JSONObject deleteUser(Integer id);
 
   void updateUserInfo(SysUser sysUser);
+
+  void updateLoginTime(SysUser sysUser);
+
+  void updateOutTime(SysUser sysUser);
+
+  SysUser findTime(String name);
+
+  /**
+   * @description //在线时长
+   * @param:
+   * @return:
+   * @date: 2019/3/15 16:30
+   */
+  void updateOnlineTime(SysUser sysUser);
+
+  /**
+   * @description //更新进度时间
+   * @param:
+   * @return:
+   * @date: 2019/3/15 18:57
+   */
+  void updateLevStatus(SysUser sysUser);
+  /**
+   * @description //更新等级
+   * @param:
+   * @return:
+   * @date: 2019/3/15 18:57
+   */
+  void updateLev(String name);
+  /**
+   * @description //查询进度时间
+   * @param:
+   * @return:
+   * @date: 2019/3/15 18:57
+   */
+  int findLevStatus(String name);
 }

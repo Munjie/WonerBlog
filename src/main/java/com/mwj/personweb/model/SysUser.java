@@ -1,6 +1,7 @@
 package com.mwj.personweb.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /** @Author: 母哥 @Date: 2019-02-28 14:51 @Version 1.0 */
 public class SysUser implements Serializable {
@@ -26,6 +27,16 @@ public class SysUser implements Serializable {
   private String wechat;
 
   private String birth;
+
+  private Date logintime;
+
+  private Date outtime;
+
+  private long onlinetimes;
+
+  private int lev;
+
+  private int levstatus;
 
   public static long getSerialVersionUID() {
     return serialVersionUID;
@@ -109,5 +120,45 @@ public class SysUser implements Serializable {
 
   public void setBirth(String birth) {
     this.birth = birth;
+  }
+
+  public Date getLogintime() {
+    return logintime;
+  }
+
+  public void setLogintime(Date logintime) {
+    this.logintime = logintime;
+  }
+
+  public Date getOuttime() {
+    return outtime;
+  }
+
+  public void setOuttime(Date outtime) {
+    this.outtime = outtime;
+  }
+
+  public long getOnlinetimes() {
+    return onlinetimes;
+  }
+
+  public void setOnlinetimes(long onlinetimes) {
+    this.onlinetimes = onlinetimes;
+  }
+
+  public int getLev() {
+    return lev;
+  }
+
+  public void setLev(int lev) {
+    this.lev = lev;
+  }
+
+  public int getLevstatus() {
+    return levstatus;
+  }
+
+  public void setLevstatus(int levstatus) {
+    this.levstatus = levstatus;
   }
 }

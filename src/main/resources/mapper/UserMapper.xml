@@ -14,11 +14,11 @@
         <result property="wechat" column="wechat"/>
         <result property="birth" column="birth"/>
     </resultMap>
-    <select id="findById" parameterType="java.lang.Integer" resultMap="userMap">
+    <select id="findById" parameterType="java.lang.Integer" resultType="com.mwj.personweb.model.SysUser">
        SELECT * FROM sys_user WHERE id = #{id}
     </select>
 
-    <select id="findByName" parameterType="java.lang.String" resultMap="userMap">
+    <select id="findByName" parameterType="java.lang.String" resultType="com.mwj.personweb.model.SysUser">
       SELECT * FROM sys_user WHERE name = #{name}
     </select>
 
@@ -29,7 +29,7 @@
 
     </insert>
 
-    <select id="findUserByEmail" parameterType="java.lang.String" resultMap="userMap">
+    <select id="findUserByEmail" parameterType="java.lang.String" resultType="com.mwj.personweb.model.SysUser">
       SELECT * FROM sys_user WHERE email = #{email}
     </select>
 
@@ -57,8 +57,45 @@
       where id = #{id}
     </update>
 
+    <update id="updateLoginTime" parameterType="com.mwj.personweb.model.SysUser">
+     update sys_user SET logintime = #{logintime}
+
+      where name = #{name}
+    </update>
+
+    <update id="updateOutTime" parameterType="com.mwj.personweb.model.SysUser">
+     update sys_user SET outtime = #{outtime}
+      where name = #{name}
+    </update>
+
     <delete id="deleteUser" parameterType="java.lang.Integer">
          delete FROM sys_user WHERE id = #{id}
-
     </delete>
+
+    <select id="findTime" parameterType="java.lang.String" resultType="com.mwj.personweb.model.SysUser">
+      SELECT logintime,outtime FROM sys_user WHERE name = #{name}
+    </select>
+
+
+    <update id="updateOnlineTime" parameterType="com.mwj.personweb.model.SysUser">
+     update sys_user SET onlinetimes =  #{onlinetimes} + onlinetimes
+      where name = #{name}
+    </update>
+
+
+    <update id="updateLevStatus" parameterType="java.lang.String">
+     update sys_user SET levstatus =  #{levstatus}
+      where name = #{name}
+    </update>
+
+
+    <update id="updateLev" parameterType="com.mwj.personweb.model.SysUser">
+     update sys_user SET lev =  #{lev}
+      where name = #{name}
+    </update>
+
+    <select id="findLevStatus" parameterType="java.lang.String" resultType="java.lang.Integer">
+      SELECT levstatus FROM sys_user WHERE name = #{name}
+    </select>
+
 </mapper>

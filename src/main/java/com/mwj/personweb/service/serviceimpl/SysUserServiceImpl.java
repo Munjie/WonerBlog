@@ -175,6 +175,28 @@ public class SysUserServiceImpl implements ISysUserService {
   }
 
   @Override
+  public void updateLoginTime(SysUser sysUser) {
+    userDao.updateLoginTime(sysUser);
+  }
+
+  @Override
+  public void updateOnlineTime(SysUser sysUser) {
+    userDao.updateOnlineTime(sysUser);
+  }
+
+  @Override
+  public SysUser findTime(String name) {
+
+    return userDao.findTime(name);
+  }
+
+  @Override
+  public void updateOutTime(SysUser sysUser) {
+
+    userDao.updateOutTime(sysUser);
+  }
+
+  @Override
   public void updateUserInfo(SysUser sysUser) {
     try {
       int i = userDao.updateUserInfo(sysUser);
@@ -206,5 +228,22 @@ public class SysUserServiceImpl implements ISysUserService {
       logger.error("删除" + id + "失败");
       return ReturnMsgUtil.bulidRetunMsg("400", "删除用失败");
     }
+  }
+
+  @Override
+  public void updateLevStatus(SysUser sysUser) {
+
+    userDao.updateLevStatus(sysUser);
+  }
+
+  @Override
+  public void updateLev(String name) {
+
+    userDao.updateLev(name);
+  }
+
+  @Override
+  public int findLevStatus(String name) {
+    return userDao.findLevStatus(name);
   }
 }
