@@ -1,6 +1,8 @@
 package com.mwj.personweb.utils;
 
+import com.mwj.personweb.model.Message;
 import com.mwj.personweb.model.SysUser;
+import com.mwj.personweb.service.IMessageService;
 import com.mwj.personweb.service.ISysUserService;
 import com.mwj.personweb.service.redis.RedisServer;
 import org.slf4j.Logger;
@@ -10,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import org.springframework.ui.Model;
 
+import java.util.List;
 import java.util.Map;
 
 /** @Author: 母哥 @Date: 2019-03-08 11:17 @Version 1.0 */
@@ -21,6 +24,8 @@ public class PageUtil {
   @Autowired private ISysUserService sysUserService;
 
   @Autowired private RedisServer redisServer;
+
+  @Autowired private IMessageService messageService;
 
   public String forward(Authentication authentication, Model model, String page) throws Exception {
     SysUser user = null;
@@ -37,6 +42,8 @@ public class PageUtil {
       model.addAttribute("email", user.getEmail());
       model.addAttribute("name", user.getName());
       model.addAttribute("userId", user.getId());
+      List<Message> allMsg = messageService.findAllMsg(user.getName());
+      model.addAttribute("allMsg", allMsg);
       if ("front/user_info".equals(page)) {
         model.addAttribute("phone", user.getPhone());
         model.addAttribute("qq", user.getQq());
