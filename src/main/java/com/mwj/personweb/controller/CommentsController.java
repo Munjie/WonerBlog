@@ -3,14 +3,10 @@ package com.mwj.personweb.controller;
 import com.mwj.personweb.bo.RestResponseBo;
 import com.mwj.personweb.exception.ExceptionHelper;
 import com.mwj.personweb.exception.TipException;
-import com.mwj.personweb.model.CommentLike;
-import com.mwj.personweb.model.CommentReply;
-import com.mwj.personweb.model.CommentVo;
-import com.mwj.personweb.model.SysUser;
-import com.mwj.personweb.service.ICommentReplyService;
-import com.mwj.personweb.service.ICommentService;
-import com.mwj.personweb.service.ILikeService;
-import com.mwj.personweb.service.ISysUserService;
+import com.mwj.personweb.model.*;
+import com.mwj.personweb.pojo.GeoLocation;
+import com.mwj.personweb.service.*;
+import com.mwj.personweb.service.IPService.GeoLocationService;
 import com.mwj.personweb.tdo.Types;
 import com.mwj.personweb.utils.CommonUtil;
 import com.mwj.personweb.utils.IPUtil;
@@ -46,6 +42,12 @@ public class CommentsController extends AbstractController {
   @Autowired private ILikeService likeService;
 
   @Autowired private ICommentReplyService commentReplyService;
+
+  @Autowired private IMessageService messageService;
+
+  @Autowired private IArticleService articleService;
+
+  @Autowired private GeoLocationService geoLocationService;
   /**
    * @description //发表评论
    * @param:
@@ -68,9 +70,12 @@ public class CommentsController extends AbstractController {
     String headImg = null;
     int authoId = 0;
     CommentVo comments = new CommentVo();
+    Message message = new Message();
     String ip = IPUtil.getIpAddrByRequest(request);
 
     String agent = IPUtil.getAgentByRequest(request);
+
+    GeoLocation locationFromRequest = geoLocationService.getLocationFromRequest(comments.getIp());
 
     if (null == cid || StringUtils.isBlank(text)) {
       return RestResponseBo.fail("评论不能为空哦");
@@ -97,6 +102,11 @@ public class CommentsController extends AbstractController {
     } else {
       headImg = CommonUtil.gravatarImg(mail);
       authoId = UUID.random(1, 100000);
+      if (locationFromRequest != null && locationFromRequest.getCity() != null) {
+        author = locationFromRequest.getCity() + "网友";
+      } else {
+        author = MyUtils.getRandomJianHan(4);
+      }
     }
 
     String val = IPUtil.getIpAddrByRequest(request) + ":" + cid;
@@ -122,9 +132,22 @@ public class CommentsController extends AbstractController {
     comments.setIp(ip);
     comments.setAgent(agent);
     comments.setAuthorId(authoId);
+    // 未读消息
+    message.setArticleid(cid);
+    message.setStatus("1");
+    message.setHdimg(headImg);
+    message.setComname(author);
+    message.setCreattime(String.valueOf(System.currentTimeMillis()));
+    if (text.length() > 20) {
+      message.setMsg(text.substring(0, 10) + ".....");
+    } else {
+      message.setMsg(text);
+    }
+    message.setSysuser(articleService.findArticleAutor(cid));
 
     try {
       commentService.insertComment(comments);
+      messageService.addMessage(message);
       cookie(
           "tale_remember_author", URLEncoder.encode(author, "UTF-8"), 7 * 24 * 60 * 60, response);
       cookie("tale_remember_mail", URLDecoder.decode(mail, "UTF-8"), 7 * 24 * 60 * 60, response);
@@ -203,9 +226,13 @@ public class CommentsController extends AbstractController {
       HttpServletResponse response,
       Authentication authentication,
       CommentReply commentReply) {
+
+    String ip = IPUtil.getIpAddrByRequest(request);
     int authorId = 0;
     String authorName = null;
     String authorImg = null;
+    GeoLocation locationFromRequest = geoLocationService.getLocationFromRequest(ip);
+
     try {
       if (authentication != null && authentication.getName() != null) {
         SysUser user = sysUserService.findByName(authentication.getName());
@@ -213,7 +240,11 @@ public class CommentsController extends AbstractController {
         authorName = user.getName();
         authorImg = user.getImgUrl();
       } else {
-        authorName = MyUtils.getRandomJianHan(4);
+        if (locationFromRequest != null && locationFromRequest.getCity() != null) {
+          authorName = locationFromRequest.getCity() + "网友";
+        } else {
+          authorName = MyUtils.getRandomJianHan(4);
+        }
         authorId = UUID.random(1, 100000);
         authorImg = "https://secure.gravatar.com/avatar";
       }

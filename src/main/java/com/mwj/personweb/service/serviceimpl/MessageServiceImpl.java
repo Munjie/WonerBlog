@@ -7,6 +7,8 @@ import com.mwj.personweb.service.IMessageService;
 import com.mwj.personweb.service.ISysUserService;
 import com.mwj.personweb.service.redis.RedisServer;
 import com.mwj.personweb.utils.TimeUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import java.util.List;
 /** @Auther: munjie @Date: 2019/3/16 00:30 @Description: */
 @Service
 public class MessageServiceImpl implements IMessageService {
+
+  private Logger logger = LoggerFactory.getLogger(MessageServiceImpl.class);
 
   @Autowired private RedisServer redisServer;
 
@@ -30,7 +34,7 @@ public class MessageServiceImpl implements IMessageService {
       SysUser byName = sysUserService.findByName(name);
       allMsg = messageDao.findAllMsg(name);
       for (Message message : allMsg) {
-        message.setCreate(TimeUtil.getTimeStateNew(message.getCreate()));
+        message.setCreattime(TimeUtil.getTimeStateNew(message.getCreattime()));
       }
 
     } catch (Exception e) {
@@ -41,8 +45,19 @@ public class MessageServiceImpl implements IMessageService {
   }
 
   @Override
-  public void addMessage(Message message) {}
+  public void addMessage(Message message) {
+    try {
+
+      messageDao.addMessage(message);
+
+    } catch (Exception e) {
+      logger.error("添加未读消息异常", e);
+    }
+  }
 
   @Override
-  public void updateMessage(int id) {}
+  public void updateMessage(int id) {
+
+    messageDao.updateMessage(id);
+  }
 }

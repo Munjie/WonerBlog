@@ -202,6 +202,12 @@
             <artifactId>springfox-swagger-ui</artifactId>
             <version>2.7.0</version>
         </dependency>
+         <!--IP地址解析-->
+        <dependency>
+            <groupId>com.maxmind.geoip2</groupId>
+            <artifactId>geoip2</artifactId>
+            <version>2.3.0</version>
+        </dependency>
 
 
     </dependencies>

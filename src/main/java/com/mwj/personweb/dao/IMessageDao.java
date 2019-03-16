@@ -14,16 +14,13 @@ import java.util.List;
 @Repository
 public interface IMessageDao {
 
-  @Select("select * from message where name=#{name} and status = 1 order by id desc")
+  @Select("select * from message where sysuser=#{sysuser} and status = 1 order by id desc")
   List<Message> findAllMsg(String name);
 
   @Insert(
-      " insert into message (id, articleid, name,\n"
-          + "      create, status, comname,msg)\n"
-          + "    values (#{id,jdbcType=INTEGER}, #{articleid,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR},\n"
-          + "      #{create,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{comname,jdbcType=VARCHAR},#{msg,jdbcType=VARCHAR})")
+      " insert into message (id, articleid, sysuser,creattime, status, comname,msg, hdimg) values (#{id}, #{articleid}, #{sysuser},#{creattime}, #{status}, #{comname},#{msg},#{hdimg})")
   int addMessage(Message message);
 
-  @Update("update message  set status = 1  where id = #{id,jdbcType=INTEGER}")
+  @Update("update message  set status = 0  where id = #{id,jdbcType=INTEGER}")
   int updateMessage(int id);
 }

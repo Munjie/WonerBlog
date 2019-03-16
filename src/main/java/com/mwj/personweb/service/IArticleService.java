@@ -116,4 +116,6 @@ public interface IArticleService {
    * @return
    */
   List<Article> tagArticle(String tagName);
+
+  String findArticleAutor(int articleId);
 }

@@ -9,9 +9,11 @@ import com.mwj.personweb.model.Article;
 import com.mwj.personweb.model.CommentReply;
 import com.mwj.personweb.model.CommentVo;
 import com.mwj.personweb.model.CommentVoExample;
+import com.mwj.personweb.pojo.GeoLocation;
 import com.mwj.personweb.service.IArticleService;
 import com.mwj.personweb.service.ICommentReplyService;
 import com.mwj.personweb.service.ICommentService;
+import com.mwj.personweb.service.IPService.GeoLocationService;
 import com.mwj.personweb.service.redis.RedisServer;
 import com.mwj.personweb.utils.DateKit;
 import com.mwj.personweb.utils.MyUtils;
@@ -37,6 +39,8 @@ public class CommentServiceImpl implements ICommentService {
   @Autowired private ICommentReplyService commentReplyService;
 
   @Autowired private RedisServer redisServer;
+
+  @Autowired private GeoLocationService geoLocationService;
 
   @Override
   public void insertComment(CommentVo comments) {
@@ -174,7 +178,9 @@ public class CommentServiceImpl implements ICommentService {
       throw new TipException("评论对象为空");
     }
     if (StringUtils.isBlank(comments.getAuthor())) {
-      comments.setAuthor("热心网友");
+      GeoLocation locationFromRequest = geoLocationService.getLocationFromRequest(comments.getIp());
+
+      comments.setAuthor(locationFromRequest.getCity() + "网友");
     }
     if (StringUtils.isNotBlank(comments.getMail()) && !MyUtils.isEmail(comments.getMail())) {
       throw new TipException("请输入正确的邮箱格式");

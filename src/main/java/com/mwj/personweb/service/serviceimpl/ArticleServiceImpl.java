@@ -323,4 +323,9 @@ public class ArticleServiceImpl implements IArticleService {
     }
     return articleJsonArray;
   }
+
+  @Override
+  public String findArticleAutor(int id) {
+    return artcileDao.findArticleAutor(id);
+  }
 }

@@ -3,6 +3,7 @@ package com.mwj.personweb.utils;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.UserAgent;
 import eu.bitwalker.useragentutils.Version;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.InetAddress;
@@ -19,17 +20,37 @@ public class IPUtil {
    * @date: 2019/3/9 15:52
    */
   public static String getIpAddrByRequest(HttpServletRequest request) {
-    String ip = request.getHeader("x-forwarded-for");
-    if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-      ip = request.getHeader("Proxy-Client-IP");
+    String Xip = request.getHeader("X-Real-IP");
+    String XFor = request.getHeader("X-Forwarded-For");
+    if (StringUtils.isNotEmpty(XFor) && !"unKnown".equalsIgnoreCase(XFor)) {
+      // 多次反向代理后会有多个ip值，第一个ip才是真实ip
+      int index = XFor.indexOf(",");
+      if (index != -1) {
+        return XFor.substring(0, index);
+      } else {
+        return XFor;
+      }
     }
-    if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-      ip = request.getHeader("WL-Proxy-Client-IP");
+    XFor = Xip;
+    if (StringUtils.isNotEmpty(XFor) && !"unKnown".equalsIgnoreCase(XFor)) {
+      return XFor;
     }
-    if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
-      ip = request.getRemoteAddr();
+    if (StringUtils.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
+      XFor = request.getHeader("Proxy-Client-IP");
     }
-    return ip;
+    if (StringUtils.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
+      XFor = request.getHeader("WL-Proxy-Client-IP");
+    }
+    if (StringUtils.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
+      XFor = request.getHeader("HTTP_CLIENT_IP");
+    }
+    if (StringUtils.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
+      XFor = request.getHeader("HTTP_X_FORWARDED_FOR");
+    }
+    if (StringUtils.isBlank(XFor) || "unknown".equalsIgnoreCase(XFor)) {
+      XFor = request.getRemoteAddr();
+    }
+    return XFor;
   }
 
   /**

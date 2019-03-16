@@ -26,6 +26,12 @@
   </sql>
 
 
+    <select id="findArticleAutor" resultType="java.lang.String" parameterType="java.lang.Integer">
+       select   author    from    article where id = #{id}
+
+    </select>
+
+
     <select id="findAllArticles" resultType="com.mwj.personweb.model.Article">
        select
        articleId,author,articleTitle,articleType,

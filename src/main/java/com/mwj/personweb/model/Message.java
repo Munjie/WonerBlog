@@ -4,21 +4,13 @@ package com.mwj.personweb.model;
 public class Message {
 
   private int id;
+  private String sysuser;
   private int articleid;
-  private String name;
   private String msg;
-  private String create;
+  private String creattime;
   private String status;
   private String comname;
-  private String comimg;
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
+  private String hdimg;
 
   public int getId() {
     return id;
@@ -26,6 +18,14 @@ public class Message {
 
   public void setId(int id) {
     this.id = id;
+  }
+
+  public String getSysuser() {
+    return sysuser;
+  }
+
+  public void setSysuser(String sysuser) {
+    this.sysuser = sysuser;
   }
 
   public int getArticleid() {
@@ -36,12 +36,20 @@ public class Message {
     this.articleid = articleid;
   }
 
-  public String getCreate() {
-    return create;
+  public String getMsg() {
+    return msg;
   }
 
-  public void setCreate(String create) {
-    this.create = create;
+  public void setMsg(String msg) {
+    this.msg = msg;
+  }
+
+  public String getCreattime() {
+    return creattime;
+  }
+
+  public void setCreattime(String creattime) {
+    this.creattime = creattime;
   }
 
   public String getStatus() {
@@ -60,19 +68,39 @@ public class Message {
     this.comname = comname;
   }
 
-  public String getMsg() {
-    return msg;
+  public String getHdimg() {
+    return hdimg;
   }
 
-  public void setMsg(String msg) {
-    this.msg = msg;
+  public void setHdimg(String hdimg) {
+    this.hdimg = hdimg;
   }
 
-  public String getComimg() {
-    return comimg;
-  }
-
-  public void setComimg(String comimg) {
-    this.comimg = comimg;
+  @Override
+  public String toString() {
+    return "Message{"
+        + "id="
+        + id
+        + ", name='"
+        + sysuser
+        + '\''
+        + ", articleid="
+        + articleid
+        + ", msg='"
+        + msg
+        + '\''
+        + ", create='"
+        + creattime
+        + '\''
+        + ", status='"
+        + status
+        + '\''
+        + ", comname='"
+        + comname
+        + '\''
+        + ", hdimg='"
+        + hdimg
+        + '\''
+        + '}';
   }
 }
