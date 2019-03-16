@@ -6,6 +6,7 @@ import com.mwj.personweb.model.Article;
 import com.mwj.personweb.model.Tags;
 import com.mwj.personweb.service.IArticleService;
 import com.mwj.personweb.service.ICommentService;
+import com.mwj.personweb.service.IMessageService;
 import com.mwj.personweb.service.ITagsService;
 import com.mwj.personweb.service.redis.RedisServer;
 import com.mwj.personweb.utils.*;
@@ -43,6 +44,8 @@ public class ArticleController {
   @Autowired private RedisServer redisServer;
 
   @Autowired private ICommentService commentService;
+
+  @Autowired private IMessageService messageService;
 
   @PostMapping(value = "/publish")
   @ResponseBody
@@ -91,6 +94,10 @@ public class ArticleController {
     request.getSession().removeAttribute("lastUrl");
     List<Tags> tags = null;
     List<Article> articles = null;
+    if (authentication != null) {
+
+      messageService.updateMessage(Integer.parseInt(articleId));
+    }
 
     Map<String, String> articleMap =
         articleService.showArticleTitleByArticleId(Long.parseLong(articleId));

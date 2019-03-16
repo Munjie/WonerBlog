@@ -21,6 +21,6 @@ public interface IMessageDao {
       " insert into message (id, articleid, sysuser,creattime, status, comname,msg, hdimg) values (#{id}, #{articleid}, #{sysuser},#{creattime}, #{status}, #{comname},#{msg},#{hdimg})")
   int addMessage(Message message);
 
-  @Update("update message  set status = 0  where id = #{id,jdbcType=INTEGER}")
+  @Update("update message  set status = 0  where articleid = #{articleid}")
   int updateMessage(int id);
 }

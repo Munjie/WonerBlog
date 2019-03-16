@@ -34,6 +34,7 @@
     <form method="post" id="comment-form" class="am-form am-g" role="form">
         <input type="hidden" name="coid" id="coid"/>
         <input type="hidden" name="cid" id="cid" th:value="${article.id}"/>
+        <input type="hidden" name="articleId" id="articleId" th:value="${article.articleId}"/>
         <input type="hidden" name="_csrf_token" th:value="${_csrf_token}"/>
         <h3 class="blog-comment">评论</h3>
         <fieldset>

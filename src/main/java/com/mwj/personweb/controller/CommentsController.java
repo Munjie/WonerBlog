@@ -65,6 +65,7 @@ public class CommentsController extends AbstractController {
       String author,
       String mail,
       String text,
+      Integer articleId,
       String _csrf_token,
       Authentication authentication) {
     String headImg = null;
@@ -133,7 +134,7 @@ public class CommentsController extends AbstractController {
     comments.setAgent(agent);
     comments.setAuthorId(authoId);
     // 未读消息
-    message.setArticleid(cid);
+    message.setArticleid(articleId);
     message.setStatus("1");
     message.setHdimg(headImg);
     message.setComname(author);

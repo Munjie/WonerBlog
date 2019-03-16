@@ -33,6 +33,7 @@ $.ajax({
 function buildHead(data) {
     var text = '';
     text += '            <div class=\'am-article-hd\'>';
+    text += '                <input hidden="hidden" value="' + data.articleId + '" id="articleId"></input>';
     text += '                <h1 class=\'am-article-title blog-text-center\'>' + data.articleTitle + '</h1>';
     text += '                <p class=\'am-article-meta blog-text-center\'>';
     text += '                    <span><a href="/tagArticle/' + data.articleType + '" class=\'blog-color\'>' + data.articleType + ' &nbsp;</a></span>-';
