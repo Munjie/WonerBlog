@@ -238,4 +238,16 @@ public class MyUtils {
 
     return map;
   }
+
+  /**
+   * 将utf-8展开的16进制数转换成utf-8汉字
+   *
+   * @param strUtf16
+   * @return
+   * @throws UnsupportedEncodingException
+   */
+  public static String utf16ToUtf8(String strUtf16) throws UnsupportedEncodingException {
+    String strUtf8 = URLDecoder.decode(strUtf16, "UTF-8");
+    return strUtf8;
+  }
 }

@@ -4,6 +4,7 @@ import com.mwj.personweb.model.Message;
 import com.mwj.personweb.model.SysUser;
 import com.mwj.personweb.service.IMessageService;
 import com.mwj.personweb.service.ISysUserService;
+import com.mwj.personweb.service.IVisitService;
 import com.mwj.personweb.service.redis.RedisServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,8 @@ public class PageUtil {
 
   @Autowired private IMessageService messageService;
 
+  @Autowired private IVisitService visitService;
+
   public String forward(Authentication authentication, Model model, String page) throws Exception {
     SysUser user = null;
     if (authentication != null && authentication.getName() != null) {
@@ -44,6 +47,13 @@ public class PageUtil {
       model.addAttribute("userId", user.getId());
       List<Message> allMsg = messageService.findAllMsg(user.getName());
       model.addAttribute("allMsg", allMsg);
+      if ("back/index".equals(page)) {
+
+        model.addAttribute("history", visitService.getHisTory());
+        model.addAttribute("today", visitService.getToday());
+        model.addAttribute("other", visitService.getOther());
+      }
+
       if ("front/user_info".equals(page)) {
         model.addAttribute("phone", user.getPhone());
         model.addAttribute("qq", user.getQq());

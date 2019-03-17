@@ -108,6 +108,22 @@ function editArticle() {
 // 	}
 // }
 
+//获得访客量，除文章显示界面外其他界面访客量通用
+var pageName = window.location.pathname + window.location.search;
+$.ajax({
+    type: 'post',
+    url: '/home/getVisitorNumByPageName',
+    dataType: 'json',
+    data: {
+        pageName: pageName.substring(1)
+    },
+    success: function (data) {
+
+    },
+    error: function () {
+    }
+});
+
 
 //填充文章
 function putInArticle(data) {

@@ -2,12 +2,13 @@ package com.mwj.personweb.controller;
 
 import com.mwj.personweb.service.IArticleService;
 import com.mwj.personweb.service.ISysLogService;
+import com.mwj.personweb.service.IVisitService;
 import net.sf.json.JSONArray;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 /** @Author: 母哥 @Date: 2019-02-11 10:21 @Version 1.0 */
 @RestController
@@ -17,6 +18,8 @@ public class IndexController {
   @Autowired private ISysLogService sysLogService;
 
   @Autowired private IArticleService articleService;
+
+  @Autowired private IVisitService visitorService;
 
   @GetMapping("/find")
   public String find() {
@@ -44,5 +47,27 @@ public class IndexController {
   public JSONArray myArticles(String rows, String pageNum) {
 
     return articleService.findAllArticles(rows, pageNum);
+  }
+
+  /**
+   * 增加访客量
+   *
+   * @return 网站总访问量以及访客量
+   */
+  @PostMapping("/getVisitorNumByPageName")
+  @ResponseBody
+  public void getVisitorNumByPageName(HttpServletRequest request, String pageName) {
+
+    String visit = (String) request.getSession().getAttribute("visit");
+
+    if (StringUtils.isBlank(visit) && StringUtils.isBlank(pageName) && visit == null) {
+
+      visitorService.updateTotal();
+      request.getSession().setAttribute("visit", "visited");
+    }
+    if (StringUtils.isBlank(visit) && StringUtils.isNotBlank(pageName)) {
+      visitorService.updateOther();
+      request.getSession().setAttribute("visit", "visited");
+    }
   }
 }
