@@ -9,11 +9,9 @@ import com.mwj.personweb.model.Article;
 import com.mwj.personweb.model.CommentReply;
 import com.mwj.personweb.model.CommentVo;
 import com.mwj.personweb.model.CommentVoExample;
-import com.mwj.personweb.pojo.GeoLocation;
 import com.mwj.personweb.service.IArticleService;
 import com.mwj.personweb.service.ICommentReplyService;
 import com.mwj.personweb.service.ICommentService;
-import com.mwj.personweb.service.IPService.GeoLocationService;
 import com.mwj.personweb.service.redis.RedisServer;
 import com.mwj.personweb.utils.DateKit;
 import com.mwj.personweb.utils.MyUtils;
@@ -39,8 +37,6 @@ public class CommentServiceImpl implements ICommentService {
   @Autowired private ICommentReplyService commentReplyService;
 
   @Autowired private RedisServer redisServer;
-
-  @Autowired private GeoLocationService geoLocationService;
 
   @Override
   public void insertComment(CommentVo comments) {
@@ -135,7 +131,19 @@ public class CommentServiceImpl implements ICommentService {
     if (null == cid) {
       throw new TipException("主键为空");
     }
-    commentDao.deleteByPrimaryKey(coid);
+    try {
+
+      int i = commentDao.deleteByPrimaryKey(coid);
+      commentReplyService.deleteReply(coid);
+      if (i == 0) {
+
+        throw new TipException("删除失败");
+      }
+    } catch (Exception e) {
+      logger.error("删除失败", e);
+      throw new TipException("删除失败");
+    }
+
     Article article = articleService.getArticleById(cid);
     if (null != article && article.getCommentsNum() > 0) {
       article.setCommentsNum(article.getCommentsNum() - 1);
@@ -157,13 +165,14 @@ public class CommentServiceImpl implements ICommentService {
         throw new TipException("点赞失败");
       }
     } catch (Exception e) {
-
+      logger.error("点赞失败", e);
       throw new TipException("点赞失败");
     }
   }
 
   @Override
   public int deleteCommentsById(Integer cid) {
+
     return commentDao.deleteCommentsById(cid);
   }
 
@@ -176,11 +185,6 @@ public class CommentServiceImpl implements ICommentService {
   private void checkComment(CommentVo comments) throws TipException {
     if (null == comments) {
       throw new TipException("评论对象为空");
-    }
-    if (StringUtils.isBlank(comments.getAuthor())) {
-      GeoLocation locationFromRequest = geoLocationService.getLocationFromRequest(comments.getIp());
-
-      comments.setAuthor(locationFromRequest.getCity() + "网友");
     }
     if (StringUtils.isNotBlank(comments.getMail()) && !MyUtils.isEmail(comments.getMail())) {
       throw new TipException("请输入正确的邮箱格式");

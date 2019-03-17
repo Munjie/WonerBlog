@@ -1,6 +1,7 @@
 package com.mwj.personweb.dao;
 
 import com.mwj.personweb.model.CommentReply;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -19,9 +20,9 @@ public interface ICommentReplyDao {
 
   @Insert(
       " insert into t_reply (id, coid, authorId,\n"
-          + "      replyId, comment, authorImg,replyName,authorName,created)\n"
+          + "      replyId, comment, authorImg,replyName,authorName,created,cid)\n"
           + "    values (#{id,jdbcType=INTEGER}, #{coid,jdbcType=INTEGER}, #{authorId,jdbcType=INTEGER},\n"
-          + "      #{replyId,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR}, #{authorImg,jdbcType=VARCHAR},#{replyName,jdbcType=VARCHAR},#{authorName,jdbcType=VARCHAR},#{created,jdbcType=VARCHAR})")
+          + "      #{replyId,jdbcType=INTEGER}, #{comment,jdbcType=VARCHAR}, #{authorImg,jdbcType=VARCHAR},#{replyName,jdbcType=VARCHAR},#{authorName,jdbcType=VARCHAR},#{created,jdbcType=VARCHAR},#{cid,jdbcType=INTEGER})")
   int addReplyCommemt(CommentReply commentReply);
 
   @Update(
@@ -29,4 +30,10 @@ public interface ICommentReplyDao {
           + "    set likes = likes +1\n"
           + "    where id = #{id,jdbcType=INTEGER}")
   int updateReplyLike(int id);
+
+  @Delete("delete from t_reply where coid=#{coid}")
+  int deleteReply(int coid);
+
+  @Delete("delete from t_reply where cid=#{cid}")
+  int deleteReplyByCid(int cid);
 }

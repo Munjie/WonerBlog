@@ -15,6 +15,7 @@ public class CommentReply {
   private String authorName;
   private String ip;
   private String agent;
+  private int cid;
 
   public int getId() {
     return id;
@@ -112,6 +113,14 @@ public class CommentReply {
     this.agent = agent;
   }
 
+  public int getCid() {
+    return cid;
+  }
+
+  public void setCid(int cid) {
+    this.cid = cid;
+  }
+
   @Override
   public String toString() {
     return "CommentReply{"
@@ -146,6 +155,8 @@ public class CommentReply {
         + ", agent='"
         + agent
         + '\''
+        + ", cid="
+        + cid
         + '}';
   }
 }

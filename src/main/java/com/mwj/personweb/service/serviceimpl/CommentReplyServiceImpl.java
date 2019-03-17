@@ -39,6 +39,21 @@ public class CommentReplyServiceImpl implements ICommentReplyService {
   }
 
   @Override
+  public void deleteReply(int coid) {
+
+    try {
+      int i = commentReplyDao.deleteReply(coid);
+      if (i == 0) {
+        throw new TipException("点赞失败");
+      }
+
+    } catch (Exception e) {
+      logger.error(coid + "删除回复", e);
+      throw new TipException("删除失败");
+    }
+  }
+
+  @Override
   public void updateReplyLike(int id) {
 
     try {
@@ -50,6 +65,21 @@ public class CommentReplyServiceImpl implements ICommentReplyService {
     } catch (Exception e) {
       logger.error(id + "更新点赞表异常", e);
       throw new TipException("点赞失败");
+    }
+  }
+
+  @Override
+  public void deleteReplyByCid(int cid) {
+
+    try {
+      int i = commentReplyDao.deleteReplyByCid(cid);
+      if (i == 0) {
+        throw new TipException("删除回复失败");
+      }
+
+    } catch (Exception e) {
+      logger.error(cid + "删除回复失败", e);
+      throw new TipException("删除回复失败");
     }
   }
 }

@@ -4,9 +4,7 @@ import com.mwj.personweb.bo.RestResponseBo;
 import com.mwj.personweb.exception.ExceptionHelper;
 import com.mwj.personweb.exception.TipException;
 import com.mwj.personweb.model.*;
-import com.mwj.personweb.pojo.GeoLocation;
 import com.mwj.personweb.service.*;
-import com.mwj.personweb.service.IPService.GeoLocationService;
 import com.mwj.personweb.tdo.Types;
 import com.mwj.personweb.utils.CommonUtil;
 import com.mwj.personweb.utils.IPUtil;
@@ -47,7 +45,6 @@ public class CommentsController extends AbstractController {
 
   @Autowired private IArticleService articleService;
 
-  @Autowired private GeoLocationService geoLocationService;
   /**
    * @description //发表评论
    * @param:
@@ -76,7 +73,7 @@ public class CommentsController extends AbstractController {
 
     String agent = IPUtil.getAgentByRequest(request);
 
-    GeoLocation locationFromRequest = geoLocationService.getLocationFromRequest(comments.getIp());
+    String locationByIP = IPUtil.getLocationByIP(ip);
 
     if (null == cid || StringUtils.isBlank(text)) {
       return RestResponseBo.fail("评论不能为空哦");
@@ -103,10 +100,12 @@ public class CommentsController extends AbstractController {
     } else {
       headImg = CommonUtil.gravatarImg(mail);
       authoId = UUID.random(1, 100000);
-      if (locationFromRequest != null && locationFromRequest.getCity() != null) {
-        author = locationFromRequest.getCity() + "网友";
-      } else {
-        author = MyUtils.getRandomJianHan(4);
+      if (StringUtils.isBlank(author)) {
+        if (StringUtils.isNotBlank(locationByIP)) {
+          author = locationByIP + "网友";
+        } else {
+          author = MyUtils.getRandomJianHan(4);
+        }
       }
     }
 
@@ -232,7 +231,7 @@ public class CommentsController extends AbstractController {
     int authorId = 0;
     String authorName = null;
     String authorImg = null;
-    GeoLocation locationFromRequest = geoLocationService.getLocationFromRequest(ip);
+    String locationByIP = IPUtil.getLocationByIP(ip);
 
     try {
       if (authentication != null && authentication.getName() != null) {
@@ -241,8 +240,8 @@ public class CommentsController extends AbstractController {
         authorName = user.getName();
         authorImg = user.getImgUrl();
       } else {
-        if (locationFromRequest != null && locationFromRequest.getCity() != null) {
-          authorName = locationFromRequest.getCity() + "网友";
+        if (locationByIP != null) {
+          authorName = locationByIP + "网友";
         } else {
           authorName = MyUtils.getRandomJianHan(4);
         }
@@ -314,6 +313,21 @@ public class CommentsController extends AbstractController {
       return ExceptionHelper.handlerException(logger, msg, e);
     }
   }
+
+  @PostMapping(value = "/deleteComment")
+  @ResponseBody
+  @Transactional(rollbackFor = TipException.class)
+  public RestResponseBo deleteComment(int coid, int cid) {
+    try {
+      commentService.delete(coid, cid);
+      return RestResponseBo.ok();
+    } catch (Exception e) {
+
+      String msg = "删除评论失败";
+      return ExceptionHelper.handlerException(logger, msg, e);
+    }
+  }
+
   /**
    * 设置cookie
    *

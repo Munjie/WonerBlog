@@ -131,7 +131,7 @@ function addCommentInputValue() {
 addCommentInputValue();
 
 
-function showRepleyComment(coid, authorId, author) {
+function showRepleyComment(coid, authorId, author, cid) {
 
 
     $('#my-prompt').modal({
@@ -149,6 +149,7 @@ function showRepleyComment(coid, authorId, author) {
                     replyId: authorId,
                     replyName: author,
                     comment: replyComment,
+                    cid: cid
 
                 },
                 success: function (result) {
@@ -168,4 +169,35 @@ function showRepleyComment(coid, authorId, author) {
         },
 
     });
+
+
+}
+
+
+function deleteComment(coid, cid) {
+
+    $.ajax({
+        type: 'post',
+        url: '/deleteComment',
+        async: false,
+        dataType: 'json',
+        data: {
+            coid: coid,
+            cid: cid,
+
+        },
+        success: function (result) {
+            if (result && result.success) {
+                swal("删除成功!", "", "success");
+                setTimeout("location.reload()", 2000);//页面刷新
+
+            } else {
+                if (result.msg) {
+                    swal(result.msg, "", "warning");
+
+                }
+            }
+        }
+    });
+
 }

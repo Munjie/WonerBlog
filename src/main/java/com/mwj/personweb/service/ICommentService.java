@@ -43,7 +43,7 @@ public interface ICommentService {
   CommentVo getCommentById(Integer coid);
 
   /**
-   * 删除评论，暂时没用
+   * 删除评论，
    *
    * @param coid
    * @param cid
@@ -66,5 +66,11 @@ public interface ICommentService {
    */
   int deleteCommentsById(Integer cid);
 
+  /**
+   * @description //TODO
+   * @param:
+   * @return:
+   * @date: 2019/3/17 9:22
+   */
   void updateAddLike(int coid);
 }

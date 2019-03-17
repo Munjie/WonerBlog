@@ -6,6 +6,7 @@ import com.mwj.personweb.dao.IArtcileDao;
 import com.mwj.personweb.model.Article;
 import com.mwj.personweb.service.IArchiveService;
 import com.mwj.personweb.service.IArticleService;
+import com.mwj.personweb.service.ICommentReplyService;
 import com.mwj.personweb.service.ICommentService;
 import com.mwj.personweb.service.redis.RedisServer;
 import com.mwj.personweb.utils.CommonUtil;
@@ -40,6 +41,8 @@ public class ArticleServiceImpl implements IArticleService {
   @Autowired private IArchiveService archiveService;
 
   @Autowired private ICommentService commentService;
+
+  @Autowired private ICommentReplyService commentReplyService;
 
   @Override
   public JSONArray findAllArticles(String rows, String pageNo) {
@@ -238,7 +241,7 @@ public class ArticleServiceImpl implements IArticleService {
     try {
       artcileDao.deleteArticleById(id);
       commentService.deleteCommentsById(id);
-
+      commentReplyService.deleteReplyByCid(id);
     } catch (Exception e) {
       logger.error("删除文章" + id + "失败");
       return 0;

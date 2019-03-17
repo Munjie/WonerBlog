@@ -12,4 +12,19 @@ public interface ICommentReplyService {
   void addReplyComment(CommentReply commentReply);
 
   void updateReplyLike(int id);
+
+  /**
+   * @description //根据id删除回复
+   * @param:
+   * @return:
+   * @date: 2019/3/17 9:19
+   */
+  void deleteReply(int coid);
+  /**
+   * @description //根据文章id删除回复
+   * @param:
+   * @return:
+   * @date: 2019/3/17 9:19
+   */
+  void deleteReplyByCid(int coid);
 }

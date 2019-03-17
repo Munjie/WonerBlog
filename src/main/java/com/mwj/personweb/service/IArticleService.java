@@ -91,6 +91,12 @@ public interface IArticleService {
    */
   void updateArticleById(Article article);
 
+  /**
+   * @description //TODO
+   * @param:
+   * @return:
+   * @date: 2019/3/17 8:56
+   */
   Article getArticleByMainId(int id);
 
   /**
@@ -117,5 +123,11 @@ public interface IArticleService {
    */
   List<Article> tagArticle(String tagName);
 
+  /**
+   * @description //TODO
+   * @param:
+   * @return:
+   * @date: 2019/3/17 8:56
+   */
   String findArticleAutor(int articleId);
 }
