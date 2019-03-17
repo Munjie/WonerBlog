@@ -35,8 +35,6 @@
 
         <ol class="am-breadcrumb">
             <li><a href="#" class="am-icon-home">首页</a></li>
-            <li><a href="#">分类</a></li>
-            <li class="am-active">内容</li>
         </ol>
         <div class="row">
             <div class="am-u-lg-3 am-u-md-6 am-u-sm-12">
@@ -67,8 +65,8 @@
                         <i class="am-icon-apple"></i>
                     </div>
                     <div class="details">
-                        <div class="number" th:text="${other}"></div>
-                        <div class="desc"> 其他访问</div>
+                        <div class="number" th:text="${pc}"></div>
+                        <div class="desc"> PC访问</div>
                     </div>
                 </div>
             </div>
@@ -78,8 +76,8 @@
                         <i class="am-icon-android"></i>
                     </div>
                     <div class="details">
-                        <div class="number"> 786</div>
-                        <div class="desc"> 手机端</div>
+                        <div class="number" th:text="${mobile}"></div>
+                        <div class="desc"> Mobile访问</div>
                     </div>
                 </div>
             </div>

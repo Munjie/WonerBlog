@@ -12,4 +12,14 @@ public interface IVisitService {
   long getHisTory();
 
   long getOther();
+
+  int updateTodayZero();
+
+  int updatePc();
+
+  int updateMobile();
+
+  long getPc();
+
+  long getMobile();
 }

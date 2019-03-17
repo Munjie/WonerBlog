@@ -51,7 +51,8 @@ public class PageUtil {
 
         model.addAttribute("history", visitService.getHisTory());
         model.addAttribute("today", visitService.getToday());
-        model.addAttribute("other", visitService.getOther());
+        model.addAttribute("pc", visitService.getPc());
+        model.addAttribute("mobile", visitService.getMobile());
       }
 
       if ("front/user_info".equals(page)) {

@@ -39,4 +39,29 @@ public class VistServiceImpl implements IVisitService {
   public long getOther() {
     return visitorDao.getOther();
   }
+
+  @Override
+  public int updateTodayZero() {
+    return visitorDao.updateTodayZero();
+  }
+
+  @Override
+  public int updatePc() {
+    return visitorDao.updatePc();
+  }
+
+  @Override
+  public int updateMobile() {
+    return visitorDao.updateMobile();
+  }
+
+  @Override
+  public long getPc() {
+    return visitorDao.getPc();
+  }
+
+  @Override
+  public long getMobile() {
+    return visitorDao.getMobile();
+  }
 }

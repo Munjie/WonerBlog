@@ -3,6 +3,7 @@ package com.mwj.personweb.controller;
 import com.mwj.personweb.service.IArticleService;
 import com.mwj.personweb.service.ISysLogService;
 import com.mwj.personweb.service.IVisitService;
+import com.mwj.personweb.utils.CommonUtil;
 import net.sf.json.JSONArray;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,12 @@ public class IndexController {
 
     if (StringUtils.isBlank(visit) && StringUtils.isBlank(pageName) && visit == null) {
 
+      String requestHeader = request.getHeader("user-agent");
+      if (CommonUtil.isMobileDevice(requestHeader)) {
+        visitorService.updateMobile();
+      } else {
+        visitorService.updatePc();
+      }
       visitorService.updateTotal();
       request.getSession().setAttribute("visit", "visited");
     }

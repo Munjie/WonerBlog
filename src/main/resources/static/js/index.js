@@ -57,6 +57,7 @@ function editArticle() {
 
 }
 
+
 // // 按钮点击进行文章详情页
 // $("#showArticle").click(function () {
 //     var articleId = $(this).attr("articleId");
@@ -150,7 +151,7 @@ function buldHtml(obj) {
     var text = '';
     text += '<article class=\'am-g blog-entry-article\'>';
     text += '            <div class=\'am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-img\'>';
-    text += '                <img src=" ' + obj['articleImg'] + '" alt=\'\' class=\'am-u-sm-12\'>';
+    text += '                <img data-echo=" ' + obj['articleImg'] + '" alt="loading" class=\'am-u-sm-12\'>';
     text += '            </div>';
     text += '            <div class=\'am-u-lg-6 am-u-md-12 am-u-sm-12 blog-entry-text\'>';
     text += '                <span><a href="/tagArticle/' + obj['articleType'] + '" class=\'blog-color\'>' + obj['articleType'] + ' &nbsp;</a></span>';
