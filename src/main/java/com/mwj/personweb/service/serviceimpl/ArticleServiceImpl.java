@@ -19,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -45,13 +46,20 @@ public class ArticleServiceImpl implements IArticleService {
   @Autowired private ICommentReplyService commentReplyService;
 
   @Override
-  public JSONArray findAllArticles(String rows, String pageNo) {
+  public JSONArray findAllArticles(Authentication authentication, String rows, String pageNo) {
 
     int pageNum = Integer.parseInt(pageNo);
     int pageSize = Integer.parseInt(rows);
 
     PageHelper.startPage(pageNum, pageSize);
-    List<Article> articles = artcileDao.findAllArticles();
+    List<Article> articles = null;
+    if (authentication != null && "admin".equals(authentication.getName())) {
+      articles = artcileDao.findAllArticlesForAdmin();
+
+    } else {
+
+      articles = artcileDao.findAllArticles();
+    }
     PageInfo<Article> pageInfo = new PageInfo<>(articles);
     List<Map<String, Object>> newArticles = new ArrayList<>();
     Map<String, Object> map;

@@ -7,6 +7,7 @@ import com.mwj.personweb.utils.CommonUtil;
 import net.sf.json.JSONArray;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,9 +46,9 @@ public class IndexController {
    * @param pageNum 当前页
    */
   @PostMapping(value = "/allArticle")
-  public JSONArray myArticles(String rows, String pageNum) {
+  public JSONArray myArticles(Authentication authentication, String rows, String pageNum) {
 
-    return articleService.findAllArticles(rows, pageNum);
+    return articleService.findAllArticles(authentication, rows, pageNum);
   }
 
   /**

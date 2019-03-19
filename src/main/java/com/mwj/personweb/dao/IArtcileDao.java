@@ -35,4 +35,6 @@ public interface IArtcileDao {
   List<Article> findArticleByTag(@Param("tag") String tag);
 
   String findArticleAutor(int id);
+
+  List<Article> findAllArticlesForAdmin();
 }

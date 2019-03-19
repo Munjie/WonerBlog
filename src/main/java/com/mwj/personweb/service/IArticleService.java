@@ -3,6 +3,7 @@ package com.mwj.personweb.service;
 import com.mwj.personweb.model.Article;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.springframework.security.core.Authentication;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public interface IArticleService {
    * @param pageNo 第几页
    * @return 该页所有文章
    */
-  JSONArray findAllArticles(String rows, String pageNo);
+  JSONArray findAllArticles(Authentication authentication, String rows, String pageNo);
 
   /**
    * 保存文章
@@ -70,32 +71,26 @@ public interface IArticleService {
    */
   int countArticleCategoryByCategory(String category);
   /**
-   * @description //TODO
-   * @param:
-   * @return:
-   * @date: 2019/3/9 23:18
+   * @param
+   * @return
    */
   List<Article> newArticle();
   /**
-   * @description //TODO
-   * @param:
-   * @return:
-   * @date: 2019/3/10 9:57
+   * @param
+   * @return
    */
   Article getArticleById(long articleId);
   /**
-   * @description //TODO
-   * @param:
-   * @return:
-   * @date: 2019/3/10 10:31
+   * @param
+   * @return
    */
   void updateArticleById(Article article);
 
   /**
-   * @description //TODO
-   * @param:
-   * @return:
-   * @date: 2019/3/17 8:56
+   * 通过id删除文章
+   *
+   * @param id 文章id
+   * @return 1--删除成功 0--删除失败
    */
   Article getArticleByMainId(int id);
 
@@ -124,10 +119,10 @@ public interface IArticleService {
   List<Article> tagArticle(String tagName);
 
   /**
-   * @description //TODO
-   * @param:
-   * @return:
-   * @date: 2019/3/17 8:56
+   * 通过标签获得文章部分信息
+   *
+   * @param articleId
+   * @return
    */
   String findArticleAutor(int articleId);
 }

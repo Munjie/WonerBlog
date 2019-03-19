@@ -37,6 +37,17 @@
        articleId,author,articleTitle,articleType,
        publishDate,articleTabloid,likes,commentsNum,id
        from
+       article where status = 1
+       order by
+       id
+       desc
+    </select>
+
+    <select id="findAllArticlesForAdmin" resultType="com.mwj.personweb.model.Article">
+       select
+       articleId,author,articleTitle,articleType,
+       publishDate,articleTabloid,likes,commentsNum,id
+       from
        article
        order by
        id
