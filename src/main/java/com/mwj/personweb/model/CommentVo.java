@@ -3,10 +3,6 @@ package com.mwj.personweb.model;
 import java.io.Serializable;
 import java.util.List;
 
-/**
- * @author tangj
- * @date 2018/1/21 11:10
- */
 public class CommentVo implements Serializable {
   /** comment表主键 */
   private Integer coid;

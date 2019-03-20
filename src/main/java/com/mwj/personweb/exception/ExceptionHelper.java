@@ -3,7 +3,7 @@ package com.mwj.personweb.exception;
 import com.mwj.personweb.bo.RestResponseBo;
 import org.slf4j.Logger;
 
-/** */
+/** @Author: 母哥 @Date: 2019-02-21 17:17 @Version 1.0 */
 public class ExceptionHelper {
   /**
    * 统一处理异常

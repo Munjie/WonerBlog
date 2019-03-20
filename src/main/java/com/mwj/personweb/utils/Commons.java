@@ -3,10 +3,6 @@ package com.mwj.personweb.utils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
-/**
- * @author tangj
- * @date 2018/1/21 21:56
- */
 @Component
 public class Commons {
 

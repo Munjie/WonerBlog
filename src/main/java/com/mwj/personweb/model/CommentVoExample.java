@@ -2,7 +2,7 @@ package com.mwj.personweb.model;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/** @Author: 母哥 @Date: 2019-02-21 17:17 @Version 1.0 */
 public class CommentVoExample {
   protected String orderByClause;
 

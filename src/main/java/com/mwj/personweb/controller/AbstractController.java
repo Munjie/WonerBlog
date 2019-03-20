@@ -5,6 +5,7 @@ import com.mwj.personweb.utils.MapCache;
 import javax.servlet.http.HttpServletRequest;
 
 /** 抽象类controller 用于统一渲染页面url，页面名称，获取session中的用户 */
+/** @Author: 母哥 @Date: 2019-02-21 17:17 @Version 1.0 */
 public abstract class AbstractController {
 
   protected MapCache cache = MapCache.single();

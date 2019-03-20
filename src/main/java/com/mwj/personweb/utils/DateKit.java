@@ -5,7 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
+/** @Author: 母哥 @Date: 2019-02-21 17:17 @Version 1.0 */
 public class DateKit {
   public static final int INTERVAL_DAY = 1;
   public static final int INTERVAL_WEEK = 2;

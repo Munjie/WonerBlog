@@ -5,6 +5,7 @@ import com.mwj.personweb.model.CommentVo;
 import java.util.List;
 
 /** 返回页面的评论，包含父子评论内容 */
+/** @Author: 母哥 @Date: 2019-02-21 17:17 @Version 1.0 */
 public class CommentBo extends CommentVo {
   private int levels;
   private List<CommentVo> children;

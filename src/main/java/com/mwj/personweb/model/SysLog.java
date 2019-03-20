@@ -3,66 +3,66 @@ package com.mwj.personweb.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
-
+/** @Author: 母哥 @Date: 2019-02-21 17:17 @Version 1.0 */
 public class SysLog {
-    private Long id;
+  private Long id;
 
-    private String ip;
+  private String ip;
 
-    private Date createBy;
+  private Date createBy;
 
-    private String remark;
+  private String remark;
 
-    private String operateUrl;
+  private String operateUrl;
 
-    private String operateBy;
+  private String operateBy;
 
-    public Long getId() {
-        return id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public String getIp() {
-        return ip;
-    }
+  public String getIp() {
+    return ip;
+  }
 
-    public void setIp(String ip) {
-        this.ip = ip == null ? null : ip.trim();
-    }
+  public void setIp(String ip) {
+    this.ip = ip == null ? null : ip.trim();
+  }
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    public Date getCreateBy() {
-        return createBy;
-    }
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+  public Date getCreateBy() {
+    return createBy;
+  }
 
-    public void setCreateBy(Date createBy) {
-        this.createBy = createBy;
-    }
+  public void setCreateBy(Date createBy) {
+    this.createBy = createBy;
+  }
 
-    public String getRemark() {
-        return remark;
-    }
+  public String getRemark() {
+    return remark;
+  }
 
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
+  public void setRemark(String remark) {
+    this.remark = remark == null ? null : remark.trim();
+  }
 
-    public String getOperateUrl() {
-        return operateUrl;
-    }
+  public String getOperateUrl() {
+    return operateUrl;
+  }
 
-    public void setOperateUrl(String operateUrl) {
-        this.operateUrl = operateUrl == null ? null : operateUrl.trim();
-    }
+  public void setOperateUrl(String operateUrl) {
+    this.operateUrl = operateUrl == null ? null : operateUrl.trim();
+  }
 
-    public String getOperateBy() {
-        return operateBy;
-    }
+  public String getOperateBy() {
+    return operateBy;
+  }
 
-    public void setOperateBy(String operateBy) {
-        this.operateBy = operateBy == null ? null : operateBy.trim();
-    }
+  public void setOperateBy(String operateBy) {
+    this.operateBy = operateBy == null ? null : operateBy.trim();
+  }
 }

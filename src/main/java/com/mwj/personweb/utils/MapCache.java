@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /** map缓存 */
+/** @Author: 母哥 @Date: 2019-02-21 17:17 @Version 1.0 */
 public class MapCache {
   /** 默认存储1024个缓存 */
   private static final int DEFAULT_CACHES = 1024;

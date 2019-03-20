@@ -1,5 +1,5 @@
 package com.mwj.personweb.utils;
-
+/** @Author: 母哥 @Date: 2019-02-21 17:17 @Version 1.0 */
 public class BuildArticleTabloidUtil {
 
   public String buildArticleTabloid(String htmlArticleComment) {

@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
+/** @Author: 母哥 @Date: 2019-02-21 17:17 @Version 1.0 */
 @Component
 public interface ICommentVoDao {
   long countByExample(CommentVoExample example);

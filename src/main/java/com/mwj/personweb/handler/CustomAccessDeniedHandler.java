@@ -12,7 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
+/** @Author: 母哥 @Date: 2019-02-21 17:17 @Version 1.0 */
 @Component
 public class CustomAccessDeniedHandler implements AccessDeniedHandler {
 

@@ -1,11 +1,5 @@
 package com.mwj.personweb.bo;
-
-/**
- * rest返回对象
- *
- * @author tangj
- * @date 2018/1/21 14:10
- */
+/** @Author: 母哥 @Date: 2019-02-21 17:17 @Version 1.0 */
 public class RestResponseBo<T> {
   /** 服务器响应数据 */
   private T payload;

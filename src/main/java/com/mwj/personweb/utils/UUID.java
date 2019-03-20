@@ -2,7 +2,7 @@ package com.mwj.personweb.utils;
 
 import java.util.Arrays;
 import java.util.Random;
-
+/** @Author: 母哥 @Date: 2019-02-21 17:17 @Version 1.0 */
 public class UUID {
 
   static Random r = new Random();

@@ -21,7 +21,7 @@ import java.util.Random;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+/** @Author: 母哥 @Date: 2019-02-21 17:17 @Version 1.0 */
 public class MyUtils {
 
   private static final Logger logger = LoggerFactory.getLogger(MyUtils.class);

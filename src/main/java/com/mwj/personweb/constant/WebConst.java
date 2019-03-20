@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-/** web常量 */
+/** @Author: 母哥 @Date: 2019-02-21 17:17 @Version 1.0 */
 @Component
 public class WebConst {
   public static Map<String, String> initConfig = new HashMap<>();
