@@ -56,10 +56,17 @@
         </div>
         <canvas id="canvas" width="1100" height="680"></canvas>
     </div>
-    <audio src="love.mp3" autoplay="autoplay"></audio>
+    <!--<audio href="/mp3" autoplay="autoplay"></audio>-->
+    <audio controls="controls" controlsList="nodownload">
+        <source src="/mp3" type="audio/mpeg">
+    </audio>
 </div>
 
 <script>
+    function audioListen() {
+        $("#robot-audio-listen-id").attr("src", "/mp3");
+        document.getElementById("robot-audio-listen-id").load();
+    }
 </script>
 
 <script>
