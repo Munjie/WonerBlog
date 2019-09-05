@@ -44,6 +44,11 @@ public class HomeController {
     return "front/login";
   }
 
+  @GetMapping("/loveYou")
+  public String loveYou() {
+    return "front/love_you";
+  }
+
   @GetMapping("/register.html")
   public String register() {
     return "front/register";
