@@ -178,7 +178,7 @@ public class BackController {
     if (jsonObject.get("status").equals("200")) {
 
       emailUtils.registerSucSender(
-          sysUser.getEmail(), sysUser.getName(), sysUser.getPassword(), "www.biubiucat.com");
+          sysUser.getEmail(), sysUser.getName(), sysUser.getPassword(), "www.munjie.com");
     }
     return jsonObject;
   }

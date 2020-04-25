@@ -94,7 +94,7 @@ public class ResetPwdController {
     JSONObject jsonObject = userService.resetPassword(sysUser);
     if (jsonObject.get("status").equals("200")) {
 
-      emailUtils.pwdResetSucSender(sysUser.getEmail(), sysUser.getPassword(), "www.biubiucat.com");
+      emailUtils.pwdResetSucSender(sysUser.getEmail(), sysUser.getPassword(), "www.munjie.com");
     }
 
     return jsonObject;

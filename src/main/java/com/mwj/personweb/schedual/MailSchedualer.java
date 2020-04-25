@@ -18,7 +18,7 @@ public class MailSchedualer {
   @Value("${spring.mail.username}")
   private String mailTo;
 
-  @Scheduled(cron = "0 0 5 * * ?")
+  @Scheduled(cron = "0 0 6 ? * SUN")
   public void process() {
     StringBuffer result = new StringBuffer();
     long totalMemory = Runtime.getRuntime().totalMemory();

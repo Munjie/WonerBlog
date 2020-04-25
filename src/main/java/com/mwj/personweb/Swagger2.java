@@ -37,7 +37,7 @@ public class Swagger2 {
     return new ApiInfoBuilder()
         .title("Student_MU RESTful API")
         .description("Spring Boot中优雅的使用Swagger2构建RESTful APIs")
-        .termsOfServiceUrl("https://www.biubiucat.com/")
+        .termsOfServiceUrl("https://www.munjie.com/")
         .version("1.0")
         .build();
   }

@@ -110,6 +110,7 @@ public class IPUtil {
 
       // 创建 GeoLite2 数据库
       File database = new File("/usr/local/GeoLite2-City.mmdb");
+      // File database = new File("C:/GeoLite2-City.mmdb");
       // 读取数据库内容
       DatabaseReader reader = new DatabaseReader.Builder(database).build();
       InetAddress ipAddress = InetAddress.getByName(ip);

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mwj.personweb.dao.IMessageDao">
+
+
+    <update id="updateMessage" parameterType="java.lang.Integer">
+        update message  set status = 0  where articleid = #{articleid}
+    </update>
+
+    <insert id="addMessage" parameterType="com.mwj.personweb.model.Message">
+
+      insert into
+      message (id, articleid, sysuser,creattime, status, comname,msg, hdimg)
+      values
+      (#{id}, #{articleid}, #{sysuser},#{creattime}, #{status}, #{comname},#{msg},#{hdimg})
+
+
+    </insert>
+
+    <select id="findAllMsg" resultType="com.mwj.personweb.model.Message">
+        select * from message where sysuser=#{sysuser} and status = 1 order by id desc
+    </select>
+
+
+</mapper>

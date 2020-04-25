@@ -123,10 +123,12 @@ public class HomeController {
     String range = request.getHeader("Range");
     String[] rs = range.split("\\=");
     range = rs[1].split("\\-")[0];
-
+    /// appdata/web/2019.mp3
     String path = request.getServletContext().getRealPath("/");
     File file = new File("/appdata/web/2019.mp3");
-    if (!file.exists()) throw new RuntimeException("音频文件不存在 --> 404");
+    if (!file.exists()) {
+      throw new RuntimeException("音频文件不存在 --> 404");
+    }
     OutputStream os = response.getOutputStream();
     FileInputStream fis = new FileInputStream(file);
     long length = file.length();

@@ -98,8 +98,7 @@ public class ArticleServiceImpl implements IArticleService {
 
     try {
 
-      String articleUrl =
-          "https://www.biubiucat.com/showArticle?articleId=" + article.getArticleId();
+      String articleUrl = "https://www.munjie.com/showArticle?articleId=" + article.getArticleId();
       article.setArticleUrl(articleUrl);
 
       int i = artcileDao.insertArticle(article);

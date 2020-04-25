@@ -49,7 +49,7 @@ public class CommentServiceImpl implements ICommentService {
     }
     comments.setOwnerId(article.getAuthorId());
     int currentUnixTime = DateKit.getCurrentUnixTime();
-    // comments.setCreated(TimeUtil.fmtdate(currentUnixTime, "yyyy-MM-dd HH:mm:ss"));
+    comments.setCreated(TimeUtil.fmtdate(currentUnixTime, "yyyy-MM-dd HH:mm:ss"));
     comments.setCreated(String.valueOf(System.currentTimeMillis()));
     commentDao.insertSelective(comments);
     if (article.getCommentsNum() == null) {

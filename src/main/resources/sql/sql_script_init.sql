@@ -1,17 +1,20 @@
-CREATE TABLE `sys_user` (--用户表sys_user：
+-- 1用户表sys_user：
+CREATE TABLE `sys_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `sys_role` (--权限表sys_role
+-- 2权限表sys_role
+CREATE TABLE `sys_role` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `sys_user_role` (--用户-角色表sys_user_role：
+-- 3用户-角色表sys_user_role：
+CREATE TABLE `sys_user_role` (
   `user_id` int(11) NOT NULL,
   `role_id` int(11) NOT NULL,
   PRIMARY KEY (`user_id`,`role_id`),
@@ -20,7 +23,7 @@ CREATE TABLE `sys_user_role` (--用户-角色表sys_user_role：
   CONSTRAINT `fk_user_id` FOREIGN KEY (`user_id`) REFERENCES `sys_user` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---权限表sys_permission
+-- 4权限表sys_permission
 CREATE TABLE `sys_permission` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `url` varchar(255) DEFAULT NULL,
@@ -31,7 +34,7 @@ CREATE TABLE `sys_permission` (
   CONSTRAINT `fk_roleId` FOREIGN KEY (`role_id`) REFERENCES `sys_role` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
---tooken表
+-- 5tooken表
 CREATE TABLE `persistent_logins` (
   `username` varchar(64) NOT NULL,
   `series` varchar(64) NOT NULL,
@@ -40,8 +43,8 @@ CREATE TABLE `persistent_logins` (
   PRIMARY KEY (`series`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---图片表
-CREATE TABLE `img` (--用户表sys_user：
+-- 6图片表
+CREATE TABLE `img` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `img_url` varchar(255) ,
   `user_name` varchar(255) ,
@@ -49,8 +52,8 @@ CREATE TABLE `img` (--用户表sys_user：
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
-CREATE TABLE `comment ` (--评论表
+-- 7评论表
+CREATE TABLE `comment ` (
   id int (20) NOT NULL AUTO_INCREMENT,
   comment varchar(500) ,
   create_time date ,
@@ -60,7 +63,7 @@ CREATE TABLE `comment ` (--评论表
    reply_user_id (20)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
+-- 8点赞
 CREATE TABLE `comment_likes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `cid` int(20) ,
@@ -71,7 +74,7 @@ CREATE TABLE `comment_likes` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
-
+-- 9评论
 CREATE TABLE `t_comments` (
   `coid` int(10) unsigned NOT NULL AUTO_INCREMENT ,
   `cid` int(10) unsigned DEFAULT '0' ,
@@ -92,7 +95,7 @@ CREATE TABLE `t_comments` (
   KEY `created` (`created`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
+-- 10回复
 CREATE TABLE `t_reply` (
    `id` int(20)  NOT NULL AUTO_INCREMENT ,
   `coid` int(20)  NOT NULL ,

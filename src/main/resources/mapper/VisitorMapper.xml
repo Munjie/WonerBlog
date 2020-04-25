@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mwj.personweb.dao.IVisitorDao">
+
+    <update id="updateHistory">
+        update visitor set totle = totle+1 where detail='history'
+    </update>
+
+    <update id="updateToday">
+        update visitor set totle = totle+1 where detail= 'today'
+    </update>
+
+    <update id="updateOther">
+        update visitor set totle = totle+1 where detail= 'other'
+    </update>
+
+    <update id="updatePc">
+        update visitor set totle = totle+1 where detail= 'pc'
+    </update>
+
+    <update id="updateMobile">
+        update visitor set totle = totle+1 where detail= 'mobile'
+    </update>
+
+    <update id="updateTodayZero">
+        update visitor set totle = 0 where detail= 'today'
+    </update>
+
+    <select id="getHistory" resultType="java.lang.Integer">
+        select IFNULL(max(totle),0) from visitor where detail='history'
+    </select>
+
+    <select id="getToday" resultType="java.lang.Integer">
+        select IFNULL(max(totle),0) from visitor where detail='today'
+    </select>
+
+    <select id="getOther" resultType="java.lang.Integer">
+        select IFNULL(max(totle),0) from visitor where detail='other'
+    </select>
+
+    <select id="getPc" resultType="java.lang.Integer">
+        select IFNULL(max(totle),0) from visitor where detail='pc'
+    </select>
+
+    <select id="getMobile" resultType="java.lang.Integer">
+        select IFNULL(max(totle),0) from visitor where detail='mobile'
+    </select>
+
+
+</mapper>

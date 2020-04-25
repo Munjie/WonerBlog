@@ -29,6 +29,7 @@ import java.net.URLEncoder;
 
 /** @Auther: munjie @Date: 2019/3/10 12:59 @Description: */
 @Controller
+@SuppressWarnings("all")
 public class CommentsController extends AbstractController {
 
   private Logger logger = LoggerFactory.getLogger(CommentsController.class);
